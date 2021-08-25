@@ -1,0 +1,31 @@
+{
+  "include": ["src/**/*"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "src/*": [
+        "./src/*"
+      ]
+    },
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "es2018",
+    "module": "commonjs",
+    "sourceMap": true,
+    "lib": ["es2018"],
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "react",
+    "strict": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "skipLibCheck": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitAny": true
+  }
+}
