@@ -6,6 +6,14 @@ Web
 the master database
 
 # Database
+## ORM
+* [Sequelize](https://sequelize.org/) is probably the most well known
+ORM for node.js. However, it is currently looking for [maintainers](https://github.com/sequelize/sequelize/#note-looking-for-maintainers)
+and also doesn't have great typescript support out of the box. There are
+community provided packages like [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript).
+* Type ORM is what we're using due to its nice [documentation](https://typeorm.io/#/)
+and built in typescript support
+
 ## Available Env Variables
 * You can see the [documentation](https://typeorm.io/#/using-ormconfig/using-ormconfigjs)
 for available typeorm environment variable available configs:
