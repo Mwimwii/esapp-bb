@@ -31,6 +31,7 @@ psql postgres postgres
 ```
 CREATE DATABASE titldb;
 ```
+* See [models.md](/src/models/README.md) for info on database model column types
 
 ## Available Env Variables
 * You can see the [documentation](https://typeorm.io/#/using-ormconfig/using-ormconfigjs)
