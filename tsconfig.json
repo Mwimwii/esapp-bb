@@ -12,8 +12,9 @@
     "outDir": "dist",
     "target": "es2018",
     "module": "commonjs",
+    "moduleResolution": "node",
     "sourceMap": true,
-    "lib": ["es2018"],
+    "lib": ["esnext"],
     "allowJs": true,
     "checkJs": true,
     "jsx": "react",
@@ -26,6 +27,7 @@
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false
   }
 }

@@ -1,16 +1,21 @@
-import express, { Request, Response } from 'express';
+import express from "express";
+
+import { Application, Request, Response } from 'express';
 
 import path from 'path';
 import http from 'http';
 import dotenv from 'dotenv';
 
+import { initDBConnection } from 'src/database';
 import routes from 'src/routes';
 
 dotenv.config();
 const port = process.env.PORT || 8000;
 
-const app = express();
+const app: Application = express();
 const server = http.createServer(app);
+
+initDBConnection();
 
 app.use('/', routes);
 

@@ -5,14 +5,32 @@ Web
 * A Node.js application running the titl dashboard and coordinating
 the master database
 
+# Getting Started
+* See the [setup.md](/setup.md)
+
 # Database
 ## ORM
 * [Sequelize](https://sequelize.org/) is probably the most well known
 ORM for node.js. However, it is currently looking for [maintainers](https://github.com/sequelize/sequelize/#note-looking-for-maintainers)
 and also doesn't have great typescript support out of the box. There are
 community provided packages like [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript).
-* Type ORM is what we're using due to its nice [documentation](https://typeorm.io/#/)
+* Type ORM is what we're using due to its nice [documentation](https://typeorm.io/#/) & [docs](https://github.com/typeorm/typeorm/tree/master/docs)
 and built in typescript support
+
+# Creating A Database
+* If you're running postgres locally you can access and create databases
+using the CLI:
+```
+psql postgres postgres
+```
+* List databases:
+```
+\l
+```
+* Create a database:
+```
+CREATE DATABASE titldb;
+```
 
 ## Available Env Variables
 * You can see the [documentation](https://typeorm.io/#/using-ormconfig/using-ormconfigjs)
