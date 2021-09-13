@@ -1,8 +1,8 @@
 import { controller, IAppController, Context, Get, HttpResponseOK } from '@foal/core';
 import { createConnection } from 'typeorm';
 
-import { ApiController } from 'src/app/controllers';
-import { creds } from 'src/database'
+import { ApiController } from 'app/controllers';
+import { creds } from 'app/database';
 
 export class AppController implements IAppController {
   subControllers = [

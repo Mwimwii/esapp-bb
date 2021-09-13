@@ -1,4 +1,5 @@
 import 'source-map-support/register';
+import 'module-alias/register';
 
 // std
 import * as http from 'http';
@@ -7,7 +8,7 @@ import * as http from 'http';
 import { Config, createApp, displayServerURL } from '@foal/core';
 
 // App
-import { AppController } from './app/app.controller';
+import { AppController } from 'app/app.controller';
 
 async function main() {
   const app = await createApp(AppController);

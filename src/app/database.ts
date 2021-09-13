@@ -14,7 +14,7 @@ export const creds: ConnectionOptions = {
     password: Env.get('DB_PASSWORD'),
     database: Env.get('DB_NAME') || 'titldb',
     synchronize: true,
-    entities: [`${models}/**/*.ts`],
-    migrations: [`${migrations}/**/*.ts`],
-    subscribers: [`${subscribers}/**/*.ts`],
+    entities: [`${models}/**/*.js`],
+    migrations: [`${migrations}/**/*.js`],
+    subscribers: [`${subscribers}/**/*.js`],
 };
