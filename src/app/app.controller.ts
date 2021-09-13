@@ -2,7 +2,6 @@ import { controller, IAppController, Context, Get, HttpResponseOK } from '@foal/
 import { createConnection } from 'typeorm';
 
 import { ApiController } from 'app/controllers';
-import { creds } from 'app/database';
 
 export class AppController implements IAppController {
   subControllers = [
@@ -10,7 +9,7 @@ export class AppController implements IAppController {
   ];
 
   async init() {
-    await createConnection(creds);
+    await createConnection();
   }
 
   @Get('/health')
