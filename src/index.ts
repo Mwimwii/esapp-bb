@@ -1,39 +1,21 @@
-import express from "express";
+import 'source-map-support/register';
 
-import { Application, Request, Response } from 'express';
+// std
+import * as http from 'http';
 
-import path from 'path';
-import http from 'http';
-import dotenv from 'dotenv';
+// 3p
+import { Config, createApp, displayServerURL } from '@foal/core';
 
-import { initDBConnection } from 'src/database';
-import routes from 'src/routes';
+// App
+import { AppController } from './app/app.controller';
 
-dotenv.config();
-const port = process.env.PORT || 8000;
+async function main() {
+  const app = await createApp(AppController);
 
-const app: Application = express();
-const server = http.createServer(app);
+  const httpServer = http.createServer(app);
+  const port = Config.get('port', 'number', 3001);
+  httpServer.listen(port, () => displayServerURL(port));
+}
 
-initDBConnection();
-
-app.use('/', routes);
-
-app.use(express.static(path.join(__dirname, 'build')));
-app.use(express.json());
-
-// logging all requests
-app.use((req: Request, _res: Response, next: Function) => {
-  console.info(`${req.method} - ${req.url}: ${JSON.stringify(req.body, null, 2)}`);
-  next();
-});
-
-// 404 catch
-app.use((_req: Request, _res: Response, next: Function) => {
-  const err: any = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-server.listen(port, () => console.log('web listening at port %d', port));
-
+main()
+  .catch(err => { console.error(err.stack); process.exit(1); });

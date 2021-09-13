@@ -1,22 +1,20 @@
-import { createConnection, ConnectionOptions } from "typeorm";
+import { ConnectionOptions } from 'typeorm';
 
-const models = "src/models";
-const migrations = "database/migrations";
-const subscribers = "src/subscribers";
+const { Env } = require('@foal/core');
 
-export const initDBConnection = async () => {
-  const creds = {
-    type: process.env.DB_CONNECTION || "postgres",
-    host: process.env.DB_HOST || "localhost",
-    port: Number(process.env.DB_PORT) || 5432,
-    username: process.env.DB_USERNAME || "titl",
-    password: process.env.DB_PASSWORD || "super-secure",
-    database: process.env.DB_NAME || "titldb",
+const models = 'src/app/models';
+const subscribers = 'src/app/subscribers';
+const migrations = 'database/migrations';
+
+export const creds: ConnectionOptions = {
+    type: Env.get('DB_CONNECTION') || 'postgres',
+    host: Env.get('DB_HOST') || 'localhost',
+    port: Number(Env.get('DB_PORT')) || 5432,
+    username: Env.get('DB_USERNAME') || 'titl',
+    password: Env.get('DB_PASSWORD'),
+    database: Env.get('DB_NAME') || 'titldb',
     synchronize: true,
     entities: [`${models}/**/*.ts`],
     migrations: [`${migrations}/**/*.ts`],
     subscribers: [`${subscribers}/**/*.ts`],
-  };
-
-  await createConnection(creds as ConnectionOptions);
-}
+};

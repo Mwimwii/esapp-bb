@@ -5,24 +5,51 @@
   "scripts": {
     "start": "ts-node-dev -r tsconfig-paths/register src/index.ts",
     "tsc:watch": "tsc-watch --onSuccess 'node ./dist/index.js'",
+    "build": "tsc -p tsconfig.app.json",
+
+    "build:test": "foal rmdir build && tsc -p tsconfig.test.json",
+    "start:test": "mocha --file ./dist/test.js \"./build/**/*.spec.js\"",
+    "test": "npm run dist:test && concurrently \"tsc -p tsconfig.test.json -w\" \"mocha --file ./build/test.js -w \\\"./build/**/*.spec.js\\\"\"",
+
+    "build:e2e": "foal rmdir build && tsc -p tsconfig.e2e.json",
+    "start:e2e": "mocha --timeout 4000 --file ./dist/e2e.js \"./build/e2e/**/*.js\"",
+    "e2e": "npm run dist:e2e && concurrently \"tsc -p tsconfig.e2e.json -w\" \"mocha --file ./build/e2e.js -w \\\"./build/e2e/**/*.js\\\"\"",
+
+    "migrate": "npx typeorm migration:run",
     "db:migration:create": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate -n $1",
-    "build": "tsc"
+    "migrate:undo": "npx typeorm migration:revert",
+
+    "lint": "eslint --ext ts src",
+    "lint:fix": "eslint --ext ts --fix src"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "dependencies": {
-    "dotenv": "8.2.0",
+    "@foal/core": "^2.0.0",
+    "@foal/typeorm": "^2.0.0",
     "express": "4.17.1",
     "pg": "^8.7.1",
     "reflect-metadata": "^0.1.13",
+    "source-map-support": "~0.5.19",
     "remove": "^0.1.5",
     "typeorm": "^0.2.37",
     "typescript": "4.2.3"
   },
   "devDependencies": {
+    "@foal/cli": "^2.5.0",
     "@types/express": "^4.17.7",
     "@types/node": "^16.7.1",
+    "@types/mocha": "7.0.2",
+    "mocha": "~8.2.0",
+    "supertest": "~6.0.0",
+    "supervisor": "~0.12.0",
+    "eslint": "^6.7.0",
     "ts-node": "^10.2.1",
     "ts-node-dev": "^1.1.8",
     "tsc-watch": "^4.5.0",
-    "tsconfig-paths": "^3.11.0"
+    "tsconfig-paths": "^3.11.0",
+    "@typescript-eslint/eslint-plugin": "~2.7.0",
+    "@typescript-eslint/parser": "~2.7.0"
   }
 }
