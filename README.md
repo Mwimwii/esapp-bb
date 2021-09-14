@@ -3,10 +3,10 @@ Web
 
 # Overview
 * A Node.js application running the titl dashboard and coordinating
-the master database
+the master database. Built on top of [FoalTS](https://foalts.org/docs/)
 
 # Getting Started
-* See the [setup.md](/setup.md)
+* See the [setup.md](/docs/setup.md)
 
 # Database
 ## ORM
