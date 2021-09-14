@@ -1,0 +1,37 @@
+{
+    "color": {
+        "bg": {
+            "primary": {
+                "value": "{color.base.white.value}"
+            },
+            "secondary": {
+                "value": "{color.base.purple.100.value}"
+            },
+            "tertiary": {
+                "base": {
+                    "value": "{color.base.gray.100.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.navy.200.value}"
+                }
+            },
+            "hover": {
+                "base": {
+                    "value": "{color.base.purple.200.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.navy.200.value}"
+                }
+            },
+            "selection": {
+                "value": "{color.base.purple.200.value}"
+            },
+            "danger": {
+                "value": "{color.base.red.400.value}"
+            },
+            "dangerSecondary": {
+                "value": "{color.base.red.100.value}"
+            }
+        }
+    }
+}

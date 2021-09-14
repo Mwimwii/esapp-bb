@@ -1,0 +1,27 @@
+{
+    "color": {
+        "party": {
+            "neutral": {
+                "value": "{color.base.gray.200.value}"
+            },
+            "first": {
+                "value": "{color.base.teal.value}"
+            },
+            "second": {
+                "value": "{color.base.violet.value}"
+            },
+            "third": {
+                "value": "{color.base.orange.value}"
+            },
+            "fourth": {
+                "value": "{color.base.navy.base.value}"
+            },
+            "fifth": {
+                "value": "{color.base.brown.value}"
+            },
+            "sixth": {
+                "value": "{color.base.gold.value}"
+            }
+        }
+    }
+}

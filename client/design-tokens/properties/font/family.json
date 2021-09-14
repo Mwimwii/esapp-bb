@@ -1,0 +1,8 @@
+{
+    "font": {
+        "family": {
+            "sans": {"value": ["replica", "Segoe UI", "Helvetica", "Arial"]},
+            "serif": {"value": ["domaine", "Georgia"]}
+        }    
+    }
+}
