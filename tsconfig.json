@@ -1,11 +1,11 @@
 {
-  "include": ["src/**/*"],
+  "include": [
+    "src/**/*.ts"
+  ],
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "src/*": [
-        "./src/*"
-      ]
+      "app/*": ["src/app/*"]
     },
     "noEmit": false,
     "rootDir": "src",
@@ -14,7 +14,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "lib": ["esnext"],
+    "lib": [
+      "esnext"
+    ],
     "allowJs": true,
     "checkJs": true,
     "jsx": "react",
