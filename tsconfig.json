@@ -17,7 +17,6 @@
     "lib": [
       "esnext"
     ],
-    "allowJs": true,
     "checkJs": true,
     "jsx": "react",
     "strict": true,

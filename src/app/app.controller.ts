@@ -1,16 +1,23 @@
-import { controller, IAppController, Context, Get, HttpResponseOK } from '@foal/core';
+import {
+  controller,
+  IAppController,
+  Context,
+  Get,
+  HttpResponseOK
+} from '@foal/core';
 import { createConnection } from 'typeorm';
 
-import { ApiController } from 'app/controllers';
-import { creds } from 'app/database';
+import { ApiController, AuthController } from 'app/controllers';
 
 export class AppController implements IAppController {
+
   subControllers = [
+    controller('/auth', AuthController),
     controller('/api', ApiController),
   ];
 
   async init() {
-    await createConnection(creds);
+    await createConnection();
   }
 
   @Get('/health')
