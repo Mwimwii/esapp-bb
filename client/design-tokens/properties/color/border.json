@@ -1,0 +1,12 @@
+{
+    "color": {
+        "border": {
+            "primary": {
+                "value": "{color.base.gray.300.value}"
+            },
+            "danger": {
+                "value": "{color.base.red.base.value}"
+            }
+        }       
+    }
+}
