@@ -5,7 +5,7 @@
   "scripts": {
     "start-default": "react-scripts start",
     "start": "concurrently \"npm run watch\" \"npm run start-default\"",
-    "build": "react-scripts build",
+    "build": "npm run watch:css && react-scripts build",
     "eject": "react-scripts eject",
     "watch:css": "postcss ./src/tailwind.css -o ./src/index.css",
     "watch": "chokidar \"./src/**/*.tsx\" -c \"npm run watch:css\"",
