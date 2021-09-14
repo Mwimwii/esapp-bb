@@ -1,0 +1,38 @@
+{
+    "color": {
+        "text": {
+            "primary": {
+                "base": {
+                    "value": "{color.base.navy.base.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.white.value}"
+                }
+            },
+            "secondary": {
+                "base": {
+                    "value": "{color.base.gray.400.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.gray.300.value}"
+                }
+            },
+            "accent": {
+                "base": {
+                    "value": "{color.base.purple.400.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.purple.base.value}"
+                }
+            },
+            "danger": {
+                "base": {
+                    "value": "{color.base.red.400.value}"
+                },
+                "darkMode": {
+                    "value": "{color.base.red.base.value}"
+                }                
+            }
+        }
+    }
+}
