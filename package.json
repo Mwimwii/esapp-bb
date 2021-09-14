@@ -48,13 +48,11 @@
     "@types/node": "^16.7.1",
     "@typescript-eslint/eslint-plugin": "~2.7.0",
     "@typescript-eslint/parser": "~2.7.0",
+    "concurrently": "^6.2.1",
     "eslint": "^6.7.0",
     "mocha": "~8.2.0",
     "supertest": "~6.0.0",
     "supervisor": "~0.12.0",
-    "ts-node": "^10.2.1",
-    "ts-node-dev": "^1.1.8",
-    "tsc-watch": "^4.5.0",
     "tsconfig-paths": "^3.11.0",
     "typeorm-uml": "^1.6.4"
   }
