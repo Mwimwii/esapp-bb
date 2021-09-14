@@ -1,7 +1,7 @@
-name: Successful Build
+name: Passing Tests
 on: [push]
 jobs:
-  successful-build:
+  passing-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -11,5 +11,4 @@ jobs:
         with:
           node-version: '14.x'
       - run: yarn install
-      - run: yarn lint
-      - run: yarn build
+      - run: yarn test
