@@ -4,9 +4,9 @@ import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 
 import TitlLogo from 'assets/logo.svg';
-import { logIn } from 'api/auth';
+import { signUp } from 'api/auth';
 
-const Login: React.FC = () => {
+const Signup: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [,setError] = useState(false);
@@ -16,8 +16,8 @@ const Login: React.FC = () => {
   const loginAndRedirect = async () => {
     setError(false);
     try {
-      //const user = await logIn({ email, password });
-      await logIn({ email, password });
+      const user = await signUp({ email, password });
+      console.log(user);
       history.push('/');
     } catch (error) {
       console.log(error);
@@ -78,5 +78,5 @@ const Login: React.FC = () => {
   )
 }
 
-export default Login;
+export default Signup;
 
