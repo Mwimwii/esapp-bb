@@ -2,7 +2,7 @@
 import { ok, strictEqual } from 'assert';
 
 // 3p
-import { Context, createController, getHttpMethod, getPath, isHttpResponseOK } from '@foal/core';
+import { Context, createController, getHttpMethod, getPath, HttpResponseUnauthorized } from '@foal/core';
 
 // App
 import { AuthController } from './auth.controller';
@@ -13,16 +13,16 @@ describe('AuthController', () => {
 
   beforeEach(() => controller = createController(AuthController));
 
-  describe('has a "foo" method that', () => {
+  describe('has a "login" method that', () => {
 
-    it('should handle requests at GET /.', () => {
-      strictEqual(getHttpMethod(AuthController, 'foo'), 'GET');
-      strictEqual(getPath(AuthController, 'foo'), '/');
+    it('should handle requests at POST /login.', () => {
+      strictEqual(getHttpMethod(AuthController, 'login'), 'POST');
+      strictEqual(getPath(AuthController, 'login'), '/login');
     });
 
-    it('should return an HttpResponseOK.', () => {
+    it('should return an HttpResponseUnauthorized.', () => {
       const ctx = new Context({});
-      ok(isHttpResponseOK(controller.foo(ctx)));
+      ok(new HttpResponseUnauthorized(controller.login(ctx)));
     });
 
   });
