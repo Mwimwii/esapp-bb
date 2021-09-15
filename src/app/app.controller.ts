@@ -7,12 +7,11 @@ import {
 } from '@foal/core';
 import { createConnection } from 'typeorm';
 
-import { ApiController, AuthController } from 'app/controllers';
+import { ApiController } from 'app/controllers';
 
 export class AppController implements IAppController {
 
   subControllers = [
-    controller('/auth', AuthController),
     controller('/api', ApiController),
   ];
 

@@ -51,8 +51,13 @@ export class AuthController {
       return new HttpResponseUnauthorized();
     }
 
-    const response = new HttpResponseOK();
+    const response = new HttpResponseOK({
+      id: user.id,
+      email: user.email,
+    });
+
     await setAuthCookie(response, await this.createJWT(user));
+
     return response;
   }
 

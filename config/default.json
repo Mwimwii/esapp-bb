@@ -1,9 +1,0 @@
-{
-  "port": 8000,
-  "settings": {
-    "loggerFormat": "tiny",
-    "session": {
-      "store": "@foal/typeorm"
-    }
-  }
-}
