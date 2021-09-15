@@ -4,7 +4,6 @@ export { Attachment } from './Attachment';
 export { Contact } from './Contact';
 export { ContactDetail } from './ContactDetail';
 export { Identification } from './Identification';
-export { Lookup } from './Lookup';
 export { Payment } from './Payment';
 export { PaymentPlan } from './PaymentPlan';
 export { Property } from './Property';
