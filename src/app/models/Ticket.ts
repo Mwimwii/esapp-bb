@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
 import { SourceType } from 'app/enums/SourceType';
@@ -9,7 +9,7 @@ import { TicketStatus } from 'app/enums/TicketStatus';
 
 @Entity()
 export class Ticket extends BaseTable {
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     @JoinColumn()
     contact: Contact;
 
@@ -34,7 +34,7 @@ export class Ticket extends BaseTable {
     @Column()
     severity: TicketSeverity;
 
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     @JoinColumn()
     internalAssignee: Contact;
 

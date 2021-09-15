@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
 import { User } from '.';
@@ -9,7 +9,7 @@ import { PaymentType } from 'app/enums/PaymentType';
 @Entity()
 export class Payment extends BaseTable {
     @JoinColumn()
-    @OneToOne(() => PaymentPlan)
+    @ManyToOne(() => PaymentPlan)
     paymentPlan: PaymentPlan;
 
     @Column()
