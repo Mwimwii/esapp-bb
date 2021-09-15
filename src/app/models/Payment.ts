@@ -2,6 +2,8 @@ import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
 import { PaymentType } from './PaymentType';
+import { PaymentMethod } from './PaymentMethod';
+import { PaymentStatus } from './PaymentStatus';
 
 @Entity()
 export class Payment extends BaseTable {
@@ -25,7 +27,7 @@ export class Payment extends BaseTable {
     completionDate: Date;
 
     @Column()
-    paymentMethod: string;
+    paymentMethod: PaymentMethod;
 
     @Column()
     paidTo: string;
@@ -38,5 +40,8 @@ export class Payment extends BaseTable {
 
     @Column()
     verifiedBy: number;
+
+    @Column()
+    status: PaymentStatus;
 
 }
