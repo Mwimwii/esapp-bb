@@ -1,10 +1,11 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Agreement } from './Agreement';
 import { BaseTable } from './BaseTable';
-import { PaymentCurrency } from './PaymentCurrency';
-import { PaymentCycle } from './PaymentCycle';
-import { PaymentPlanStatus } from './PaymentPlanStatus';
-import { PaymentType } from './PaymentType';
+import { PaymentCurrency } from '../enums/PaymentCurrency';
+import { PaymentCycle } from 'app/enums/PaymentCycle';
+import { PaymentPlanStatus } from 'app/enums/PaymentPlanStatus';
+import { PaymentType } from 'app/enums/PaymentType';
+
 
 
 @Entity()

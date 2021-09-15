@@ -1,10 +1,10 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
-import { PaymentType } from './PaymentType';
-import { PaymentMethod } from './PaymentMethod';
-import { PaymentStatus } from './PaymentStatus';
 import { User } from '.';
+import { PaymentMethod } from 'app/enums/PaymentMethod';
+import { PaymentStatus } from 'app/enums/PaymentStatus';
+import { PaymentType } from 'app/enums/PaymentType';
 
 @Entity()
 export class Payment extends BaseTable {
