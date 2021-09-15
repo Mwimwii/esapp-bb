@@ -1,4 +1,5 @@
-import { PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, BaseEntity } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, BaseEntity, JoinColumn } from 'typeorm';
+import { User } from '.';
 
 export abstract class BaseTable extends BaseEntity {
     @PrimaryGeneratedColumn()
@@ -11,13 +12,15 @@ export abstract class BaseTable extends BaseEntity {
     @CreateDateColumn()
     createdAt: string = new Date().toISOString();
 
-    @Column('int')
-    createdBy = -1;
+    @JoinColumn()
+    @Column(() => User)
+    createdBy: User;
 
     @Column('timestamp')
     @UpdateDateColumn()
     modifiedAt: string = new Date().toISOString();
 
-    @Column('int')
-    modifiedBy = -1;
+    @JoinColumn()
+    @Column(() => User)
+    modifiedBy: User;
 }
