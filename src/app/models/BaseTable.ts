@@ -5,7 +5,7 @@ export abstract class BaseTable extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column('varchar', { length: 50 })
+    @Column('varchar', { length: 50})
     status: string;
 
     @Column('timestamp')
