@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { PropertyGroup } from './PropertyGroup';
 import { BaseTable } from './BaseTable';
@@ -10,11 +10,11 @@ export class Property extends BaseTable {
     @ManyToOne(() => PropertyGroup, propertyGroup => propertyGroup.properties)
     propertyGroup: PropertyGroup;
 
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     @JoinColumn()
     owner: Contact;
 
-    @OneToOne(() => Property)
+    @ManyToOne(() => Property)
     @JoinColumn()
     parent: Property;
 
@@ -30,7 +30,7 @@ export class Property extends BaseTable {
     @Column('varchar', { length: 50 })
     plotNo: string;
 
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     @JoinColumn()
     lC: Contact;
 
@@ -46,7 +46,7 @@ export class Property extends BaseTable {
     @Column('varchar', { length: 50 })
     geospatial: string;
 
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     @JoinColumn()
     representative: Contact;
 

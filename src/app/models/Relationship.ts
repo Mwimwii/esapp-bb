@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Agreement } from './Agreement';
 import { Contact } from './Contact';
 import { Property } from './Property';
@@ -8,19 +8,19 @@ import { BaseTable } from './BaseTable';
 @Entity()
 export class Relationship extends BaseTable {
     @JoinColumn()
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     referred: Contact;
 
     @JoinColumn()
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     referrer: Contact;
 
     @JoinColumn()
-    @OneToOne(() => Agreement)
+    @ManyToOne(() => Agreement)
     agreement: Agreement;
 
     @JoinColumn()
-    @OneToOne(() => Property)
+    @ManyToOne(() => Property)
     property: Property;
 
     @Column()
