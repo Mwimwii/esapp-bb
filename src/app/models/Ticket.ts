@@ -1,6 +1,10 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
+import { SourceType } from 'app/enums/SourceType';
+import { TicketType } from 'app/enums/TicketType';
+import { TicketSeverity } from 'app/enums/TicketSeverity';
+import { TicketStatus } from 'app/enums/TicketStatus';
 
 
 @Entity()
@@ -10,13 +14,13 @@ export class Ticket extends BaseTable {
     contact: Contact;
 
     @Column()
-    sourceType: string;
+    sourceType: SourceType;
 
     @Column('int')
     sourceTypeId: number;
 
     @Column()
-    ticketType: string;
+    ticketType: TicketType;
 
     @Column()
     body: string;
@@ -28,10 +32,13 @@ export class Ticket extends BaseTable {
     dueDate: Date;
 
     @Column()
-    severity: string;
+    severity: TicketSeverity;
 
     @OneToOne(() => Contact)
     @JoinColumn()
     internalAssignee: Contact;
+
+    @Column()
+    status: TicketStatus;
 
 }
