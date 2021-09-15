@@ -19,7 +19,6 @@ const markdownColor = {
       bg: "Backgrounds",
       border: "Borders",
       brand: "Brand",
-      party: "Parties",
       text: "Text and Icon",
     };
     return getMarkdownTablesByType(dictionary, typeDisplayNameMap);

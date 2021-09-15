@@ -6,6 +6,7 @@
     "start-default": "react-scripts start",
     "start": "concurrently \"npm run watch\" \"npm run start-default\"",
     "build": "npm run watch:css && react-scripts build",
+    "build:design-tokens": "node ./design-tokens/scripts/build.js",
     "eject": "react-scripts eject",
     "watch:css": "postcss ./src/tailwind.css -o ./src/index.css",
     "watch": "chokidar \"./src/**/*.tsx\" -c \"npm run watch:css\"",
@@ -57,6 +58,7 @@
     "postcss": "^8.3.6",
     "postcss-cli": "^8.3.1",
     "style-dictionary": "^3.0.2",
+    "tablemark": "^2.0.0",
     "tailwindcss": "^2.2.15"
   }
 }

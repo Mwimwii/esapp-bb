@@ -3,7 +3,7 @@
         "text": {
             "primary": {
                 "base": {
-                    "value": "{color.base.navy.base.value}"
+                    "value": "{color.base.black.value}"
                 },
                 "darkMode": {
                     "value": "{color.base.white.value}"
@@ -11,27 +11,27 @@
             },
             "secondary": {
                 "base": {
-                    "value": "{color.base.gray.400.value}"
+                    "value": "{color.base.beige.400.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.gray.300.value}"
+                    "value": "{color.base.beige.300.value}"
                 }
             },
             "accent": {
                 "base": {
-                    "value": "{color.base.purple.400.value}"
+                    "value": "{color.base.green.400.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.purple.base.value}"
+                    "value": "{color.base.green.base.value}"
                 }
             },
             "danger": {
                 "base": {
-                    "value": "{color.base.red.400.value}"
+                    "value": "{color.base.red.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.red.base.value}"
-                }                
+                    "value": "{color.base.red.value}"
+                }
             }
         }
     }
