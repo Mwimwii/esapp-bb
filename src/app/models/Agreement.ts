@@ -2,6 +2,9 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typ
 import { Contact } from './Contact';
 import { Property } from './Property';
 import { BaseTable } from './BaseTable';
+import { AgreementStatus } from 'app/enums/AgreementStatus';
+import { AgreementType } from 'app/enums/AgreementType';
+import { AcquisitionType } from 'app/enums/AcquisitionType';
 
 @Entity()
 export class Agreement extends BaseTable {
@@ -25,11 +28,14 @@ export class Agreement extends BaseTable {
     dateArrived: Date;
 
     @Column()
-    requestedAgreementType: string;
+    requestedAgreementType: AgreementType;
 
     @Column()
-    agreementType: string;
+    agreementType: AgreementType;
 
     @Column()
-    acquisitionType: string;
+    acquisitionType: AcquisitionType;
+
+    @Column()
+    status: AgreementStatus;
 }

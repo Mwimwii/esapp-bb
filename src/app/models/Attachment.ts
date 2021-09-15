@@ -1,3 +1,4 @@
+import { AttachmentStatus } from 'app/enums/AttachmentStatus';
 import { Column, Entity } from 'typeorm';
 import { BaseTable } from './BaseTable';
 
@@ -12,4 +13,7 @@ export class Attachment extends BaseTable {
 
     @Column()
     filePath: string;
+
+    @Column()
+    status: AttachmentStatus;
 }
