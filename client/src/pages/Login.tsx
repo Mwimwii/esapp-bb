@@ -16,7 +16,8 @@ const Login: React.FC = () => {
   const loginAndRedirect = async () => {
     setError(false);
     try {
-      const user = await logIn({ email, password });
+      //const user = await logIn({ email, password });
+      await logIn({ email, password });
       history.push('/');
     } catch (error) {
       console.log(error);
