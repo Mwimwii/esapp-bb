@@ -2,11 +2,11 @@
     "color": {
         "border": {
             "primary": {
-                "value": "{color.base.gray.300.value}"
+                "value": "{color.base.green.700.value}"
             },
             "danger": {
-                "value": "{color.base.red.base.value}"
+                "value": "{color.base.red.value}"
             }
-        }       
+        }
     }
 }

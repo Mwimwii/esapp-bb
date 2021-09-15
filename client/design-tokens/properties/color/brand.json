@@ -2,10 +2,10 @@
     "color": {
         "brand": {
             "primary": {
-                "value": "{color.base.navy.base.value}"
+                "value": "{color.base.green.base.value}"
             },
             "secondary": {
-                "value": "{color.base.purple.base.value}"
+                "value": "{color.base.beige.base.value}"
             }
         }
     }
