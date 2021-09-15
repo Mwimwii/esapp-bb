@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
+import { PaymentType } from './PaymentType';
 
 @Entity()
 export class Payment extends BaseTable {
@@ -9,7 +10,7 @@ export class Payment extends BaseTable {
     paymentPlan: PaymentPlan;
 
     @Column()
-    paymentType: string;
+    paymentType: PaymentType;
 
     @Column()
     paidBy: string;
