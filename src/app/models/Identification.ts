@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
 import { IdentificationStatus } from 'app/enums/IdentificationStatus';
@@ -8,7 +8,7 @@ import { IdentificationType } from 'app/enums/IdentificationType';
 export class Identification extends BaseTable {
 
     @JoinColumn()
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     contact: Contact;
 
     @Column()

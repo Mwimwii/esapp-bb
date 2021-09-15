@@ -16,7 +16,7 @@ export class Contact extends BaseTable {
     gender: string;
 
     @Column('date')
-    dob: string;
+    dob: Date;
 
     @Column('int')
     age: number;
