@@ -1,6 +1,10 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 import { Agreement } from './Agreement';
 import { BaseTable } from './BaseTable';
+import { PaymentCurrency } from './PaymentCurrency';
+import { PaymentCycle } from './PaymentCycle';
+import { PaymentPlanStatus } from './PaymentPlanStatus';
+import { PaymentType } from './PaymentType';
 
 
 @Entity()
@@ -11,7 +15,7 @@ export class PaymentPlan extends BaseTable {
     agreement: Agreement;
 
     @Column()
-    paymentType: string;
+    paymentType: PaymentType;
 
     @Column('numeric')
     baseAmount: number;
@@ -29,10 +33,10 @@ export class PaymentPlan extends BaseTable {
     paidUpUntil: Date;
 
     @Column()
-    cycle: string;
+    cycle: PaymentCycle;
 
     @Column()
-    currency: string;
+    currency: PaymentCurrency;
 
     @Column('int')
     gracePeriod: number;
@@ -51,5 +55,8 @@ export class PaymentPlan extends BaseTable {
 
     @Column('numeric')
     outstandingAmount: number;
+
+    @Column()
+    status: PaymentPlanStatus;
 
 }

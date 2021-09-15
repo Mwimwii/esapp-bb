@@ -4,6 +4,7 @@ import { BaseTable } from './BaseTable';
 import { PaymentType } from './PaymentType';
 import { PaymentMethod } from './PaymentMethod';
 import { PaymentStatus } from './PaymentStatus';
+import { User } from '.';
 
 @Entity()
 export class Payment extends BaseTable {
@@ -38,8 +39,9 @@ export class Payment extends BaseTable {
     @Column('timestamp')
     verifiedAt: string = new Date().toISOString();
 
-    @Column()
-    verifiedBy: number;
+    @JoinColumn()
+    @Column(() => User)
+    verifiedBy: User;
 
     @Column()
     status: PaymentStatus;
