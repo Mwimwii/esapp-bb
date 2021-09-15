@@ -1,11 +1,13 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
+import { ContactType } from 'app/enums/ContactType';
+import { ContactDetailStatus } from 'app/enums/ContactDetailStatus';
 
 @Entity()
 export class ContactDetail extends BaseTable {
     @Column()
-    contactType: string;
+    contactType: ContactType;
 
     @Column()
     value: string;
@@ -18,4 +20,7 @@ export class ContactDetail extends BaseTable {
 
     @ManyToOne(() => Contact, contact => contact.contactDetails)
     contact: Contact;
+
+    @Column()
+    status: ContactDetailStatus;
 }
