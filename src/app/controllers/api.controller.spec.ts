@@ -26,7 +26,7 @@ describe('ApiController', () => {
         throw new Error('The response should be an instance of HttpResponseOK.');
       }
 
-      strictEqual(response.body, 'Hello world!');
+      strictEqual(JSON.stringify(response.body), JSON.stringify({ api: 'titl' }));
     });
 
   });
