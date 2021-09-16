@@ -566,6 +566,12 @@ video {
 .mb-10 {
 	margin-bottom: 2.5rem;
 }
+.mt-8 {
+	margin-top: 2rem;
+}
+.mb-2 {
+	margin-bottom: 0.5rem;
+}
 .block {
 	display: block;
 }
@@ -617,15 +623,28 @@ video {
 .pt-8 {
 	padding-top: 2rem;
 }
+.text-center {
+	text-align: center;
+}
 .font-sans {
 	font-family: replica, Segoe UI, Helvetica, Arial;
+}
+.font-serif {
+	font-family: domaine, Georgia;
 }
 .text-5xl {
 	font-size: 3rem;
 	line-height: 1;
 }
+.text-3xl {
+	font-size: 1.875rem;
+	line-height: 2.25rem;
+}
 .font-bold {
 	font-weight: 700;
+}
+.leading-normal {
+	line-height: 1.3;
 }
 .text-white {
 	--tw-text-opacity: 1;
@@ -634,6 +653,10 @@ video {
 .text-beige {
 	--tw-text-opacity: 1;
 	color: rgba(251, 246, 237, var(--tw-text-opacity));
+}
+.text-black {
+	--tw-text-opacity: 1;
+	color: rgba(0, 0, 0, var(--tw-text-opacity));
 }
 @media (min-width: 640px) {
 
