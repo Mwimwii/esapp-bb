@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { Property } from './Property';
 import { BaseTable } from './BaseTable';
@@ -9,15 +9,15 @@ import { AcquisitionType } from 'app/enums/AcquisitionType';
 @Entity()
 export class Agreement extends BaseTable {
     @JoinColumn()
-    @OneToOne(() => Property)
+    @ManyToOne(() => Property)
     property: Property;
 
     @JoinColumn()
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     owner: Contact;
 
     @JoinColumn()
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     tenant: Contact;
 
     @JoinTable()

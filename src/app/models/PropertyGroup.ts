@@ -1,4 +1,4 @@
-import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Contact } from './Contact';
 import { Property } from './Property';
 import { BaseTable } from './BaseTable';
@@ -27,7 +27,7 @@ export class PropertyGroup extends BaseTable {
     @Column('varchar', { length: 50 })
     subcounty: string;
 
-    @OneToOne(() => Contact)
+    @ManyToOne(() => Contact)
     owner: Contact;
 
     @OneToMany(() => Property, property => property.propertyGroup)
