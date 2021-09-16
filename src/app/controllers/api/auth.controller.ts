@@ -5,8 +5,10 @@ import {
   HttpResponseUnauthorized,
   Post,
   ValidateBody,
-  verifyPassword
+  verifyPassword,
+  Env,
 } from '@foal/core';
+
 import { getSecretOrPrivateKey, removeAuthCookie, setAuthCookie } from '@foal/jwt';
 import { sign } from 'jsonwebtoken';
 import { promisify } from 'util';
@@ -56,7 +58,8 @@ export class AuthController {
       email: user.email,
     });
 
-    await setAuthCookie(response, await this.createJWT(user));
+    const token = await this.createJWT(user);
+    await setAuthCookie(response, token);
 
     return response;
   }
@@ -74,10 +77,12 @@ export class AuthController {
       id: user.id,
     };
 
+    const expiresIn = Env.get('JWT_COOKIE_LENGTH') || '1h';
+
     return promisify(sign as any)(
       payload,
       getSecretOrPrivateKey(),
-      { subject: user.id.toString() }
+      { expiresIn, subject: user.id.toString() }
     );
   }
 }
