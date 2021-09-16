@@ -2,8 +2,8 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { PropertyGroup } from './PropertyGroup';
 import { BaseTable } from './BaseTable';
-import { PropertyType } from 'app/enums/PropertyType';
-import { PropertyStatus } from 'app/enums/PropertyStatus';
+import { PropertyType } from '../enums/PropertyType';
+import { PropertyStatus } from '../enums/PropertyStatus';
 
 @Entity()
 export class Property extends BaseTable {
@@ -37,7 +37,7 @@ export class Property extends BaseTable {
     @Column('varchar', { length: 50 })
     nickname: string;
 
-    @Column()
+    @Column({ type: 'enum', enum: PropertyType })
     propertyType: PropertyType;
 
     @Column('int')
@@ -53,6 +53,6 @@ export class Property extends BaseTable {
     @Column()
     inConflict: boolean;
 
-    @Column()
+    @Column({ type: 'enum', enum: PropertyStatus })
     status: PropertyStatus;
 }
