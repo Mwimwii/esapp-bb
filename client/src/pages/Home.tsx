@@ -1,7 +1,17 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 //import { Redirect } from 'react-router';
+import { getApi } from 'api';
 
 const Home: React.FC = () => {
+
+  useEffect(() => {
+    async function fetchMyAPI() {
+      let response = await getApi()
+      console.log(response)
+    }
+
+    fetchMyAPI()
+  }, [])
   return (
       <div className="bg-green h-screen grid">
         <div className="w-3/4 my-auto ml-20">
