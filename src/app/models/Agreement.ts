@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne } from 'ty
 import { Contact } from './Contact';
 import { Property } from './Property';
 import { BaseTable } from './BaseTable';
-import { AgreementStatus } from 'app/enums/AgreementStatus';
-import { AgreementType } from 'app/enums/AgreementType';
-import { AcquisitionType } from 'app/enums/AcquisitionType';
+import { AgreementStatus } from '../enums/AgreementStatus';
+import { AgreementType } from '../enums/AgreementType';
+import { AcquisitionType } from '../enums/AcquisitionType';
 
 @Entity()
 export class Agreement extends BaseTable {
@@ -27,15 +27,15 @@ export class Agreement extends BaseTable {
     @Column('date')
     dateArrived: Date;
 
-    @Column()
+    @Column({ type: 'enum', enum: AgreementType })
     requestedAgreementType: AgreementType;
 
-    @Column()
+    @Column({ type: 'enum', enum: AgreementType })
     agreementType: AgreementType;
 
-    @Column()
+    @Column({ type: 'enum', enum: AcquisitionType })
     acquisitionType: AcquisitionType;
 
-    @Column()
+    @Column({ type: 'enum', enum: AgreementStatus })
     status: AgreementStatus;
 }

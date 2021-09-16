@@ -2,14 +2,14 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Contact } from './Contact';
 import { Property } from './Property';
 import { BaseTable } from './BaseTable';
-import { PropertyType } from 'app/enums/PropertyType';
+import { PropertyType } from '../enums/PropertyType';
 
 @Entity()
 export class PropertyGroup extends BaseTable {
     @Column('varchar', { length: 50, nullable: true })
     nickname: string;
 
-    @Column()
+    @Column({ type: 'enum', enum: PropertyType })
     propertyType: PropertyType;
 
     @Column('varchar', { length: 50 })
