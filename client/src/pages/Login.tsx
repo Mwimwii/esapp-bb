@@ -1,22 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 
 import TitlLogo from 'assets/logo.svg';
 import { logIn } from 'api/auth';
+import { UserContext } from 'global-state';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [,setError] = useState(false);
+  const {
+    setUser,
+    setIsSet: setIsUserSet,
+  } = useContext(UserContext);
 
   const history = useHistory();
 
   const loginAndRedirect = async () => {
     setError(false);
     try {
-      //const user = await logIn({ email, password });
+      const user = await logIn({ email, password });
+      setUser(user);
+      setIsUserSet(true);
       await logIn({ email, password });
       history.push('/');
     } catch (error) {

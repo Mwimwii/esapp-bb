@@ -1,13 +1,9 @@
 import axios from 'axios';
+import { User } from 'types';
 
 interface Credentials {
   email: string;
   password: string;
-}
-
-interface User {
-  id: number;
-  email: string;
 }
 
 export async function logIn(credentials: Credentials): Promise<User> {

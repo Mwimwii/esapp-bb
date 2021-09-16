@@ -2,6 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Login, Home, Signup } from 'pages';
 
+// TODO introduce concept of public and private routes
 const Routes: React.FC = () => (
   <Switch>
     <Route exact path="/" component={Home} />
