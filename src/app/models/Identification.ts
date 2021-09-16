@@ -1,8 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
-import { IdentificationStatus } from 'app/enums/IdentificationStatus';
-import { IdentificationType } from 'app/enums/IdentificationType';
+import { IdentificationStatus } from '../enums/IdentificationStatus';
+import { IdentificationType } from '../enums/IdentificationType';
 
 @Entity()
 export class Identification extends BaseTable {
@@ -11,7 +11,7 @@ export class Identification extends BaseTable {
     @ManyToOne(() => Contact)
     contact: Contact;
 
-    @Column()
+    @Column({ type: 'enum', enum: IdentificationType })
     identificationType: IdentificationType;
 
     @Column()
@@ -20,6 +20,6 @@ export class Identification extends BaseTable {
     @Column('date')
     expirationDate: Date;
 
-    @Column()
+    @Column({ type: 'enum', enum: IdentificationStatus })
     status: IdentificationStatus;
 }

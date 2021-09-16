@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Agreement } from './Agreement';
 import { BaseTable } from './BaseTable';
 import { PaymentCurrency } from '../enums/PaymentCurrency';
-import { PaymentCycle } from 'app/enums/PaymentCycle';
-import { PaymentPlanStatus } from 'app/enums/PaymentPlanStatus';
-import { PaymentType } from 'app/enums/PaymentType';
+import { PaymentCycle } from '../enums/PaymentCycle';
+import { PaymentPlanStatus } from '../enums/PaymentPlanStatus';
+import { PaymentType } from '../enums/PaymentType';
 
 
 
@@ -15,7 +15,7 @@ export class PaymentPlan extends BaseTable {
     @ManyToOne(() => Agreement)
     agreement: Agreement;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentType })
     paymentType: PaymentType;
 
     @Column('numeric')
@@ -33,10 +33,10 @@ export class PaymentPlan extends BaseTable {
     @Column('timestamp', { nullable: true })
     paidUpUntil: Date;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentCycle })
     cycle: PaymentCycle;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentCurrency })
     currency: PaymentCurrency;
 
     @Column('int')
@@ -57,7 +57,7 @@ export class PaymentPlan extends BaseTable {
     @Column('numeric')
     outstandingAmount: number;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentPlanStatus })
     status: PaymentPlanStatus;
 
 }

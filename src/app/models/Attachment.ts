@@ -1,4 +1,4 @@
-import { AttachmentStatus } from 'app/enums/AttachmentStatus';
+import { AttachmentStatus } from '../enums/AttachmentStatus';
 import { Column, Entity } from 'typeorm';
 import { BaseTable } from './BaseTable';
 
@@ -14,6 +14,6 @@ export class Attachment extends BaseTable {
     @Column()
     filePath: string;
 
-    @Column()
+    @Column({ type: 'enum', enum: AttachmentStatus })
     status: AttachmentStatus;
 }
