@@ -1,5 +1,5 @@
 import { PrimaryGeneratedColumn, Column, UpdateDateColumn, CreateDateColumn, BaseEntity, JoinColumn, ManyToOne } from 'typeorm';
-import { User } from '.';
+import { User } from './User';
 
 export abstract class BaseTable extends BaseEntity {
     @PrimaryGeneratedColumn()

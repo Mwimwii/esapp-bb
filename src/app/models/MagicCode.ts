@@ -1,5 +1,6 @@
 import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { User, BaseTable } from '.';
+import { User } from './User';
+import { BaseTable } from './BaseTable';
 
 @Entity()
 export class MagicCode extends BaseTable {
