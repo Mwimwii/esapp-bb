@@ -4,6 +4,7 @@ import { User } from 'types';
 interface Credentials {
   email: string;
   password: string;
+  uuid?: string;
 }
 
 interface ContactInfo {

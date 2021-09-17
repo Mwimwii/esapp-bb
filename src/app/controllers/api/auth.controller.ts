@@ -13,7 +13,7 @@ import { getSecretOrPrivateKey, removeAuthCookie, setAuthCookie } from '@foal/jw
 import { sign } from 'jsonwebtoken';
 import { promisify } from 'util';
 
-import { User } from 'app/models';
+import { User, Contact } from 'app/models';
 
 const credentialsSchema = {
   additionalProperties: false,
@@ -30,13 +30,23 @@ export class AuthController {
   @Post('/signup')
   @ValidateBody(credentialsSchema)
   async signup(ctx: Context) {
+    const { email, password, uuid } = ctx.request.body;
     const user = new User();
-    user.email = ctx.request.body.email;
-    user.password = await hashPassword(ctx.request.body.password);
+    user.email = email;
+    user.password = await hashPassword(password);
+
+    if (uuid) {
+      const contactId = await Contact.findOne({ uuid });
+      if (contactId) {
+        user.contact = contactId;
+      }
+    }
+
     await user.save();
 
     const response = new HttpResponseOK();
     await setAuthCookie(response, await this.createJWT(user));
+
     return response;
   }
 
