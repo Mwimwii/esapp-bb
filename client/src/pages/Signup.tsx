@@ -18,8 +18,7 @@ const Signup: React.FC = () => {
   const loginAndRedirect = async () => {
     setError(false);
     try {
-      // TODO send the uuid to associate the contact to this user
-      const user = await signUp({ email, password });
+      const user = await signUp({ email, password, uuid });
       console.log(user);
       history.push('/');
     } catch (error) {
