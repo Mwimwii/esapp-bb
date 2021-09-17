@@ -2,6 +2,7 @@ import {
   Context,
   Post,
   ValidateBody,
+  HttpResponseOK,
 } from '@foal/core';
 
 import { User, Contact } from 'app/models';
@@ -31,10 +32,11 @@ export class AuthChecksController {
 
   @Post('/user-exists')
   @ValidateBody(userExistsSchema)
-  async signup(ctx: Context) {
+  async userExists(ctx: Context) {
     const user = await User.findOne({ email: ctx.request.body.email });
 
-    return Boolean(user);
+    //return new HttpResponseOK({ exists: Boolean(user) });
+    return new HttpResponseOK(Boolean(user));
   }
 
   @Post('/contact-exists')
@@ -51,7 +53,7 @@ export class AuthChecksController {
       take: 1,
     })
 
-    return Boolean(contact);
+    return new HttpResponseOK(Boolean(contact));
   }
 
 }

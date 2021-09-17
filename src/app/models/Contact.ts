@@ -3,6 +3,7 @@ import { ContactDetail } from './ContactDetail';
 import { BaseTable } from './BaseTable';
 import { Identification } from '.';
 import { ContactStatus } from '../enums/ContactStatus';
+import { ContactType } from '../enums/ContactType';
 
 @Entity()
 export class Contact extends BaseTable {
@@ -20,6 +21,12 @@ export class Contact extends BaseTable {
 
     @Column('int')
     age: number;
+
+    @Column({ type: 'enum', enum: ContactType })
+    type: ContactType;
+
+    @Column()
+    typeValue: string;
 
     @Column('simple-array', { default: ['en'] })
     languages: string[];
