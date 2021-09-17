@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
-import { User } from '.';
+import { User } from './User';
 import { PaymentMethod } from '../enums/PaymentMethod';
 import { PaymentStatus } from '../enums/PaymentStatus';
 import { PaymentType } from '../enums/PaymentType';

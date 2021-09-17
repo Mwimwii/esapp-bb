@@ -17,6 +17,21 @@ community provided packages like [sequelize-typescript](https://github.com/Robin
 * Type ORM is what we're using due to its nice [documentation](https://typeorm.io/#/) & [docs](https://github.com/typeorm/typeorm/tree/master/docs)
 and built in typescript support & [docs](https://orkhan.gitbook.io/typeorm/)
 
+## Models
+* To visualize the existing models, [typeorm-uml](https://github.com/eugene-manuilov/typeorm-uml)
+is used to provide a UML of the models. The command to create an updated UML is:
+```
+yarn generate:uml
+```
+and the resulting file will go to the docs directory
+* In order for the UML's to be generated correctly it is important that in the
+models that relative references are used **only**. The UML script will break
+trying to resolve the dependencies with an error:
+```
+(node:64110) UnhandledPromiseRejectionWarning: TypeError: Class extends value undefined is not a constructor or null
+```
+* There is a Github action to check against this as well.
+
 # Creating A Database
 * If you're running postgres locally you can access and create databases
 using the CLI:
