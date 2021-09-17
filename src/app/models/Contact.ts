@@ -2,7 +2,7 @@ import { Entity, Column, OneToMany } from 'typeorm';
 import { ContactDetail } from './ContactDetail';
 import { BaseTable } from './BaseTable';
 import { Identification } from '.';
-import { ContactStatus } from 'app/enums/ContactStatus';
+import { ContactStatus } from '../enums/ContactStatus';
 
 @Entity()
 export class Contact extends BaseTable {
@@ -30,6 +30,6 @@ export class Contact extends BaseTable {
     @OneToMany(() => Identification, identification => identification.contact)
     identifications: Identification[];
 
-    @Column()
+    @Column({ type: 'enum', enum: ContactStatus })
     status: ContactStatus;
 }
