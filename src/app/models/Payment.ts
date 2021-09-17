@@ -2,9 +2,9 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { PaymentPlan } from './PaymentPlan';
 import { BaseTable } from './BaseTable';
 import { User } from '.';
-import { PaymentMethod } from 'app/enums/PaymentMethod';
-import { PaymentStatus } from 'app/enums/PaymentStatus';
-import { PaymentType } from 'app/enums/PaymentType';
+import { PaymentMethod } from '../enums/PaymentMethod';
+import { PaymentStatus } from '../enums/PaymentStatus';
+import { PaymentType } from '../enums/PaymentType';
 
 @Entity()
 export class Payment extends BaseTable {
@@ -12,7 +12,7 @@ export class Payment extends BaseTable {
     @ManyToOne(() => PaymentPlan)
     paymentPlan: PaymentPlan;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentType })
     paymentType: PaymentType;
 
     @Column()
@@ -27,7 +27,7 @@ export class Payment extends BaseTable {
     @Column('timestamp')
     completionDate: Date;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentMethod })
     paymentMethod: PaymentMethod;
 
     @Column()
@@ -43,7 +43,7 @@ export class Payment extends BaseTable {
     @Column(() => User)
     verifiedBy: User;
 
-    @Column()
+    @Column({ type: 'enum', enum: PaymentStatus })
     status: PaymentStatus;
 
 }
