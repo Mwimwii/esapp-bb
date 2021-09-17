@@ -4,6 +4,7 @@ import {
   ValidateBody,
   HttpResponseOK,
 } from '@foal/core';
+import { getConnection } from 'typeorm';
 
 import { User, Contact } from 'app/models';
 import { ContactDetailType } from 'app/enums/ContactDetailType';
@@ -35,25 +36,31 @@ export class AuthChecksController {
   async userExists(ctx: Context) {
     const user = await User.findOne({ email: ctx.request.body.email });
 
-    //return new HttpResponseOK({ exists: Boolean(user) });
     return new HttpResponseOK(Boolean(user));
   }
 
   @Post('/contact-exists')
   @ValidateBody(contactExistsSchema)
   async contactExists(ctx: Context) {
-    const contact = await Contact.find({
-      relations: ['contact_detail'],
-      where: {
-        firstName: ctx.request.body.firstName,
-        lastName: ctx.request.body.lastName,
-        contactDetailValue: ctx.request.body.phoneNumber,
-        contactDetailType: ContactDetailType.email,
-      },
-      take: 1,
-    })
+    const connection = getConnection();
 
-    return new HttpResponseOK(Boolean(contact));
+    const { firstName, lastName, phoneNumber } = ctx.request.body;
+
+    const contact = await connection.createQueryBuilder()
+      .select('contact.uuid')
+      .from(Contact, 'contact')
+      .innerJoin('contact.contactDetails', 'contactDetail')
+      .where('contact.firstName = :firstName', { firstName })
+      .where('contact.lastName = :lastName', { lastName })
+      .where('contactDetail.type = :type', { type: ContactDetailType.phone })
+      .where('contactDetail.typeValue = :typeValue', { typeValue: phoneNumber })
+      .getOne();
+
+    if (contact) {
+      return new HttpResponseOK(contact.uuid);
+    }
+
+    return new HttpResponseOK(false);
   }
 
 }
