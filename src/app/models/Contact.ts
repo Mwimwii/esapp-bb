@@ -1,8 +1,9 @@
-import { Entity, Column, OneToMany } from 'typeorm';
+import { Entity, Column, OneToMany, Generated } from 'typeorm';
 import { ContactDetail } from './ContactDetail';
 import { BaseTable } from './BaseTable';
 import { Identification } from '.';
 import { ContactStatus } from '../enums/ContactStatus';
+import { ContactType } from '../enums/ContactType';
 
 @Entity()
 export class Contact extends BaseTable {
@@ -15,11 +16,24 @@ export class Contact extends BaseTable {
     @Column('varchar', { length: 2, default: 'O' })
     gender: string;
 
-    @Column('date')
+    @Column()
+    @Generated('uuid')
+    uuid: string;
+
+    @Column({
+      type:'date',
+      nullable: true,
+    })
     dob: Date;
 
-    @Column('int')
+    @Column({
+      type: 'int',
+      nullable: true,
+    })
     age: number;
+
+    @Column({ type: 'enum', enum: ContactType })
+    type: ContactType;
 
     @Column('simple-array', { default: ['en'] })
     languages: string[];

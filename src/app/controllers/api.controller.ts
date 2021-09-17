@@ -2,7 +2,7 @@ import { ApiInfo, ApiServer, Context, controller, Get, HttpResponseOK, UseSessio
 import { fetchUser } from '@foal/typeorm';
 import { User } from 'app/models';
 import { JWTRequired } from '@foal/jwt';
-import { AuthController } from './api';
+import { AuthController, AuthChecksController } from './api';
 
 @ApiInfo({
   title: 'Application API',
@@ -17,7 +17,8 @@ import { AuthController } from './api';
 })
 export class ApiController {
   subControllers = [
-    controller('/auth', AuthController)
+    controller('/auth', AuthController),
+    controller('/auth-checks', AuthChecksController)
   ];
 
 
