@@ -29,13 +29,13 @@ export async function signUp(credentials: Credentials): Promise<User> {
 }
 
 export async function userExists(email: string): Promise<boolean> {
-  const response = await axios.post<boolean>('/api/auth/user-exists', email);
+  const response = await axios.post<boolean>('/api/auth-checks/user-exists', { email });
 
   return response.data;
 }
 
 export async function contactExists(contactInfo: ContactInfo): Promise<boolean> {
-  const response = await axios.post<boolean>('/api/auth/contact-exists', contactInfo);
+  const response = await axios.post<boolean>('/api/auth-checks/contact-exists', contactInfo);
 
   return response.data;
 }
