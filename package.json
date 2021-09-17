@@ -20,7 +20,7 @@
     "migrate:undo": "npx typeorm migration:revert",
     "lint": "eslint --ext ts src",
     "lint:fix": "eslint --ext ts --fix src",
-    "generate:uml": "typeorm-uml ormconfig.js --download docs/database-uml.png"
+    "generate:uml": "npm run build && typeorm-uml ormconfig.js --download docs/database-uml.png"
   },
   "engines": {
     "node": ">=14"
