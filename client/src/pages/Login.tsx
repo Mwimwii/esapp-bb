@@ -56,7 +56,7 @@ const Login: React.FC = () => {
       setUser(user);
       setIsUserSet(true);
       await logIn({ email, password });
-      history.push('/');
+      history.push('/dashboard');
     } catch (error) {
       console.log(error);
       setError(true);
