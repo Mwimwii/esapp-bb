@@ -20,7 +20,8 @@
     "migrate:undo": "npx typeorm migration:revert",
     "lint": "eslint --ext ts src",
     "lint:fix": "eslint --ext ts --fix src",
-    "generate:uml": "typeorm-uml ormconfig.js --download docs/database-uml.png"
+    "postinstall": "node-git-hooks",
+    "generate:uml": "npm run build && typeorm-uml ormconfig.js --download docs/database-uml.png"
   },
   "engines": {
     "node": ">=14"
@@ -52,7 +53,9 @@
     "@typescript-eslint/parser": "~2.7.0",
     "concurrently": "^6.2.1",
     "eslint": "^7.11.0",
+    "husky": "^7.0.2",
     "mocha": "~8.2.0",
+    "node-git-hooks": "^1.0.6",
     "supertest": "~6.0.0",
     "supervisor": "~0.12.0",
     "tsconfig-paths": "^3.11.0",

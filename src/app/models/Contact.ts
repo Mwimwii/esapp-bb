@@ -1,7 +1,7 @@
 import { Entity, Column, OneToMany, Generated } from 'typeorm';
 import { ContactDetail } from './ContactDetail';
 import { BaseTable } from './BaseTable';
-import { Identification } from '.';
+import { Identification } from './Identification';
 import { ContactStatus } from '../enums/ContactStatus';
 import { ContactType } from '../enums/ContactType';
 
