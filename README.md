@@ -15,7 +15,7 @@ ORM for node.js. However, it is currently looking for [maintainers](https://gith
 and also doesn't have great typescript support out of the box. There are
 community provided packages like [sequelize-typescript](https://github.com/RobinBuschmann/sequelize-typescript).
 * Type ORM is what we're using due to its nice [documentation](https://typeorm.io/#/) & [docs](https://github.com/typeorm/typeorm/tree/master/docs)
-and built in typescript support
+and built in typescript support & [docs](https://orkhan.gitbook.io/typeorm/)
 
 # Creating A Database
 * If you're running postgres locally you can access and create databases
