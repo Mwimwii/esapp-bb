@@ -1,16 +1,16 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Contact } from './Contact';
 import { BaseTable } from './BaseTable';
-import { ContactType } from '../enums/ContactType';
 import { ContactDetailStatus } from '../enums/ContactDetailStatus';
+import { ContactDetailType } from '../enums/ContactDetailType';
 
 @Entity()
 export class ContactDetail extends BaseTable {
-    @Column({ type: 'enum', enum: ContactType })
-    contactType: ContactType;
+    @Column({ type: 'enum', enum: ContactDetailType })
+    type: ContactDetailType;
 
     @Column()
-    value: string;
+    typeValue: string;
 
     @Column('simple-array', { nullable: true })
     altContactID: number[];
