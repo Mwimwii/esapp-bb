@@ -34,8 +34,8 @@ export async function userExists(email: string): Promise<boolean> {
   return response.data;
 }
 
-export async function contactExists(contactInfo: ContactInfo): Promise<boolean> {
-  const response = await axios.post<boolean>('/api/auth-checks/contact-exists', contactInfo);
+export async function contactExists(contactInfo: ContactInfo): Promise<boolean|string> {
+  const response = await axios.post<boolean|string>('/api/auth-checks/contact-exists', contactInfo);
 
   return response.data;
 }

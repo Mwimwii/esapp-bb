@@ -4,7 +4,6 @@ import {
   Login,
   Home,
   Signup,
-  LoginMagic,
   Dashboard
 } from 'pages';
 
@@ -13,8 +12,7 @@ const Routes: React.FC = () => (
   <Switch>
     <Route exact path="/" component={Home} />
     <Route path="/login" component={Login} />
-    <Route path="/login-magic" component={LoginMagic} />
-    <Route path="/signup" component={Signup} />
+    <Route path="/signup/:uuid?" component={Signup} />
     <Route path="/dashboard" component={Dashboard} />
   </Switch>
 );
