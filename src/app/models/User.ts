@@ -1,5 +1,4 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
-import { Contact } from './Contact';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class User extends BaseEntity {
@@ -12,10 +11,6 @@ export class User extends BaseEntity {
 
   @Column()
   password: string;
-
-  @JoinColumn()
-  @OneToOne(() => Contact)
-  contact: Contact;
 }
 
 export { DatabaseSession } from '@foal/typeorm';

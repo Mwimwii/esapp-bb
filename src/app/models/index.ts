@@ -10,4 +10,3 @@ export { Property } from './Property';
 export { PropertyGroup } from './PropertyGroup';
 export { Relationship } from './Relationship';
 export { Ticket } from './Ticket';
-export { BaseTable } from './BaseTable';

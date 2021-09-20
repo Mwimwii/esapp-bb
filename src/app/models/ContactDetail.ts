@@ -7,10 +7,10 @@ import { ContactDetailType } from '../enums/ContactDetailType';
 @Entity()
 export class ContactDetail extends BaseTable {
     @Column({ type: 'enum', enum: ContactDetailType })
-    type: ContactDetailType;
+    contactDetailType: ContactDetailType;
 
     @Column()
-    typeValue: string;
+    value: string;
 
     @Column('simple-array', { nullable: true })
     altContactID: number[];
@@ -21,6 +21,6 @@ export class ContactDetail extends BaseTable {
     @ManyToOne(() => Contact, contact => contact.contactDetails)
     contact: Contact;
 
-    @Column({ type: 'enum', enum: ContactDetailStatus })
+    @Column({ type: 'enum', enum: ContactDetailStatus, default: ContactDetailStatus.active })
     status: ContactDetailStatus;
 }
