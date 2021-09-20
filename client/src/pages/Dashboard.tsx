@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 
 import { UserContext } from 'global-state';
 import { getApi } from 'api';
-import { RoundedBox } from 'components';
+import { BottomBar, RoundedBox } from 'components';
 
 const Dashboard: React.FC = () => {
   const history = useHistory();
@@ -24,7 +24,7 @@ const Dashboard: React.FC = () => {
     }
   }, [history, user])
   return (
-      <div className="bg-white h-screen grid">
+      <div className="flex flex-col bg-white h-screen justify-between">
         <div className="w-full pt-20 px-4">
           <h1 className="text-2xl font-bold mb-10 text-beige-900 text-center">Overall</h1>
           <div className="flex space-between justify-center space-x-2">
@@ -40,6 +40,7 @@ const Dashboard: React.FC = () => {
           <div className="">
           </div>
         </div>
+        <BottomBar />
       </div>
     )
 }
