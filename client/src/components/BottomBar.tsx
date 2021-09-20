@@ -10,14 +10,13 @@ import { ReactComponent as ProfileIcon } from 'assets/profile.svg';
 const BottomBar: React.FC =() => {
   const history = useHistory();
   const location = useLocation();
-  console.log(location)
 
   const routeClick = (route: string) => {
     history.push(`/${route}`);
   }
 
   return (
-    <div className="bg-beige-900 w-full">
+    <div className="bg-beige-90 w-full">
       <div className="flex flex-col items-center gap-5">
         <div className="relative flex flex-col items-stretch justify-center py-3 px-3">
           <div className="grid grid-flow-col gap-5 text-xs auto-cols-fr">

@@ -26,14 +26,14 @@ const Dashboard: React.FC = () => {
   return (
       <div className="flex flex-col bg-white h-screen justify-between">
         <div className="w-full pt-20 px-4">
-          <h1 className="text-2xl font-bold mb-10 text-beige-900 text-center">Overall</h1>
+          <h1 className="text-2xl font-bold mb-10 text-beige-90 text-center">Overall</h1>
           <div className="flex space-between justify-center space-x-2">
-              <RoundedBox color="bg-beige-900">
-                  <div className="text-green-300 text-md">1 320</div>
+              <RoundedBox color="bg-beige-90">
+                  <div className="text-green-30 text-md">1 320</div>
                   <div className="text-white text-sm font-light">Tenants</div>
               </RoundedBox>
-              <RoundedBox color="bg-beige-900">
-                  <div className="text-green-300 text-md">125 024 UGX</div>
+              <RoundedBox color="bg-beige-90">
+                  <div className="text-green-30 text-md">125 024 UGX</div>
                   <div className="text-white text-sm font-light">Collected today</div>
               </RoundedBox>
           </div>

@@ -1,6 +1,6 @@
 /**
  * Do not edit directly
- * Generated on Wed, 15 Sep 2021 15:26:06 GMT
+ * Generated on Mon, 20 Sep 2021 20:17:06 GMT
  */
 
 :root {
@@ -9,31 +9,31 @@
   --black: #000000;
   --white: #ffffff;
   --red: #c91111;
-  --green-100: #93f1bb;
-  --green-200: #66ec9f;
-  --green-300: #3ee385;
-  --green-400: #1fd670;
+  --green-0: #c2f5d7;
+  --green-5: #aaf3c9;
+  --green-10: #93f1bb;
+  --green-20: #66ec9f;
+  --green-30: #3ee385;
+  --green-40: #1fd670;
+  --green-60: #00b053;
+  --green-70: #009449;
+  --green-80: #00733b;
+  --green-90: #004d2a;
+  --green-100: #002616;
   --green-500: #08c65e;
-  --green-600: #00b053;
-  --green-700: #009449;
-  --green-800: #00733b;
-  --green-900: #004d2a;
-  --green-1000: #002616;
   --green: #00733b;
-  --green-000: #c2f5d7;
-  --green-050: #aaf3c9;
-  --beige-100: #fbf6ed;
-  --beige-200: #f5eee2;
-  --beige-300: #ebe3d5;
-  --beige-400: #ddd5c6;
-  --beige-500: #cbc2b3;
-  --beige-600: #b2aa9c;
-  --beige-700: #938c80;
-  --beige-800: #6e695f;
-  --beige-900: #44413b;
-  --beige-1000: #1a1816;
+  --beige-0: #fffbf5;
+  --beige-10: #fbf6ed;
+  --beige-20: #f5eee2;
+  --beige-30: #ebe3d5;
+  --beige-40: #ddd5c6;
+  --beige-50: #cbc2b3;
+  --beige-60: #b2aa9c;
+  --beige-70: #938c80;
+  --beige-80: #6e695f;
+  --beige-90: #44413b;
+  --beige-100: #1a1816;
   --beige: #fbf6ed;
-  --beige-000: #fffbf5;
   --primaryBg: #ffffff;
   --secondaryBg: #93f1bb;
   --tertiaryBg: #fbf6ed;
