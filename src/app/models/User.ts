@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
-import { Contact } from './Contact';
+import { Contact } from '.';
 
 @Entity()
 export class User extends BaseEntity {
