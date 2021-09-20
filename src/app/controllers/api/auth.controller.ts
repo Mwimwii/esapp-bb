@@ -19,7 +19,8 @@ const credentialsSchema = {
   additionalProperties: false,
   properties: {
     email: { type: 'string', format: 'email' },
-    password: { type: 'string' }
+    password: { type: 'string' },
+    uuid: { type: 'string'},
   },
   required: [ 'email', 'password' ],
   type: 'object',
