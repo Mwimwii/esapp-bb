@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Contact } from './Contact';
+import { Contact } from '.';
 import { BaseTable } from './BaseTable';
 import { IdentificationStatus } from '../enums/IdentificationStatus';
 import { IdentificationType } from '../enums/IdentificationType';

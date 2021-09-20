@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Agreement } from './Agreement';
+import { Agreement } from '.';
 import { BaseTable } from './BaseTable';
 import { PaymentCurrency } from '../enums/PaymentCurrency';
 import { PaymentCycle } from '../enums/PaymentCycle';
