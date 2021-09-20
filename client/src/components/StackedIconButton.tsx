@@ -4,6 +4,9 @@ import classNames from 'classnames';
 import { SVGComponent } from './types';
 import Icon from './Icon';
 
+// won't be needed soon
+import './dynamic.css';
+
 interface Props
   extends Pick<React.HTMLProps<HTMLButtonElement>, 'onClick' | 'disabled'> {
   icon: SVGComponent;
@@ -22,12 +25,12 @@ const StackedIconButton: React.FC<Props> = ({
 }) => {
   // todo use actual hash of the color?
   // https://tailwindcss.com/docs/just-in-time-mode#known-limitations
-  const color = active ? 'green-400' : 'white';
+  const color = active ? 'green-40' : 'white';
 
   return (
     <button
       className={classNames(
-        'relative flex flex-col items-center p-2 hover:bg-green-400',
+        'relative flex flex-col items-center p-2 hover:bg-green-40',
         {
           //'bg-dangerBg hover:bg-dangerBg focus:bg-dangerBg': showDangerBg,
           //'hover:bg-black focus:bg-black': !disabled,

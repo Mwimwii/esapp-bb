@@ -11,15 +11,15 @@
             },
             "secondary": {
                 "base": {
-                    "value": "{color.base.beige.400.value}"
+                    "value": "{color.base.beige.40.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.beige.300.value}"
+                    "value": "{color.base.beige.30.value}"
                 }
             },
             "accent": {
                 "base": {
-                    "value": "{color.base.green.400.value}"
+                    "value": "{color.base.green.40.value}"
                 },
                 "darkMode": {
                     "value": "{color.base.green.base.value}"
