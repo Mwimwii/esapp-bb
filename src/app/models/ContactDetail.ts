@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Contact } from '.';
+import { BaseTable } from './BaseTable';
 import { ContactDetailStatus } from '../enums/ContactDetailStatus';
 import { ContactDetailType } from '../enums/ContactDetailType';
-import { BaseTable } from './BaseTable';
 
 @Entity()
 export class ContactDetail extends BaseTable {
@@ -21,6 +21,6 @@ export class ContactDetail extends BaseTable {
     @ManyToOne(() => Contact, contact => contact.contactDetails)
     contact: Contact;
 
-    @Column({ type: 'enum', enum: ContactDetailStatus, default: ContactDetailStatus.active })
+    @Column({ type: 'enum', enum: ContactDetailStatus })
     status: ContactDetailStatus;
 }

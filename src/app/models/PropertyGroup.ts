@@ -11,19 +11,19 @@ export class PropertyGroup extends BaseTable {
     @Column({ type: 'enum', enum: PropertyType })
     propertyType: PropertyType;
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', { length: 50 })
     country: string;
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', { length: 50 })
     region: string;
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', { length: 50 })
     district: string;
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', { length: 50 })
     county: string;
 
-    @Column('varchar', { length: 50, nullable: true })
+    @Column('varchar', { length: 50 })
     subcounty: string;
 
     @ManyToOne(() => Contact)

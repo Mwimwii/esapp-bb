@@ -1,5 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Agreement, Contact, Property } from '.';
+import { Agreement } from './Agreement';
+import { Contact } from './Contact';
+import { Property } from './Property';
 import { BaseTable } from './BaseTable';
 
 
