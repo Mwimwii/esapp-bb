@@ -1,7 +1,6 @@
-import { Entity, Column, OneToMany } from 'typeorm';
-import { ContactDetail } from './ContactDetail';
+import { Entity, Column, OneToMany, Generated } from 'typeorm';
+import { ContactDetail, Identification } from '.';
 import { BaseTable } from './BaseTable';
-import { Identification } from '.';
 import { ContactStatus } from '../enums/ContactStatus';
 
 @Entity()
@@ -14,6 +13,10 @@ export class Contact extends BaseTable {
 
     @Column('varchar', { length: 2, default: 'O' })
     gender: string;
+
+    @Column()
+    @Generated('uuid')
+    uuid: string;
 
     @Column('date', { nullable: true })
     dob: Date;

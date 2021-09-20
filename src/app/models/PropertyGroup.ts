@@ -1,6 +1,5 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { Contact } from './Contact';
-import { Property } from './Property';
+import { Contact, Property } from '.';
 import { BaseTable } from './BaseTable';
 import { PropertyType } from '../enums/PropertyType';
 

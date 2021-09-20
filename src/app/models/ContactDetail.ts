@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
-import { Contact } from './Contact';
-import { BaseTable } from './BaseTable';
+import { Contact } from '.';
 import { ContactDetailStatus } from '../enums/ContactDetailStatus';
 import { ContactDetailType } from '../enums/ContactDetailType';
+import { BaseTable } from './BaseTable';
 
 @Entity()
 export class ContactDetail extends BaseTable {
@@ -10,7 +10,7 @@ export class ContactDetail extends BaseTable {
     contactDetailType: ContactDetailType;
 
     @Column()
-    value: string;
+    contactDetailValue: string;
 
     @Column('simple-array', { nullable: true })
     altContactID: number[];
