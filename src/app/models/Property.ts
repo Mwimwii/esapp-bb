@@ -1,9 +1,8 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Contact, Agreement, PropertyGroup } from '.';
+import { Agreement, Contact, PropertyGroup } from '.';
 import { BaseTable } from './BaseTable';
 import { PropertyType } from '../enums/PropertyType';
 import { PropertyStatus } from '../enums/PropertyStatus';
-
 
 @Entity()
 export class Property extends BaseTable {
