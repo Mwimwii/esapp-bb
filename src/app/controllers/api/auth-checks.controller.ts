@@ -52,8 +52,8 @@ export class AuthChecksController {
       .innerJoin('contact.contactDetails', 'contactDetail')
       .where('contact.firstName = :firstName', { firstName })
       .where('contact.lastName = :lastName', { lastName })
-      .where('contactDetail.type = :type', { type: ContactDetailType.phone })
-      .where('contactDetail.typeValue = :typeValue', { typeValue: phoneNumber })
+      .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
+      .where('contactDetail.contactDetailValue = :value', { value: phoneNumber })
       .getOne();
 
     if (contact) {
