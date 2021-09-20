@@ -21,6 +21,6 @@ export class ContactDetail extends BaseTable {
     @ManyToOne(() => Contact, contact => contact.contactDetails)
     contact: Contact;
 
-    @Column({ type: 'enum', enum: ContactDetailStatus })
+    @Column({ type: 'enum', enum: ContactDetailStatus, default: ContactDetailStatus.active })
     status: ContactDetailStatus;
 }

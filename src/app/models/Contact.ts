@@ -7,16 +7,16 @@ import { ContactType } from '../enums/ContactType';
 
 @Entity()
 export class Contact extends BaseTable {
-  @Column('varchar', { length: 50 })
+  @Column('varchar', { length: 50, nullable: true })
   firstName: string;
 
-  @Column('varchar', { length: 50 })
+  @Column('varchar', { length: 50, nullable: true })
   lastName: string;
 
   @Column('varchar', { length: 2, default: 'O' })
   gender: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Generated('uuid')
   uuid: string;
 
@@ -38,12 +38,12 @@ export class Contact extends BaseTable {
   @Column('simple-array', { default: ['en'] })
   languages: string[];
 
-  @OneToMany(() => ContactDetail, contactDetail => contactDetail.contact)
+  @OneToMany(() => ContactDetail, contactDetail => contactDetail.contact, { cascade: true })
   contactDetails: ContactDetail[];
 
-  @OneToMany(() => Identification, identification => identification.contact)
+  @OneToMany(() => Identification, identification => identification.contact, { cascade: true })
   identifications: Identification[];
 
-  @Column({ type: 'enum', enum: ContactStatus })
+  @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
 }

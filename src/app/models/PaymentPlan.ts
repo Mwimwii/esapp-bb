@@ -18,10 +18,10 @@ export class PaymentPlan extends BaseTable {
     @Column({ type: 'enum', enum: PaymentType })
     paymentType: PaymentType;
 
-    @Column('numeric')
+    @Column('numeric', { default: 0 })
     baseAmount: number;
 
-    @Column('numeric')
+    @Column('numeric', { default: 0 })
     agreedAmount: number;
 
     @Column('timestamp', { nullable: true })
@@ -33,28 +33,28 @@ export class PaymentPlan extends BaseTable {
     @Column('timestamp', { nullable: true })
     paidUpUntil: Date;
 
-    @Column({ type: 'enum', enum: PaymentCycle })
+    @Column({ type: 'enum', enum: PaymentCycle, nullable: true })
     cycle: PaymentCycle;
 
     @Column({ type: 'enum', enum: PaymentCurrency })
     currency: PaymentCurrency;
 
-    @Column('int')
+    @Column('int', { default: 0 })
     gracePeriod: number;
 
-    @Column('int')
+    @Column('int', { default: 0 })
     breachPeriod: number;
 
-    @Column('int')
+    @Column('int', { default: 0 })
     priority = 0;
 
-    @Column()
+    @Column({ default: false })
     blocking: boolean;
 
-    @Column('numeric')
+    @Column('numeric', { default: 0 })
     negotiatedFXRate: number;
 
-    @Column('numeric')
+    @Column('numeric', { default: 0 })
     outstandingAmount: number;
 
     @Column({ type: 'enum', enum: PaymentPlanStatus })
