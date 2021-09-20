@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import Button from "@material-tailwind/react/Button";
 import Input from "@material-tailwind/react/Input";
 
 import TitlLogo from 'assets/logo.svg';
+import { UserContext } from 'global-state';
 import { signUp } from 'api/auth';
 
 const Signup: React.FC = () => {
@@ -14,13 +15,18 @@ const Signup: React.FC = () => {
   const history = useHistory();
 
   const { uuid } = useParams<{ uuid: string }>();
+  const {
+    setUser,
+    setIsSet: setIsUserSet,
+  } = useContext(UserContext);
 
   const loginAndRedirect = async () => {
     setError(false);
     try {
       const user = await signUp({ email, password, uuid });
-      console.log(user);
-      history.push('/');
+      setUser(user);
+      setIsUserSet(true);
+      history.push('/dashboard');
     } catch (error) {
       console.log(error);
       setError(true);
