@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Contact } from './Contact';
+import { Contact } from '.';
 import { BaseTable } from './BaseTable';
 import { SourceType } from '../enums/SourceType';
 import { TicketType } from '../enums/TicketType';
