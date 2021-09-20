@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Contact } from './Contact';
+import { Contact } from '.';
 import { BaseTable } from './BaseTable';
 import { IdentificationStatus } from '../enums/IdentificationStatus';
 import { IdentificationType } from '../enums/IdentificationType';
@@ -20,6 +20,6 @@ export class Identification extends BaseTable {
     @Column('date')
     expirationDate: Date;
 
-    @Column({ type: 'enum', enum: IdentificationStatus })
+    @Column({ type: 'enum', enum: IdentificationStatus, default: IdentificationStatus.underreview })
     status: IdentificationStatus;
 }
