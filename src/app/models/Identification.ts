@@ -20,6 +20,6 @@ export class Identification extends BaseTable {
     @Column('date')
     expirationDate: Date;
 
-    @Column({ type: 'enum', enum: IdentificationStatus })
+    @Column({ type: 'enum', enum: IdentificationStatus, default: IdentificationStatus.underreview })
     status: IdentificationStatus;
 }
