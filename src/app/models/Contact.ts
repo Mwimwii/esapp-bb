@@ -33,7 +33,7 @@ export class Contact extends BaseTable {
   age: number;
 
   @Column({ type: 'enum', enum: ContactType })
-  type: ContactType;
+  contactType: ContactType;
 
   @Column('simple-array', { default: ['en'] })
   languages: string[];
