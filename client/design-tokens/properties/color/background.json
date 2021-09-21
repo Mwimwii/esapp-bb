@@ -5,26 +5,26 @@
                 "value": "{color.base.white.value}"
             },
             "secondary": {
-                "value": "{color.base.green.100.value}"
+                "value": "{color.base.green.10.value}"
             },
             "tertiary": {
                 "base": {
-                    "value": "{color.base.beige.100.value}"
+                    "value": "{color.base.beige.10.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.beige.200.value}"
+                    "value": "{color.base.beige.20.value}"
                 }
             },
             "hover": {
                 "base": {
-                    "value": "{color.base.green.200.value}"
+                    "value": "{color.base.green.20.value}"
                 },
                 "darkMode": {
-                    "value": "{color.base.green.800.value}"
+                    "value": "{color.base.green.80.value}"
                 }
             },
             "selection": {
-                "value": "{color.base.green.200.value}"
+                "value": "{color.base.green.20.value}"
             },
             "danger": {
                 "value": "{color.base.red.value}"
