@@ -2,7 +2,7 @@
     "color": {
         "border": {
             "primary": {
-                "value": "{color.base.green.700.value}"
+                "value": "{color.base.green.70.value}"
             },
             "danger": {
                 "value": "{color.base.red.value}"
