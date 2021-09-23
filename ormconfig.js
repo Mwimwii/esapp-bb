@@ -16,4 +16,6 @@ module.exports = {
   cli: {
     migrationsDir: "src/migrations",
   },
+  seeds: ["dist/seeds/**/*{.ts,.js}"],
+  factories: ["src/factories/**/*{.ts,.js}"],
 };
