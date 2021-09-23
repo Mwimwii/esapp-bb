@@ -18,6 +18,8 @@
     "db:migration:create": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:create -n $1",
     "db:migration:generate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate -n $1",
     "migrate:undo": "npx typeorm migration:revert",
+    "db:seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+    "db:seed:run": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -n ormconfig.js -s $1",
     "lint": "eslint --ext ts src",
     "lint:fix": "eslint --ext ts --fix src",
     "postinstall": "node-git-hooks",

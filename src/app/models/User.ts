@@ -1,4 +1,12 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import {
+  BaseEntity,
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { Contact } from '.';
 
 @Entity()
@@ -16,6 +24,10 @@ export class User extends BaseEntity {
   @JoinColumn()
   @OneToOne(() => Contact)
   contact: Contact;
+
+  @Column('timestamp')
+  @CreateDateColumn()
+  createdAt: string = new Date().toISOString();
 }
 
 export { DatabaseSession } from '@foal/typeorm';
