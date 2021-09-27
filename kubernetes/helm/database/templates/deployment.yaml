@@ -1,0 +1,42 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+  name: {{ .Values.appName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: {{ .Values.appName }}
+          image: postgres:{{ .Values.DB_VERSION }}
+          ports:
+          - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              memory: 400M
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-password
+                key: value
+          - name: POSTGRES_USER
+            value: {{ .Values.DB_USER }}
+          - name: POSTGRES_DB
+            value: {{ .Values.DB_NAME }}
+      restartPolicy: Always
+      volumes:
+      - name: postgres-volume
+        persistentVolumeClaim:
+          claimName: awsebs
