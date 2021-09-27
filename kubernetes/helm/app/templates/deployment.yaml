@@ -30,7 +30,7 @@ spec:
             - name: DB_HOST
               value: {{ .Values.DB_HOST }}
             - name: DB_PORT
-              value: {{ .Values.DB_PORT }}
+              value: "{{ .Values.DB_PORT }}"
             - name: DB_NAME
               value: {{ .Values.DB_NAME }}
             - name: DB_USERNAME
