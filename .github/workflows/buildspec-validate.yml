@@ -1,0 +1,13 @@
+name: Buildspec Validate
+on: [push]
+jobs:
+  buildspec-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: yaml-lint
+        uses: ibiqlik/action-yamllint@v3
+        with:
+          file_or_dir: ./buildspec.yml
