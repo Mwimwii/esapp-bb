@@ -5,6 +5,7 @@ import {
   AuthController,
   AuthChecksController,
   TenantsController,
+  UserController,
 } from './api';
 
 @ApiInfo({
@@ -22,6 +23,7 @@ export class ApiController {
   subControllers = [
     controller('/auth', AuthController),
     controller('/auth-checks', AuthChecksController),
-    controller('/tenants', TenantsController)
+    controller('/tenants', TenantsController),
+    controller('/user', UserController),
   ];
 }
