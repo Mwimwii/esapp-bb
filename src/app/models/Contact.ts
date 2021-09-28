@@ -7,6 +7,22 @@ import { ContactType } from '../enums/ContactType';
 
 @Entity()
 export class Contact extends BaseTable {
+  fields() {
+    return {
+      firstName: this.firstName,
+      lastName: this.lastName,
+      gender: this.gender,
+      uuid: this.uuid,
+      dob: this.dob,
+      age: this.age,
+      contactType: this.contactType,
+      languages: this.languages,
+      contactDetails: this.contactDetails,
+      identifications: this.identifications,
+      status: this.status,
+    }
+  }
+
   @Column('varchar', { length: 50, nullable: true })
   firstName: string;
 
