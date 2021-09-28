@@ -16,3 +16,4 @@ USER node
 RUN yarn build
 
 CMD ["node", "./dist/index.js"]
+
