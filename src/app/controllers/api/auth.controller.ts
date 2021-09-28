@@ -45,7 +45,12 @@ export class AuthController {
 
     await user.save();
 
-    const response = new HttpResponseOK();
+    const response = new HttpResponseOK({
+      id: user.id,
+      email: user.email,
+      contactId: user.contact?.id || null,
+    });
+
     await setAuthCookie(response, await this.createJWT(user));
 
     return response;
@@ -54,7 +59,12 @@ export class AuthController {
   @Post('/login')
   @ValidateBody(credentialsSchema)
   async login(ctx: Context) {
-    const user = await User.findOne({ email: ctx.request.body.email });
+    const user = await User.findOne({
+      relations: ['contact'],
+      where: {
+        email: ctx.request.body.email
+      }
+    });
 
     if (!user) {
       return new HttpResponseUnauthorized();
@@ -67,6 +77,7 @@ export class AuthController {
     const response = new HttpResponseOK({
       id: user.id,
       email: user.email,
+      contactId: user.contact?.id ?? null,
     });
 
     const token = await this.createJWT(user);
