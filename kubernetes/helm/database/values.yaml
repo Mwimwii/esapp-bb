@@ -1,0 +1,5 @@
+appName: database
+port: 5432
+
+# fallback provided by the buildspec file
+DB_VERSION: 13.3

@@ -1,0 +1,53 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.appName }}
+  name: {{ .Values.appName }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.appName }}
+  template:
+    metadata:
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
+      labels:
+        app: {{ .Values.appName }}
+    spec:
+      containers:
+        - name: {{ .Values.appName }}
+          image: {{ .Values.image.repo }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: {{ .Values.port }}
+          resources:
+            requests:
+              memory: 100M
+          env:
+            - name: DB_HOST
+              value: {{ .Values.DB_HOST }}
+            - name: DB_PORT
+              value: "{{ .Values.DB_PORT }}"
+            - name: DB_NAME
+              value: {{ .Values.DB_NAME }}
+            - name: DB_USERNAME
+              value: {{ .Values.DB_USERNAME }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-password
+                  key: value
+            - name: JOTFORM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jotform-api-key
+                  key: value
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: value
+      restartPolicy: Always
