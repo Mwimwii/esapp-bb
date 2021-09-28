@@ -9,12 +9,12 @@ import { JWTRequired } from '@foal/jwt';
 import { Agreement } from 'app/models';
 
 const tenantsSchema = {
-    additionalProperties: false,
-    properties: {
-        ownerId: { type: 'number'}
-    },
-    required: ['ownerId'],
-    type: 'object'
+  additionalProperties: false,
+  properties: {
+    ownerId: { type: 'number'}
+  },
+  required: ['ownerId'],
+  type: 'object'
 };
 
 export class TenantsController {
@@ -26,14 +26,14 @@ export class TenantsController {
     const { ownerId } = ctx.request.body;
 
     const tenants = await Agreement.find({
-        relations: ['property', 'tenant'],
-        where: {
-            owner: ownerId
-        }
+      relations: ['property', 'tenant'],
+      where: {
+        owner: ownerId
+      }
     });
 
     return new HttpResponseOK({
-        tenants,
+      tenants,
     });
   }
 }
