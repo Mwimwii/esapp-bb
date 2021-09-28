@@ -2,12 +2,17 @@ FROM node:14
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+RUN mkdir -p /app/node_modules /app/dist
+RUN chown -R node:node /app/node_modules /app/dist
 
-COPY . .
+COPY --chown=node:node package.json yarn.lock ./
 
-RUN yarn install && yarn build
+RUN yarn install
+
+COPY --chown=node:node . .
 
 USER node
 
-CMD ["node", "./dist/server.js"]
+RUN yarn build
+
+CMD ["node", "./dist/index.js"]
