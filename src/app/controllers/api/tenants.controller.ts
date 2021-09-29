@@ -18,7 +18,7 @@ export class TenantsController {
   async tenants(ctx: Context) {
     const { ownerId } = ctx.request.params;
     const agreements = await Agreement.find({
-      relations: ['property', 'tenant'],
+      relations: ['property', 'tenant', 'paymentPlans'],
       where: {
         owner: ownerId
       }
