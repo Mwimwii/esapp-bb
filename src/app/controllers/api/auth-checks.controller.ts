@@ -3,11 +3,11 @@ import {
   Post,
   ValidateBody,
   HttpResponseOK,
+  dependency,
 } from '@foal/core';
-import { getConnection } from 'typeorm';
 
-import { User, Contact } from 'app/models';
-import { ContactDetailType } from 'app/enums/ContactDetailType';
+import { User } from 'app/models';
+import { UserContactRelationService } from 'app/services';
 
 const userExistsSchema = {
   additionalProperties: false,
@@ -21,46 +21,44 @@ const userExistsSchema = {
 const contactExistsSchema = {
   additionalProperties: false,
   properties: {
-    firstName: { type: 'string' },
-    lastName: { type: 'string' },
     phoneNumber: { type: 'number'},
   },
-  required: [ 'firstName', 'lastName', 'phoneNumber' ],
+  required: [ 'phoneNumber' ],
   type: 'object'
 }
 
 export class AuthChecksController {
+  @dependency
+  userContactRelationService: UserContactRelationService;
 
   @Post('/user-exists')
   @ValidateBody(userExistsSchema)
   async userExists(ctx: Context) {
     const user = await User.findOne({ email: ctx.request.body.email });
+    if (!user) {
+      return new HttpResponseOK({ isUser: false, hasPassword: false });
+    }
+    const hasPassword = user?.password !== null;
 
-    return new HttpResponseOK(Boolean(user));
+    return new HttpResponseOK({ isUser: true, hasPassword });
   }
 
   @Post('/contact-exists')
   @ValidateBody(contactExistsSchema)
   async contactExists(ctx: Context) {
-    const connection = getConnection();
+    const { phoneNumber } = ctx.request.body;
 
-    const { firstName, lastName, phoneNumber } = ctx.request.body;
+    const {
+      contactid,
+      userpassword,
+      userid
+    } = await this.userContactRelationService.detailsFromPhoneNumber(phoneNumber);
 
-    const contact = await connection.createQueryBuilder()
-      .select('contact.uuid')
-      .from(Contact, 'contact')
-      .innerJoin('contact.contactDetails', 'contactDetail')
-      .where('contact.firstName = :firstName', { firstName })
-      .where('contact.lastName = :lastName', { lastName })
-      .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
-      .where('contactDetail.contactDetailValue = :value', { value: phoneNumber })
-      .getOne();
-
-    if (contact) {
-      return new HttpResponseOK(contact.uuid);
+    if (contactid) {
+      return new HttpResponseOK({ isContact: true, isUser: Boolean(userid), hasPassword: Boolean(userpassword) });
     }
 
-    return new HttpResponseOK(false);
+    return new HttpResponseOK({ isContact: false, isUser: false, hasPassword: false });
   }
 
 }
