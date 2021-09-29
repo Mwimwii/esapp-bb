@@ -9,16 +9,16 @@ import {
 } from 'typeorm';
 import { Contact } from '.';
 
-@Entity()
+@Entity({ name: 'users' })
 export class User extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   password: string;
 
   @JoinColumn()
