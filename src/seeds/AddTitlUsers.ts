@@ -1,6 +1,5 @@
 import { Factory, Seeder } from 'typeorm-seeding'
 import { Connection } from 'typeorm'
-import { hashPassword } from '@foal/core';
 import { User } from '../app/models';
 
 export default class AddTitlUsers implements Seeder {
@@ -18,15 +17,13 @@ export default class AddTitlUsers implements Seeder {
       `sandra${extension}`,
     ];
 
-    const defaultPassword = process.env.DEFAULT_PASSWORD || 'password';
-
     for (const email of emails) {
       await connection
         .createQueryBuilder()
         .insert()
         .into(User)
         .values([
-          { email, password: await hashPassword(defaultPassword) },
+          { email },
         ])
         .execute()
     }

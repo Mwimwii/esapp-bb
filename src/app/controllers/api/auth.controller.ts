@@ -7,41 +7,68 @@ import {
   ValidateBody,
   verifyPassword,
   Env,
+  dependency,
 } from '@foal/core';
-
 import { getSecretOrPrivateKey, removeAuthCookie, setAuthCookie } from '@foal/jwt';
 import { sign } from 'jsonwebtoken';
 import { promisify } from 'util';
 
-import { User, Contact } from 'app/models';
+import { User } from 'app/models';
+import { UserContactRelationService } from 'app/services';
 
 const credentialsSchema = {
   additionalProperties: false,
   properties: {
     email: { type: 'string', format: 'email' },
     password: { type: 'string' },
-    uuid: { type: 'string'},
+    phoneNumber: { type: 'number'},
   },
-  required: [ 'email', 'password' ],
+  required: [ 'password' ],
   type: 'object',
 };
 
 export class AuthController {
+  @dependency
+  userContactRelationService: UserContactRelationService;
 
+  /**
+   * Signup
+   * @description Take in an email or phoneNumber and sign up the user.
+   * 1) If they have a phone number find the contact and assign that to the user
+   * and set the email address as null
+   * 2) If they have an email address, just assign the email address and set the
+   * password
+   * 3) Save the user and set the JWT token
+   */
   @Post('/signup')
   @ValidateBody(credentialsSchema)
   async signup(ctx: Context) {
-    const { email, password, uuid } = ctx.request.body;
-    const user = new User();
-    user.email = email;
-    user.password = await hashPassword(password);
+    const { email, password, phoneNumber } = ctx.request.body;
 
-    if (uuid) {
-      const contactId = await Contact.findOne({ uuid });
-      if (contactId) {
-        user.contact = contactId;
+    let user: User|undefined;
+    if (email) {
+      user = await User.findOne({
+        where: {
+          email,
+        }
+      });
+    }
+
+    if (phoneNumber) {
+      user = new User();
+
+      const contact = await this.userContactRelationService.contactModelFromPhoneNumber(phoneNumber);
+
+      if (contact) {
+        user.contact = contact;
       }
     }
+
+    if (!user) {
+      return new HttpResponseOK(false);
+    }
+
+    user.password = await hashPassword(password);
 
     await user.save();
 
@@ -59,12 +86,20 @@ export class AuthController {
   @Post('/login')
   @ValidateBody(credentialsSchema)
   async login(ctx: Context) {
-    const user = await User.findOne({
-      relations: ['contact'],
-      where: {
-        email: ctx.request.body.email
-      }
-    });
+    const { email, phoneNumber } = ctx.request.body;
+
+    let user;
+    if (email) {
+      user = await User.findOne({
+        relations: ['contact'],
+        where: {
+          email: ctx.request.body.email
+        }
+      });
+    }
+    if (phoneNumber) {
+      user = await this.userContactRelationService.userModelFromPhoneNumber(phoneNumber);
+    }
 
     if (!user) {
       return new HttpResponseUnauthorized();
