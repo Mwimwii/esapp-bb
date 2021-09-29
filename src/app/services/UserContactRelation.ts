@@ -1,4 +1,4 @@
-import { getConnection } from 'typeorm';
+import { getConnection, getManager } from 'typeorm';
 
 import { User, Contact, ContactDetail } from 'app/models';
 import { ContactDetailType } from 'app/enums/ContactDetailType';
@@ -46,17 +46,30 @@ export class UserContactRelationService {
     return contact;
   }
 
-  async userModelFromPhoneNumber(phoneNumber: number): Promise<User|undefined>{
+  /**
+   * User Model From Phone Number
+   * @desc query for a user model given a phone number and turn the results
+   * into a user object
+   * @see https://github.com/typeorm/typeorm/blob/master/docs/working-with-entity-manager.md
+   * @see https://stackoverflow.com/questions/62130381/how-to-initialize-an-entity-passing-in-an-object-using-typeorm
+   */
+  async userAndContactModelFromPhoneNumber(phoneNumber: number): Promise<User|undefined>{
     const connection = getConnection();
 
-    const user = await connection.createQueryBuilder()
-    .select('users')
+    const userValues = await connection.createQueryBuilder()
     .from(User, 'users')
     .leftJoinAndSelect(Contact, 'contact', 'users.contactId = contact.id')
     .leftJoinAndSelect(ContactDetail, 'contactDetail', 'contactDetail.contactId = contact.id')
     .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
     .andWhere('contactDetail.contactDetailValue = :value', { value: phoneNumber })
-    .getOne();
+    .select(['users', 'users.contactId as contact', 'users.id', 'users.email', 'users.password'])
+    .getRawOne();
+
+    // create a faux object with this raw data
+    const manager = getManager();
+    const user = manager.create(User, userValues);
+    const contact = manager.create(Contact, { id: userValues.contact });
+    user.contact = contact;
 
     return user;
   }
