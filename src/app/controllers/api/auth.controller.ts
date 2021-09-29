@@ -98,7 +98,7 @@ export class AuthController {
       });
     }
     if (phoneNumber) {
-      user = await this.userContactRelationService.userModelFromPhoneNumber(phoneNumber);
+      user = await this.userContactRelationService.userAndContactModelFromPhoneNumber(phoneNumber);
     }
 
     if (!user) {
