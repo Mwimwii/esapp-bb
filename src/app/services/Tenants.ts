@@ -15,7 +15,7 @@ export class TenantsService {
     const agreements = await Agreement.createQueryBuilder('agreement')
       .innerJoinAndSelect('agreement.property', 'property')
       .innerJoinAndSelect('agreement.tenant', 'tenant')
-      .innerJoinAndSelect('agreement.paymentPlans', 'paymentPlans',
+      .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans',
                           'paymentPlans.paymentType IN (:...paymentTypes)',
                           { paymentTypes })
       .where({
