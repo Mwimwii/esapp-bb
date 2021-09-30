@@ -7,41 +7,52 @@ import { AcquisitionType } from '../enums/AcquisitionType';
 
 @Entity()
 export class Agreement extends BaseTable {
-    @JoinColumn()
-    @ManyToOne(() => Property)
-    property: Property;
+  fieldsNoRelations() {
+    return {
+      secondaryTenants: this.secondaryTenants,
+      dateArrived: this.dateArrived,
+      requestedAgreementType: this.requestedAgreementType,
+      agreementType: this.agreementType,
+      acquisitionType: this.acquisitionType,
+      status: this.status,
+    }
+  }
 
-    @JoinColumn()
-    @ManyToOne(() => Contact)
-    owner: Contact;
+  @JoinColumn()
+  @ManyToOne(() => Property)
+  property: Property;
 
-    @JoinColumn()
-    @ManyToOne(() => Contact)
-    tenant: Contact;
+  @JoinColumn()
+  @ManyToOne(() => Contact)
+  owner: Contact;
 
-    @JoinTable()
-    @ManyToMany(() => Contact)
-    secondaryTenants: Contact[];
+  @JoinColumn()
+  @ManyToOne(() => Contact)
+  tenant: Contact;
 
-    @OneToMany(() => PaymentPlan, paymentPlan => paymentPlan.agreement, { cascade: true })
-    paymentPlans: PaymentPlan[];
+  @JoinTable()
+  @ManyToMany(() => Contact)
+  secondaryTenants: Contact[];
 
-    @Column('date', { nullable: true })
-    dateArrived: Date;
+  @OneToMany(() => PaymentPlan, paymentPlan => paymentPlan.agreement, { cascade: true })
+  paymentPlans: PaymentPlan[];
 
-    @Column({ type: 'enum', enum: AgreementType, nullable: true })
-    requestedAgreementType: AgreementType;
+  @Column('date', { nullable: true })
+  dateArrived: Date;
 
-    @Column({ type: 'enum', enum: AgreementType, nullable: true })
-    agreementType: AgreementType;
+  @Column({ type: 'enum', enum: AgreementType, nullable: true })
+  requestedAgreementType: AgreementType;
 
-    @Column({ type: 'enum', enum: AcquisitionType, nullable: true })
-    acquisitionType: AcquisitionType;
+  @Column({ type: 'enum', enum: AgreementType, nullable: true })
+  agreementType: AgreementType;
 
-    @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
-    status: AgreementStatus;
+  @Column({ type: 'enum', enum: AcquisitionType, nullable: true })
+  acquisitionType: AcquisitionType;
 
-    // Airtable.TenantID connects to Contact.airTableId
-    @Column()
-    airTableTenantId: string;
+  @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
+  status: AgreementStatus;
+
+  // Airtable.TenantID connects to Contact.airTableId
+  @Column()
+  airTableTenantId: string;
 }
