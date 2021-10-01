@@ -16,6 +16,7 @@ export class Ticket extends BaseTable {
     @Column({ type: 'enum', enum: SourceType })
     sourceType: SourceType;
 
+    // TODO need table index?
     @Column('int')
     sourceTypeId: number;
 
