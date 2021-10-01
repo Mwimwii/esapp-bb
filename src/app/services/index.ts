@@ -1,2 +1,2 @@
-export * from './Tenants';
+export * from './LandOwners';
 export * from './UserContactRelation';
