@@ -36,12 +36,13 @@ export class UserContactRelationService {
     const connection = getConnection();
 
     const contact = await connection.createQueryBuilder()
-    .select('contact.id')
+    .select(['contact.id', 'contact.firstName', 'contact.lastName'])
     .from(Contact, 'contact')
     .innerJoin('contact.contactDetails', 'contactDetail')
     .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
     .andWhere('contactDetail.contactDetailValue = :value', { value: phoneNumber })
     .getOne();
+    console.log(contact)
 
     return contact;
   }
@@ -62,13 +63,25 @@ export class UserContactRelationService {
     .leftJoinAndSelect(ContactDetail, 'contactDetail', 'contactDetail.contactId = contact.id')
     .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
     .andWhere('contactDetail.contactDetailValue = :value', { value: phoneNumber })
-    .select(['users', 'users.contactId as contact', 'users.id', 'users.email', 'users.password'])
+    .select([
+      'users',
+      'users.contactId as contact',
+      'users.id',
+      'users.email',
+      'users.password',
+      'contact.firstName as contact_first_name',
+      'contact.lastName as contact_last_name',
+    ])
     .getRawOne();
 
     // create a faux object with this raw data
     const manager = getManager();
     const user = manager.create(User, userValues);
-    const contact = manager.create(Contact, { id: userValues.contact });
+    const contact = manager.create(Contact, {
+      id: userValues.contact,
+      firstName: userValues.contact_first_name,
+      lastName: userValues.contact_last_name,
+    });
     user.contact = contact;
 
     return user;

@@ -25,6 +25,8 @@ export class UserController {
       id: user.id,
       email: user.email,
       contactId: userWithContact?.contact?.id || null,
+      firstName: userWithContact?.contact?.firstName || null,
+      lastName: userWithContact?.contact?.lastName || null,
     });
   }
 }
