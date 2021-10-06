@@ -76,6 +76,8 @@ export class AuthController {
       id: user.id,
       email: user.email,
       contactId: user.contact?.id || null,
+      firstName: user?.contact?.firstName || null,
+      lastName: user?.contact?.lastName || null,
     });
 
     await setAuthCookie(response, await this.createJWT(user));
@@ -98,7 +100,7 @@ export class AuthController {
       });
     }
     if (phoneNumber) {
-      user = await this.userContactRelationService.userModelFromPhoneNumber(phoneNumber);
+      user = await this.userContactRelationService.userAndContactModelFromPhoneNumber(phoneNumber);
     }
 
     if (!user) {
@@ -113,10 +115,15 @@ export class AuthController {
       id: user.id,
       email: user.email,
       contactId: user.contact?.id ?? null,
+      firstName: user?.contact?.firstName || null,
+      lastName: user?.contact?.lastName || null,
     });
 
     const token = await this.createJWT(user);
     await setAuthCookie(response, token);
+
+    user.lastLogin = new Date().toUTCString();
+    user.save();
 
     return response;
   }

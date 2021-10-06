@@ -28,6 +28,9 @@ export class User extends BaseEntity {
   @Column('timestamp')
   @CreateDateColumn()
   createdAt: string = new Date().toISOString();
+
+  @Column({ type: 'timestamp', nullable: true })
+  lastLogin: string;
 }
 
 export { DatabaseSession } from '@foal/typeorm';
