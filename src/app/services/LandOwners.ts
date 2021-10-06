@@ -24,7 +24,6 @@ export class LandOwnersService {
       })
       .getMany();
 
-
     return this.reorderByTenant(agreements);
   }
 
@@ -65,7 +64,7 @@ export class LandOwnersService {
       })
       .getRawMany();
 
-      return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
+    return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
   }
 
   /**
