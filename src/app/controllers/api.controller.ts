@@ -4,8 +4,8 @@ import { User } from 'app/models';
 import {
   AuthController,
   AuthChecksController,
-  TenantsController,
   UserController,
+  LandOwnersController,
 } from './api';
 
 @ApiInfo({
@@ -23,7 +23,7 @@ export class ApiController {
   subControllers = [
     controller('/auth', AuthController),
     controller('/auth-checks', AuthChecksController),
-    controller('/tenants', TenantsController),
+    controller('/land-owners', LandOwnersController),
     controller('/user', UserController),
   ];
 }
