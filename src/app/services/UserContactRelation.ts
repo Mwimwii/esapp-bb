@@ -42,7 +42,6 @@ export class UserContactRelationService {
     .where('contactDetail.contactDetailType = :type', { type: ContactDetailType.phone })
     .andWhere('contactDetail.contactDetailValue = :value', { value: phoneNumber })
     .getOne();
-    console.log(contact)
 
     return contact;
   }
