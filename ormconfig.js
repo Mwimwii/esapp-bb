@@ -9,7 +9,7 @@ module.exports = {
   password: Env.get("DB_PASSWORD") || "postgres",
   database: Env.get("DB_NAME") || "titldb",
 
-  synchronize: Boolean(Env.get("DB_SYNCHRONIZE")),
+  synchronize: Env.get("DB_SYNCHRONIZE") === 'true',
 
   entities: ["dist/app/models/*.js"],
   migrations: ["dist/migrations/*.js"],
