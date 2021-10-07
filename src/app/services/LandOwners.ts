@@ -24,7 +24,7 @@ export class LandOwnersService {
       })
       .getMany();
 
-    return this.reorderByTenant(agreements);
+    return this.reorderByTenantAgreements(agreements);
   }
 
   /**
@@ -67,12 +67,30 @@ export class LandOwnersService {
     return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
   }
 
+  async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
+    const agreement = await Agreement.findOne({
+      relations: ['property', 'tenant', 'paymentPlans'],
+      where: {
+        owner: ownerId,
+        tenant: {
+          uuid: tenantUuid
+        },
+      }
+    });
+
+    if (!agreement) {
+      return {};
+    }
+
+    return this.reorderByTenantAgreement(agreement);
+  }
+
   /**
    * Process Overview
    * @description take in some agreement tenant data and perform calculations on
    * the data to provide overview data
    */
-  processOverview(data: Partial<Agreement>[] & { totalPropertyCount: string }[]) {
+  private processOverview(data: Partial<Agreement>[] & { totalPropertyCount: string }[]) {
     const [{ totalPropertyCount: totalProperties }] = data;
 
     const overview = {
@@ -137,13 +155,20 @@ export class LandOwnersService {
   }
 
   /**
-   * Reorder By Tenant
+   * Reorder By Tenant Agreements
    * @description order all agreements by a tenant and use
    * the slim properties
    */
-  reorderByTenant(agreements: Agreement[]) {
+  private reorderByTenantAgreements(agreements: Agreement[]) {
     const tenants = agreements.map((agreement: Agreement) => {
-      const { property, tenant, paymentPlans } = agreement;
+      return this.reorderByTenantAgreement(agreement);
+    });
+
+    return tenants;
+  }
+
+  private reorderByTenantAgreement(agreement: Agreement) {
+    const { property, tenant, paymentPlans } = agreement;
       const slimTenant = tenant.fields();
       const slimAgreement = agreement.fieldsNoRelations();
 
@@ -158,9 +183,6 @@ export class LandOwnersService {
         agreement: slimAgreement,
         paymentPlan: paymentPlans.length > 0 ? paymentPlans[0] : [],
       }
-    });
-
-    return tenants;
   }
 
 }
