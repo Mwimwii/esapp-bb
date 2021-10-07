@@ -39,10 +39,10 @@ export class LandOwnersService {
    *      - Total money collected
    *      - Projected money to collect
    *  - Tenant status => enum: Agreement.status
-   *      - # of Tenants onboarded
+   *      - # of Tenants agreed
    *      - # of Tenants negotiated
    *      - # of Tenants identified
-   *      - # of Tenants defaulted
+   *      - # of Tenants erored
    *  - Requests (Tickets)
    *      - # of Land tickets
    *      - # of conflict tickets
@@ -82,7 +82,7 @@ export class LandOwnersService {
         agreed: this.agreementStatusCount(data, 'agreed'),
         negotiated: this.agreementStatusCount(data, 'negotiated'),
         identified: this.agreementStatusCount(data, 'identified'),
-        error: this.agreementStatusCount(data, 'error'),
+        hasError: this.agreementStatusCount(data, 'hasError'),
       }
     };
 
@@ -122,7 +122,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.negplanned
       ).length
       break;
-      case 'error':
+      case 'hasError':
         count = data.filter(
           agreement =>
             agreement.status === AgreementStatus.expired ||
