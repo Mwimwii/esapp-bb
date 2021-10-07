@@ -37,7 +37,10 @@ export class LandOwnersController {
   @Get('/:ownerId/tenant/:tenantUuid')
   async getTenantByLandowner(ctx: Context) {
     const { ownerId, tenantUuid } = ctx.request.params;
+    const tenant = await this.landOwnersService.getTenantAndPaymentPlan(tenantUuid, ownerId);
 
-    return [ownerId, tenantUuid];
+    return new HttpResponseOK({
+      tenant
+    });
   }
 }

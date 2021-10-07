@@ -20,6 +20,7 @@ export class Contact extends BaseTable {
       contactDetails: this.contactDetails,
       identifications: this.identifications,
       status: this.status,
+      lastModifiedDate: this.modifiedAt,
     }
   }
 
