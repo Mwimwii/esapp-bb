@@ -11,6 +11,13 @@ import { Contact } from '.';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
+  fields() {
+    return {
+      email: this.email,
+      contact: this.contact,
+      lastLogin: this.lastLogin,
+    }
+  }
 
   @PrimaryGeneratedColumn()
   id: number;
