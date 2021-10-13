@@ -37,7 +37,12 @@ export class UserController {
       where: {
         id: user.id
       },
-      relations: ['contact', 'contact.contactDetails'],
+      relations: [
+        'contact',
+        'contact.contactDetails',
+        'contact.propertyGroups',
+        'contact.propertyGroups.properties'
+      ],
     });
 
     return new HttpResponseOK(userWithContact?.fields());
