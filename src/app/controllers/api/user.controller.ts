@@ -29,4 +29,22 @@ export class UserController {
       lastName: userWithContact?.contact?.lastName || null,
     });
   }
+
+  @Get('/profile')
+  async profile(ctx: Context) {
+    const { user } = ctx;
+    const userWithContact = await User.findOne({
+      where: {
+        id: user.id
+      },
+      relations: [
+        'contact',
+        'contact.contactDetails',
+        'contact.propertyGroups',
+        'contact.propertyGroups.properties'
+      ],
+    });
+
+    return new HttpResponseOK(userWithContact?.fields());
+  }
 }
