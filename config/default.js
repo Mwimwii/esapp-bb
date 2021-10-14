@@ -17,7 +17,7 @@ module.exports = {
         domain: Env.get("JWT_COOKIE_DOMAIN"),
         httpOnly: Env.get("JWT_COOKIE_HTTP_ONLY"),
         sameSite: "strict",
-        secure: true,
+        secure: false,
       },
     },
   },
