@@ -5,10 +5,12 @@ import {
   dependency,
 } from '@foal/core';
 import { JWTRequired } from '@foal/jwt';
+import { RefreshJWT } from 'app/hooks';
 
 import { LandOwnersService } from 'app/services';
 
 @JWTRequired({ cookie: true})
+@RefreshJWT()
 export class LandOwnersController {
   @dependency
   landOwnersService: LandOwnersService;

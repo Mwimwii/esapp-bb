@@ -6,15 +6,12 @@ import {
   Post,
   ValidateBody,
   verifyPassword,
-  Env,
   dependency,
 } from '@foal/core';
-import { getSecretOrPrivateKey, removeAuthCookie, setAuthCookie } from '@foal/jwt';
-import { sign } from 'jsonwebtoken';
-import { promisify } from 'util';
+import { removeAuthCookie } from '@foal/jwt';
 
 import { User } from 'app/models';
-import { UserContactRelationService } from 'app/services';
+import { UserContactRelationService, AuthService } from 'app/services';
 
 const credentialsSchema = {
   additionalProperties: false,
@@ -30,6 +27,8 @@ const credentialsSchema = {
 export class AuthController {
   @dependency
   userContactRelationService: UserContactRelationService;
+  @dependency
+  authService: AuthService;
 
   /**
    * Signup
@@ -80,7 +79,7 @@ export class AuthController {
       lastName: user?.contact?.lastName || null,
     });
 
-    await setAuthCookie(response, await this.createJWT(user));
+    await this.authService.setCookie(user, response);
 
     return response;
   }
@@ -119,8 +118,7 @@ export class AuthController {
       lastName: user?.contact?.lastName || null,
     });
 
-    const token = await this.createJWT(user);
-    await setAuthCookie(response, token);
+    await this.authService.setCookie(user, response);
 
     user.lastLogin = new Date().toUTCString();
     user.save();
@@ -135,18 +133,4 @@ export class AuthController {
     return response;
   }
 
-  private async createJWT(user: User): Promise<string> {
-    const payload = {
-      email: user.email,
-      id: user.id,
-    };
-
-    const expiresIn = Env.get('JWT_COOKIE_LENGTH') || '1h';
-
-    return promisify(sign as any)(
-      payload,
-      getSecretOrPrivateKey(),
-      { expiresIn, subject: user.id.toString() }
-    );
-  }
 }
