@@ -56,7 +56,7 @@ export class LandOwnersService {
       // TODO select a ticket
       .addSelect(
         qb => qb.select('Count(*)', 'properties')
-        .from('property', 'property')
+        .from('properties', 'property')
         .where({ owner: ownerId }), 'totalPropertyCount'
       )
       .where({
