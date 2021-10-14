@@ -1,6 +1,6 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'tokens' })
 export class ApiToken extends BaseEntity {
 
   @PrimaryGeneratedColumn()
@@ -12,6 +12,6 @@ export class ApiToken extends BaseEntity {
   @Column({ unique: true })
   token: string;
 
-  @Column({ type: 'timestamp', nullable: true})
+  @Column({ type: 'timestamp', nullable: true })
   lastAccessedAt: string;
 }

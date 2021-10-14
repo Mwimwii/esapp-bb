@@ -3,7 +3,7 @@ import { Contact, Property } from '.';
 import { BaseTable } from './BaseTable';
 import { PropertyType } from '../enums/PropertyType';
 
-@Entity()
+@Entity({ name: 'property_groups' })
 export class PropertyGroup extends BaseTable {
     @Column('varchar', { length: 50, nullable: true })
     nickname: string;

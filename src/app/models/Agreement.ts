@@ -5,7 +5,7 @@ import { AgreementStatus } from '../enums/AgreementStatus';
 import { AgreementType } from '../enums/AgreementType';
 import { AcquisitionType } from '../enums/AcquisitionType';
 
-@Entity()
+@Entity({ name: 'agreements' })
 export class Agreement extends BaseTable {
   fieldsNoRelations() {
     return {

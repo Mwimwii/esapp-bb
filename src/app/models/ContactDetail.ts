@@ -4,7 +4,7 @@ import { BaseTable } from './BaseTable';
 import { ContactDetailStatus } from '../enums/ContactDetailStatus';
 import { ContactDetailType } from '../enums/ContactDetailType';
 
-@Entity()
+@Entity({ name: 'contact_details' })
 export class ContactDetail extends BaseTable {
     @Column({ type: 'enum', enum: ContactDetailType })
     contactDetailType: ContactDetailType;

@@ -4,7 +4,7 @@ import { BaseTable } from './BaseTable';
 import { IdentificationStatus } from '../enums/IdentificationStatus';
 import { IdentificationType } from '../enums/IdentificationType';
 
-@Entity()
+@Entity({ name: 'identifications' })
 export class Identification extends BaseTable {
 
     @JoinColumn()
