@@ -35,6 +35,8 @@ spec:
             value: {{ .Values.DB_USER }}
           - name: POSTGRES_DB
             value: {{ .Values.DB_NAME }}
+          - name: NODE_ENV
+            value: "production"
       restartPolicy: Always
       volumes:
       - name: postgres-volume
