@@ -14,7 +14,7 @@ module.exports = {
       secret: Env.get("JWT_SECRET"),
       cookie: {
         name: "titl",
-        domain: "titl.app",
+        domain: Env.get("JWT_COOKIE_DOMAIN"),
         httpOnly: Env.get("JWT_COOKIE_HTTP_ONLY"),
         sameSite: "strict",
         secure: true,
