@@ -7,7 +7,7 @@ import { TicketSeverity } from '../enums/TicketSeverity';
 import { TicketStatus } from '../enums/TicketStatus';
 
 
-@Entity()
+@Entity({ name: 'tickets' })
 export class Ticket extends BaseTable {
     @ManyToOne(() => Contact)
     @JoinColumn()
