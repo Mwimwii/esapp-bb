@@ -2,6 +2,7 @@ import { Entity, Column, OneToMany, Generated } from 'typeorm';
 import { ContactDetail } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
+import { PropertyGroup } from './PropertyGroup';
 import { ContactStatus } from '../enums/ContactStatus';
 import { ContactType } from '../enums/ContactType';
 
@@ -60,6 +61,9 @@ export class Contact extends BaseTable {
 
   @OneToMany(() => Identification, identification => identification.contact, { cascade: true })
   identifications: Identification[];
+
+  @OneToMany(() => PropertyGroup, propertyGroup => propertyGroup.owner, { cascade: true })
+  propertyGroups: PropertyGroup[];
 
   @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
