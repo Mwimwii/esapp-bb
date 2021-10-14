@@ -27,4 +27,10 @@ export abstract class BaseTable extends BaseEntity {
 
     @Column({ nullable: true })
     airTableParentId: string;
+
+    @Column({ nullable: true, /*unique: true*/ })
+    hubSpotId: string;
+
+    @Column({ nullable: true })
+    hubSpotParentId: string;
 }

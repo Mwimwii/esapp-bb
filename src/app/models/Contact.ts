@@ -6,7 +6,7 @@ import { PropertyGroup } from './PropertyGroup';
 import { ContactStatus } from '../enums/ContactStatus';
 import { ContactType } from '../enums/ContactType';
 
-@Entity()
+@Entity({ name: 'contacts' })
 export class Contact extends BaseTable {
   fields() {
     return {

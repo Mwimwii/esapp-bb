@@ -4,7 +4,7 @@ import { BaseTable } from './BaseTable';
 import { PropertyType } from '../enums/PropertyType';
 import { PropertyStatus } from '../enums/PropertyStatus';
 
-@Entity()
+@Entity({ name: 'properties' })
 export class Property extends BaseTable {
     @ManyToOne(() => PropertyGroup, propertyGroup => propertyGroup.properties)
     propertyGroup: PropertyGroup;

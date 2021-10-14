@@ -2,7 +2,7 @@ import { Entity, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { User } from '.';
 import { BaseTable } from './BaseTable';
 
-@Entity()
+@Entity({ name: 'magic_codes' })
 export class MagicCode extends BaseTable {
     @JoinColumn()
     @ManyToOne(() => User)

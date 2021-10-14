@@ -5,7 +5,7 @@ import { Property } from './Property';
 import { BaseTable } from './BaseTable';
 
 
-@Entity()
+@Entity({ name: 'relationships' })
 export class Relationship extends BaseTable {
     @JoinColumn()
     @ManyToOne(() => Contact)
