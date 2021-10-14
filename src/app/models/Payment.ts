@@ -5,7 +5,7 @@ import { PaymentMethod } from '../enums/PaymentMethod';
 import { PaymentStatus } from '../enums/PaymentStatus';
 import { PaymentType } from '../enums/PaymentType';
 
-@Entity()
+@Entity({ name: 'payments' })
 export class Payment extends BaseTable {
     @JoinColumn()
     @ManyToOne(() => PaymentPlan)

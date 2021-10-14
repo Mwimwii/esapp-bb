@@ -3,12 +3,12 @@ import { Column, Entity } from 'typeorm';
 import { BaseTable } from './BaseTable';
 
 
-@Entity()
+@Entity({ name: 'attachments' })
 export class Attachment extends BaseTable {
-    @Column('int')
+    @Column('int', { nullable: true })
     sourceTypeId: number;
 
-    @Column()
+    @Column({ nullable: true })
     sourceType: string;
 
     @Column()

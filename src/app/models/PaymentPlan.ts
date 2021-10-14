@@ -8,7 +8,7 @@ import { PaymentType } from '../enums/PaymentType';
 
 
 
-@Entity()
+@Entity({ name: 'payment_plans' })
 export class PaymentPlan extends BaseTable {
 
     @JoinColumn()
