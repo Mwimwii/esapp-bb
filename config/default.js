@@ -14,10 +14,10 @@ module.exports = {
       secret: Env.get("JWT_SECRET"),
       cookie: {
         name: "titl",
-        domain: Env.get("JWT_COOKIE_DOMAIN"),
+        domain: "admin.titl.app",
         httpOnly: Env.get("JWT_COOKIE_HTTP_ONLY"),
         sameSite: "strict",
-        secure: false,
+        secure: true,
       },
     },
   },
