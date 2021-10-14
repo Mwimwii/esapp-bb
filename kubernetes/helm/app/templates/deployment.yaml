@@ -27,6 +27,8 @@ spec:
             requests:
               memory: 100M
           env:
+            - name: NODE_ENV
+              value: "production"
             - name: DB_HOST
               value: {{ .Values.DB_HOST }}
             - name: DB_PORT
@@ -55,5 +57,5 @@ spec:
             - name: JWT_COOKIE_HTTP_ONLY
               value: "{{ .Values.JWT_COOKIE_HTTP_ONLY }}"
             - name: JWT_COOKIE_DOMAIN
-              value: "*.{{ .Values.ROOT_DOMAIN }}"
+              value: {{ .Values.ROOT_DOMAIN }}
       restartPolicy: Always
