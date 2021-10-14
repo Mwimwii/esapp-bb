@@ -50,4 +50,10 @@ spec:
                 secretKeyRef:
                   name: jwt-secret
                   key: value
+            - name: JWT_COOKIE_LENGTH
+              value: {{ .Values.JWT_COOKIE_LENGTH }}
+            - name: JWT_COOKIE_HTTP_ONLY
+              value: "{{ .Values.JWT_COOKIE_HTTP_ONLY }}"
+            - name: JWT_COOKIE_DOMAIN
+              value: "*.{{ .Values.ROOT_DOMAIN }}"
       restartPolicy: Always

@@ -5,9 +5,11 @@ import {
 } from '@foal/core';
 import { JWTRequired } from '@foal/jwt';
 
+import { RefreshJWT } from 'app/hooks';
 import { User } from 'app/models';
 
 @JWTRequired({ cookie: true})
+@RefreshJWT()
 export class UserController {
 
   @Get('/current')
