@@ -1,6 +1,9 @@
 appName: backend
 port: 8000
 
+JWT_COOKIE_LENGTH: '30m'
+JWT_COOKIE_HTTP_ONLY: false
+
 # this should be included as a buildspec flag
 image:
   repo: 310085674180.dkr.ecr.eu-central-1.amazonaws.com/backend:main-latest
