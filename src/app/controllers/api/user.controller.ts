@@ -1,12 +1,25 @@
 import {
   Context,
   HttpResponseOK,
+  HttpResponseNotOk,
   Get,
+  hashPassword,
+  Post,
+  ValidateBody,
 } from '@foal/core';
 import { JWTRequired } from '@foal/jwt';
 
 import { RefreshJWT } from 'app/hooks';
 import { User } from 'app/models';
+
+const credentialsSchema = {
+  additionalProperties: false,
+  properties: {
+    password: { type: 'string' },
+  },
+  required: [ 'password' ],
+  type: 'object',
+};
 
 @JWTRequired({ cookie: true})
 @RefreshJWT()
@@ -49,4 +62,30 @@ export class UserController {
 
     return new HttpResponseOK(userWithContact?.fields());
   }
+
+  @Post('/update-password')
+  @ValidateBody(credentialsSchema)
+  async updatePassword(ctx: Context) {
+    const { user } = ctx;
+    const { password} = ctx.request.body;
+
+    const dbUser = await User.findOne({
+      where: {
+        id: user.id
+      },
+    });
+
+    if (!dbUser) {
+      return new HttpResponseNotOk();
+    }
+
+    dbUser.password = await hashPassword(password);
+
+    await dbUser.save();
+
+    const response = new HttpResponseOK(true);
+
+    return response;
+  }
+
 }

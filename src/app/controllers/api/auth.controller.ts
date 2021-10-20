@@ -7,6 +7,7 @@ import {
   ValidateBody,
   verifyPassword,
   dependency,
+  Env,
 } from '@foal/core';
 import { removeAuthCookie } from '@foal/jwt';
 
@@ -116,6 +117,7 @@ export class AuthController {
       contactId: user.contact?.id ?? null,
       firstName: user?.contact?.firstName || null,
       lastName: user?.contact?.lastName || null,
+      passwordUpdateRequired: ctx.request.body.password === Env.get('DEFAULT_PASSWORD'),
     });
 
     await this.authService.setCookie(user, response);
@@ -132,5 +134,4 @@ export class AuthController {
     removeAuthCookie(response);
     return response;
   }
-
 }
