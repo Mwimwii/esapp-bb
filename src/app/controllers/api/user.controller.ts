@@ -1,7 +1,7 @@
 import {
   Context,
   HttpResponseOK,
-  HttpResponseNotOk,
+  HttpResponseUnauthorized,
   Get,
   hashPassword,
   Post,
@@ -76,7 +76,7 @@ export class UserController {
     });
 
     if (!dbUser) {
-      return new HttpResponseNotOk();
+      return new HttpResponseUnauthorized();
     }
 
     dbUser.password = await hashPassword(password);
