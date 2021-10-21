@@ -28,20 +28,20 @@ export class UserController {
   @Get('/current')
   async current(ctx: Context) {
     const { user } = ctx;
-    const userWithContact = await User.findOne({
+    const userWithJoins = await User.findOne({
       where: {
         id: user.id
       },
-      relations: ['contact'],
+      relations: ['contact', 'administrator'],
     });
 
 
     return new HttpResponseOK({
       id: user.id,
       email: user.email,
-      contactId: userWithContact?.contact?.id || null,
-      firstName: userWithContact?.contact?.firstName || null,
-      lastName: userWithContact?.contact?.lastName || null,
+      contactId: userWithJoins?.contact?.id || null,
+      firstName: userWithJoins?.contact?.firstName || userWithJoins?.administrator.firstName || null,
+      lastName: userWithJoins?.contact?.lastName || userWithJoins?.administrator.lastName || null,
     });
   }
 
