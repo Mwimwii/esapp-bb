@@ -84,7 +84,7 @@ export default class AddTitlUsers implements Seeder {
     const defaultPassword = process.env.DEFAULT_PASSWORD || 'password';
 
     for (const admin of admins) {
-      const { email, firstName, lastName, team } = admin;
+      const { email, firstName, lastName, team, superadmin } = admin;
       const insertedUser = await connection
         .createQueryBuilder()
         .insert()
@@ -101,7 +101,7 @@ export default class AddTitlUsers implements Seeder {
         .insert()
         .into(Administrator)
         .values([
-          { firstName, lastName, team, user: userId },
+          { firstName, lastName, team, user: userId, superadmin },
         ])
         .execute()
     }
