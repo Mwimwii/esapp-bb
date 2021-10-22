@@ -13,43 +13,71 @@ export default class AddTitlUsers implements Seeder {
         email: `khaliq${extension}`,
         firstName: 'Khaliq',
         lastName: 'Gant',
-        team: 'engineering'
+        team: 'engineering',
+        superadmin: true,
       },
       {
         email: `zachary${extension}`,
         firstName: 'Zachary',
         lastName: 'Mugabi',
         team: 'management',
+        superadmin: true,
       },
       {
         email: `benjamin${extension}`,
         firstName: 'Benjamin',
         lastName: 'Øien',
         team: 'management',
+        superadmin: true,
       },
       {
         email: `ham${extension}`,
         firstName: 'Ham',
         lastName: 'Lubega',
         team: 'truesoil',
+        superadmin: false,
       },
       {
         email: `isaac${extension}`,
         firstName: 'Isaac',
         lastName: 'Obote',
-        team: 'engineering'
+        team: 'engineering',
+        superadmin: false,
       },
       {
         email: `patrick${extension}`,
         firstName: 'Patrick',
         lastName: 'Kahango',
         team: 'truesoil',
+        superadmin: false,
       },
       {
         email: `sandra${extension}`,
         firstName: 'Sandra',
         lastName: 'Nanteza',
         team: 'truesoil',
+        superadmin: false,
+      },
+      {
+        email: `victor${extension}`,
+        firstName: 'Victor',
+        lastName: 'Lubanga',
+        team: 'truesoil',
+        superadmin: false,
+      },
+      {
+        email: `edith${extension}`,
+        firstName: 'Edith',
+        lastName: 'Ndagire',
+        team: 'truesoil',
+        superadmin: false,
+      },
+      {
+        email: `olwenyi${extension}`,
+        firstName: 'Olwenyi',
+        lastName: 'Ronald',
+        team: 'truesoil',
+        superadmin: false,
       },
     ]
 

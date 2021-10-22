@@ -14,6 +14,9 @@ export class Administrator extends BaseTable {
   @Column('varchar', { length: 50, nullable: true })
   team: string;
 
+  @Column('boolean')
+  superadmin: boolean;
+
   @JoinColumn()
   @OneToOne(() => User, user => user.administrator)
   user: User;
