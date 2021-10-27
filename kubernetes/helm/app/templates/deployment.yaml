@@ -58,4 +58,9 @@ spec:
               value: "{{ .Values.JWT_COOKIE_HTTP_ONLY }}"
             - name: JWT_COOKIE_DOMAIN
               value: {{ .Values.ROOT_DOMAIN }}
+            - name: DEFAULT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: default-password
+                  key: value
       restartPolicy: Always

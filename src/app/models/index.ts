@@ -12,3 +12,5 @@ export { Relationship } from './Relationship';
 export { Ticket } from './Ticket';
 export { BaseTable } from './BaseTable';
 export { ApiToken } from './ApiToken';
+export { Conflict } from './Conflict';
+export { Administrator } from './Administrator';
