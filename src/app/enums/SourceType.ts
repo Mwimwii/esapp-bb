@@ -4,6 +4,7 @@ export enum SourceType {
     contact = 'Contact',
     contactDetail = 'ContactDetail',
     identification = 'Identification',
+    profile = 'Profile',
     payment = 'Payment',
     paymentPlan = 'Payment Plan',
     property = 'Property',

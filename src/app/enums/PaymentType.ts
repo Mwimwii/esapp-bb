@@ -6,4 +6,6 @@ export enum PaymentType {
     sale = 'Sale',
     deposit = 'Deposit',
     utlities = 'Utlities',
+    kanzu = 'Kanzu',
+    busulu = 'Busulu'
 }
