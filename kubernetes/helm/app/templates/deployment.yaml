@@ -61,6 +61,6 @@ spec:
             - name: DEFAULT_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: default-password
+                  name: default-user-password
                   key: value
       restartPolicy: Always
