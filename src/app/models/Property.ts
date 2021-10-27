@@ -1,8 +1,9 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
-import { Agreement, Contact, PropertyGroup } from '.';
+import { Agreement, Conflict, Contact, PropertyGroup } from '.';
 import { BaseTable } from './BaseTable';
 import { PropertyType } from '../enums/PropertyType';
 import { PropertyStatus } from '../enums/PropertyStatus';
+import { MeasurementType } from '../enums/MeasurementType';
 
 @Entity({ name: 'properties' })
 export class Property extends BaseTable {
@@ -29,7 +30,7 @@ export class Property extends BaseTable {
     @Column('varchar', { length: 50, nullable: true })
     plotNo: string;
 
-    @ManyToOne(() => Contact)
+    @ManyToOne(() => Contact, { cascade: true })
     @JoinColumn()
     lC: Contact;
 
@@ -39,8 +40,11 @@ export class Property extends BaseTable {
     @Column({ type: 'enum', enum: PropertyType })
     propertyType: PropertyType;
 
-    @Column('int', { nullable: true })
-    sizeSqf: number;
+    @Column('varchar', { length: 25, nullable: true })
+    sizeSqf: string;
+
+    @Column({ type: 'enum', enum: MeasurementType, default: MeasurementType.sqft, nullable: true })
+    sizeUnit: MeasurementType;
 
     @Column('varchar', { length: 50, nullable: true })
     geospatial: string;
@@ -57,4 +61,7 @@ export class Property extends BaseTable {
 
     @OneToMany(() => Agreement, agreement => agreement.property, { cascade: true })
     agreements: Agreement[];
+
+    @OneToMany(() => Conflict, conflict => conflict.property, { cascade: true })
+    conflicts: Conflict[];
 }

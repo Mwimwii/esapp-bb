@@ -4,6 +4,7 @@ import { BaseTable } from './BaseTable';
 import { AgreementStatus } from '../enums/AgreementStatus';
 import { AgreementType } from '../enums/AgreementType';
 import { AcquisitionType } from '../enums/AcquisitionType';
+import { PropertyUseType } from '../enums/PropertyUseType';
 
 @Entity({ name: 'agreements' })
 export class Agreement extends BaseTable {
@@ -43,16 +44,22 @@ export class Agreement extends BaseTable {
   @Column({ type: 'enum', enum: AgreementType, nullable: true })
   requestedAgreementType: AgreementType;
 
+  @Column({ type: 'simple-array', nullable: true })
+  otherAgreementTypes: AgreementType[];
+
   @Column({ type: 'enum', enum: AgreementType, nullable: true })
   agreementType: AgreementType;
 
   @Column({ type: 'enum', enum: AcquisitionType, nullable: true })
   acquisitionType: AcquisitionType;
 
+  @Column({ type: 'simple-array', nullable: true })
+  propertUseType: PropertyUseType[];
+
   @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
   status: AgreementStatus;
 
   // Airtable.TenantID connects to Contact.airTableId
-  @Column()
+  @Column({ nullable: true })
   airTableTenantId: string;
 }

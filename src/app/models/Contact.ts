@@ -53,7 +53,7 @@ export class Contact extends BaseTable {
   @Column({ type: 'enum', enum: ContactType })
   contactType: ContactType;
 
-  @Column('simple-array', { default: ['en'] })
+  @Column('simple-array', { default: 'en' })
   languages: string[];
 
   @OneToMany(() => ContactDetail, contactDetail => contactDetail.contact, { cascade: true })

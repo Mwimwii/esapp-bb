@@ -7,7 +7,7 @@ import {
   JoinColumn,
   CreateDateColumn,
 } from 'typeorm';
-import { Contact } from '.';
+import { Contact, Administrator } from '.';
 
 @Entity({ name: 'users' })
 export class User extends BaseEntity {
@@ -31,6 +31,9 @@ export class User extends BaseEntity {
   @JoinColumn()
   @OneToOne(() => Contact)
   contact: Contact;
+
+  @OneToOne(() => Administrator, administrator => administrator.user)
+  administrator: Contact;
 
   @Column('timestamp')
   @CreateDateColumn()
