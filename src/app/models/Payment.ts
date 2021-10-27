@@ -14,28 +14,28 @@ export class Payment extends BaseTable {
     @Column({ type: 'enum', enum: PaymentType })
     paymentType: PaymentType;
 
-    @Column()
+    @Column({ nullable: true })
     paidBy: string;
 
     @Column('numeric')
     amount: number;
 
-    @Column('timestamp')
+    @Column('timestamp', { nullable: true })
     initiationDate: Date;
 
-    @Column('timestamp')
+    @Column('timestamp', { nullable: true })
     completionDate: Date;
 
     @Column({ type: 'enum', enum: PaymentMethod })
     paymentMethod: PaymentMethod;
 
-    @Column()
+    @Column({ nullable: true })
     paidTo: string;
 
-    @Column()
+    @Column({ nullable: true })
     paymentReference: string;
 
-    @Column('timestamp')
+    @Column('timestamp', { nullable: true })
     verifiedAt: string = new Date().toISOString();
 
     @JoinColumn()

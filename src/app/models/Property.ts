@@ -30,7 +30,7 @@ export class Property extends BaseTable {
     @Column('varchar', { length: 50, nullable: true })
     plotNo: string;
 
-    @ManyToOne(() => Contact, { cascade: true })
+    @ManyToOne(() => Contact)
     @JoinColumn()
     lC: Contact;
 

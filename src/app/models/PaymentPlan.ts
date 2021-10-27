@@ -1,5 +1,5 @@
-import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { Agreement } from '.';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Agreement, Payment } from '.';
 import { BaseTable } from './BaseTable';
 import { PaymentCurrency } from '../enums/PaymentCurrency';
 import { PaymentCycle } from '../enums/PaymentCycle';
@@ -20,6 +20,9 @@ export class PaymentPlan extends BaseTable {
 
     @Column('numeric', { default: 0 })
     baseAmount: number;
+
+    @Column('numeric', { nullable: true, default: 0 })
+    requestedAmount: number;
 
     @Column('numeric', { default: 0 })
     agreedAmount: number;
@@ -59,5 +62,8 @@ export class PaymentPlan extends BaseTable {
 
     @Column({ type: 'enum', enum: PaymentPlanStatus })
     status: PaymentPlanStatus;
+
+    @OneToMany(() => Payment, payment => payment.paymentPlan, { cascade: true })
+    payments: Payment[];
 
 }
