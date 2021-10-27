@@ -59,6 +59,12 @@ export class Agreement extends BaseTable {
   @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
   status: AgreementStatus;
 
+  @Column({ type: 'simple-array', nullable: true })
+  namedNeighbors: string[];
+
+  @Column({ type: 'simple-array', nullable: true })
+  namedVerifiers: string[];
+
   // Airtable.TenantID connects to Contact.airTableId
   @Column({ nullable: true })
   airTableTenantId: string;
