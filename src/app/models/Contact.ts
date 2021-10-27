@@ -1,4 +1,4 @@
-import { Entity, Column, OneToMany, Generated } from 'typeorm';
+import { Entity, Column, OneToMany, Generated, JoinColumn, ManyToOne } from 'typeorm';
 import { ContactDetail } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
@@ -31,6 +31,9 @@ export class Contact extends BaseTable {
   @Column('varchar', { length: 50, nullable: true })
   lastName: string;
 
+  @Column('varchar', { length: 50, nullable: true })
+  nickName: string;
+
   @Column('varchar', { length: 2, default: 'O' })
   gender: string;
 
@@ -56,6 +59,10 @@ export class Contact extends BaseTable {
   @Column('simple-array', { default: 'en' })
   languages: string[];
 
+  @ManyToOne(() => Contact)
+  @JoinColumn()
+  parentSpouse: Contact;
+
   @OneToMany(() => ContactDetail, contactDetail => contactDetail.contact, { cascade: true })
   contactDetails: ContactDetail[];
 
@@ -64,6 +71,9 @@ export class Contact extends BaseTable {
 
   @OneToMany(() => PropertyGroup, propertyGroup => propertyGroup.owner, { cascade: true })
   propertyGroups: PropertyGroup[];
+
+  @OneToMany(() => Contact, contact => contact.parentSpouse, { cascade: true })
+  spouses: Contact[];
 
   @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
