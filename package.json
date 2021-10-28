@@ -8,7 +8,7 @@
     "start": "npm run build && concurrently \"tsc -p tsconfig.app.json -w\" \"supervisor -w ./dist,./config -e js,json,yml --no-restart-on error ./dist/index.js\"",
     "build": "foal rmdir dist && tsc -p tsconfig.app.json",
     "build:test": "foal rmdir dist && tsc -p tsconfig.test.json",
-    "start:test": "mocha -r module-alias/register --file ./dist/test.js \"./dist/**/*.spec.js\"",
+    "start:test": "mocha -r module-alias/register --file ./dist/test.js \"./dist/**/*.spec.js\" --ignore 'dist/node_modules/**/*'",
     "test": "npm run build:test && npm run start:test",
     "test:watch": "npm run build:test && concurrently \"tsc -p tsconfig.test.json -w\" \"mocha --file ./dist/test.js -w \\\"./dist/**/*.spec.js\\\"\"",
     "build:e2e": "foal rmdir dist && tsc -p tsconfig.e2e.json",
