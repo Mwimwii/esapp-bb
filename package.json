@@ -32,7 +32,6 @@
     "@foal/jwt": "^2.5.0",
     "@foal/typeorm": "^2.0.0",
     "@titl-all/shared": "1.0.0",
-    "axios": "^0.24.0",
     "express": "4.17.1",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
