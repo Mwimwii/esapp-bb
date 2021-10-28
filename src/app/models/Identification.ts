@@ -1,8 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from '.';
 import { BaseTable } from './BaseTable';
-import { IdentificationStatus } from '../enums/IdentificationStatus';
-import { IdentificationType } from '../enums/IdentificationType';
+import { IdentificationStatus, IdentificationType } from '@titl-all/shared';
 
 @Entity({ name: 'identifications' })
 export class Identification extends BaseTable {

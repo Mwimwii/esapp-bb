@@ -1,10 +1,12 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
 import { Contact, PaymentPlan, Property } from '.';
 import { BaseTable } from './BaseTable';
-import { AgreementStatus } from '../enums/AgreementStatus';
-import { AgreementType } from '../enums/AgreementType';
-import { AcquisitionType } from '../enums/AcquisitionType';
-import { PropertyUseType } from '../enums/PropertyUseType';
+import {
+  AgreementStatus,
+  AgreementType,
+  AcquisitionType,
+  PropertyUseType,
+} from '@titl-all/shared';
 
 @Entity({ name: 'agreements' })
 export class Agreement extends BaseTable {

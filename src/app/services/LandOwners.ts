@@ -1,6 +1,5 @@
 import { Agreement } from 'app/models';
-import { PaymentType } from 'app/enums/PaymentType';
-import { AgreementStatus } from '../enums/AgreementStatus';
+import { PaymentType, AgreementStatus } from '@titl-all/shared';
 
 export class LandOwnersService {
 

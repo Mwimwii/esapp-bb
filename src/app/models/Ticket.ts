@@ -1,10 +1,13 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from '.';
 import { BaseTable } from './BaseTable';
-import { SourceType } from '../enums/SourceType';
-import { TicketType } from '../enums/TicketType';
-import { TicketSeverity } from '../enums/TicketSeverity';
-import { TicketStatus } from '../enums/TicketStatus';
+
+import {
+  SourceType,
+  TicketType,
+  TicketSeverity,
+  TicketStatus,
+} from '@titl-all/shared';
 
 
 @Entity({ name: 'tickets' })

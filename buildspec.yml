@@ -39,6 +39,7 @@ phases:
       - echo Building the Docker image...
       - |
         docker build -f ./docker/Dockerfile \
+          --build-arg GITHUB_ACCESS_TOKEN \
           -t $IMAGE_REPO_NAME:$IMAGE_TAG \
           -t $IMAGE_REPO_NAME:$LATEST .
       - |
