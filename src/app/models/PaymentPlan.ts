@@ -1,10 +1,12 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { Agreement, Payment } from '.';
 import { BaseTable } from './BaseTable';
-import { PaymentCurrency } from '../enums/PaymentCurrency';
-import { PaymentCycle } from '../enums/PaymentCycle';
-import { PaymentPlanStatus } from '../enums/PaymentPlanStatus';
-import { PaymentType } from '../enums/PaymentType';
+import {
+  PaymentCurrency,
+  PaymentCycle,
+  PaymentPlanStatus,
+  PaymentType,
+} from '@titl-all/shared';
 
 
 
