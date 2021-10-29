@@ -7,7 +7,7 @@ import {
   TicketType,
   TicketSeverity,
   TicketStatus,
-} from '@titl-all/shared';
+} from '@titl-all/shared/dist/enum';
 
 
 @Entity({ name: 'tickets' })

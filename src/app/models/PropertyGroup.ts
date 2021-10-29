@@ -1,7 +1,7 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Contact, Property } from '.';
 import { BaseTable } from './BaseTable';
-import { PropertyType } from '@titl-all/shared';
+import { PropertyType } from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'property_groups' })
 export class PropertyGroup extends BaseTable {

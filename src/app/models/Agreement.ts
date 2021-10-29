@@ -6,7 +6,7 @@ import {
   AgreementType,
   AcquisitionType,
   PropertyUseType,
-} from '@titl-all/shared';
+} from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'agreements' })
 export class Agreement extends BaseTable {

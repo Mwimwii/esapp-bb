@@ -3,7 +3,7 @@ import { ContactDetail } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
 import { PropertyGroup } from './PropertyGroup';
-import { ContactStatus, ContactType } from '@titl-all/shared';
+import { ContactStatus, ContactType } from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable {

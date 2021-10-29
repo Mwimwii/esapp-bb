@@ -5,7 +5,7 @@ import {
   PaymentMethod,
   PaymentStatus,
   PaymentType,
-} from '@titl-all/shared';
+} from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'payments' })
 export class Payment extends BaseTable {

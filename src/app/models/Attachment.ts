@@ -1,5 +1,5 @@
 import { Column, Entity } from 'typeorm';
-import { AttachmentStatus } from '@titl-all/shared';
+import { AttachmentStatus } from '@titl-all/shared/dist/enum';
 import { BaseTable } from './BaseTable';
 
 
