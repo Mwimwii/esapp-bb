@@ -6,7 +6,7 @@ import {
   PaymentCycle,
   PaymentPlanStatus,
   PaymentType,
-} from '@titl-all/shared';
+} from '@titl-all/shared/dist/enum';
 
 
 

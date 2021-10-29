@@ -1,7 +1,7 @@
 import { getConnection, getManager } from 'typeorm';
 
 import { User, Contact, ContactDetail } from 'app/models';
-import { ContactDetailType } from '@titl-all/shared';
+import { ContactDetailType } from '@titl-all/shared/dist/enum';
 
 interface UserAndContact {
   contactid?: number;

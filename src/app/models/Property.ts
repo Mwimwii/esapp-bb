@@ -5,7 +5,7 @@ import {
   PropertyType,
   PropertyStatus,
   MeasurementType,
-} from '@titl-all/shared';
+} from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'properties' })
 export class Property extends BaseTable {
