@@ -9,11 +9,11 @@ RUN chown -R node:node /app/node_modules /app/dist
 
 COPY --chown=node:node package.json yarn.lock ./
 
+COPY --chown=node:node . .
+
 RUN echo "//npm.pkg.github.com/:_authToken=${GITHUB_ACCESS_TOKEN}" >> /app/.npmrc
 
 RUN yarn install
-
-COPY --chown=node:node . .
 
 USER node
 
