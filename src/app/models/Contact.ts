@@ -3,8 +3,8 @@ import { ContactDetail } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
 import { PropertyGroup } from './PropertyGroup';
-import { ContactStatus } from '../enums/ContactStatus';
-import { ContactType } from '../enums/ContactType';
+import { ContactStatus, ContactType, Language } from '@titl-all/shared/dist/enum';
+
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable {
@@ -57,7 +57,7 @@ export class Contact extends BaseTable {
   contactType: ContactType;
 
   @Column('simple-array', { default: 'en' })
-  languages: string[];
+  languages: Language[];
 
   @ManyToOne(() => Contact)
   @JoinColumn()

@@ -1,8 +1,7 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Contact } from '.';
 import { BaseTable } from './BaseTable';
-import { ContactDetailStatus } from '../enums/ContactDetailStatus';
-import { ContactDetailType } from '../enums/ContactDetailType';
+import { ContactDetailStatus, ContactDetailType } from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'contact_details' })
 export class ContactDetail extends BaseTable {
