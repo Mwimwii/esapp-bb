@@ -4,6 +4,8 @@ Setup
 # Installation
 * You need to install [yarn](https://yarnpkg.com/) as that is this application’s
 package manager
+* In order to install dependencies you need to get your auth setup. See the [getting-started](https://github.com/titl-all/frontend#getting-started)
+in the frontend repo for more info.
 * Once yarn is installed you need to install the app’s dependencies:
 ```
 yarn

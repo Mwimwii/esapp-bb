@@ -1,9 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { PaymentPlan, User } from '.';
 import { BaseTable } from './BaseTable';
-import { PaymentMethod } from '../enums/PaymentMethod';
-import { PaymentStatus } from '../enums/PaymentStatus';
-import { PaymentType } from '../enums/PaymentType';
+import {
+  PaymentMethod,
+  PaymentStatus,
+  PaymentType,
+} from '@titl-all/shared/dist/enum';
 
 @Entity({ name: 'payments' })
 export class Payment extends BaseTable {
