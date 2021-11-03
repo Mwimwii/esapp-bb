@@ -207,10 +207,10 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@2.0.0":
-  version "2.0.0"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/2.0.0/e501ebb9541ace95524473e1380f32fa16f5c1dde891a4c3c6a39fe801863945#344f8d64113134e4b1e92b1dc425fbc0c977ace1"
-  integrity sha512-4caCL7TpEPr7Hi1gA40skxQ9hrO09cUhKOMNlc8aSt/NHyiRfFRjtDqaqVQD03kE811KxyextwpLDXjxE9aB+g==
+"@titl-all/shared@2.0.1":
+  version "2.0.1"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/2.0.1/420dc336077e6475f40ed0da6bf7839c32b3a644fc47ea7bac630d9720f4b52e#be9f6ce95c9a10ab5119897e7b960ef91ab8022e"
+  integrity sha512-h8S1Dm6+4GoVvJ1Eid7DBxkj/DW5VXLl5LXe29QF78BLWxEMQNsFGdnEMiR0TolPi2NCdS37QkFM/njcRPdIpw==
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
