@@ -1,5 +1,6 @@
-import { Agreement } from 'app/models';
+import { Agreement, Property } from 'app/models';
 import { PaymentType, AgreementStatus } from '@titl-all/shared/dist/enum';
+import { PaymentPlanAPI } from '@titl-all/shared/dist/api-model';
 
 export class LandOwnersService {
 
@@ -83,6 +84,67 @@ export class LandOwnersService {
 
     return this.reorderByTenantAgreement(agreement);
   }
+
+  /**
+   * Get Properties
+   * @desc grab agreements, paymentPlans, and payments for a property
+   * and calculate the total payments that have been made an export as an
+   * additional property
+   */
+  async getProperties(ownerId: string) {
+    const paymentTypes = [PaymentType.groundrent, PaymentType.leaserent];
+
+    const properties = await Property.createQueryBuilder('property')
+      .innerJoinAndSelect('property.agreements', 'agreements')
+      // only get properties that have a payment plan
+      // if want all properties with no restrictions then this would be
+      // leftJoinAndSelect
+      .innerJoinAndSelect('agreements.paymentPlans', 'paymentPlans',
+                          'paymentPlans.paymentType IN (:...paymentTypes)',
+                          { paymentTypes })
+      .leftJoinAndSelect('paymentPlans.payments', 'payments')
+      .where({
+        owner: ownerId
+      })
+      .getMany();
+
+    const calculatedProperties = properties.map(property => {
+      return this.calculateOutstandingAmountFromProperty(property);
+    });
+
+    return calculatedProperties;
+  }
+
+  async getProperty(propertyUuid: string, ownerId: string) {
+    const paymentTypes = [PaymentType.groundrent, PaymentType.leaserent];
+
+    const property = await Property.createQueryBuilder('property')
+      .innerJoinAndSelect('property.agreements', 'agreements')
+      .innerJoinAndSelect('agreements.paymentPlans', 'paymentPlans',
+                          'paymentPlans.paymentType IN (:...paymentTypes)',
+                          { paymentTypes })
+      .leftJoinAndSelect('agreements.tenant', 'tenant')
+      .leftJoinAndSelect('paymentPlans.payments', 'payments')
+      .where({
+        owner: ownerId,
+        uuid: propertyUuid
+      })
+      .getOne();
+
+    return this.calculateOutstandingAmountFromProperty(property as Property);
+  }
+
+  async getPayments(ownerId: string) {
+    const payments = await Agreement.find({
+      relations: ['paymentPlans', 'payments'],
+      where: {
+        owner: ownerId
+      }
+    });
+
+    return payments;
+  }
+
 
   /**
    * Process Overview
@@ -182,6 +244,28 @@ export class LandOwnersService {
         agreement: slimAgreement,
         paymentPlan: paymentPlans.length > 0 ? paymentPlans[0] : [],
       }
+  }
+
+  private calculateOutstandingAmountFromProperty(property: Property) {
+    const { agreements } = property;
+    return {
+      ...property,
+      agreements: agreements.map((agreement: Agreement) => {
+        const { paymentPlans } = agreement;
+        return {
+          ...agreement,
+          paymentPlans: paymentPlans.map((paymentPlan: PaymentPlanAPI) => {
+            const { payments, agreedAmount } = paymentPlan;
+            if (payments.length > 0) {
+              const totalPaid = payments.reduce((acc, payment) => acc + Number(payment.amount), 0);
+              const outstandingAmount = Number(agreedAmount) - totalPaid;
+
+              paymentPlan.totalPaid = totalPaid;
+              paymentPlan.calculatedOutstandingAmount = outstandingAmount;
+            }
+            return {...paymentPlan};
+          })}
+      })}
   }
 
 }
