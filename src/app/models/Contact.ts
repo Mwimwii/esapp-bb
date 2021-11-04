@@ -4,10 +4,10 @@ import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
 import { PropertyGroup } from './PropertyGroup';
 import { ContactStatus, ContactType, Language } from '@titl-all/shared/dist/enum';
-
+import { ContactAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contacts' })
-export class Contact extends BaseTable {
+export class Contact extends BaseTable implements ContactAPI {
   fields() {
     return {
       firstName: this.firstName,
