@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, Generated, OneToMany } from 'typeorm';
 import { Agreement, Conflict, Contact, PropertyGroup } from '.';
 import { BaseTable } from './BaseTable';
 import {
@@ -6,9 +6,14 @@ import {
   PropertyStatus,
   MeasurementType,
 } from '@titl-all/shared/dist/enum';
+import { PropertyAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'properties' })
-export class Property extends BaseTable {
+export class Property extends BaseTable implements PropertyAPI {
+    @Column({ nullable: true })
+    @Generated('uuid')
+    uuid: string;
+
     @ManyToOne(() => PropertyGroup, propertyGroup => propertyGroup.properties)
     propertyGroup: PropertyGroup;
 
