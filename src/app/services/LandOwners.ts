@@ -1,6 +1,6 @@
-import { Agreement, Property } from 'app/models';
+import { Agreement, Property, Payment } from 'app/models';
 import { PaymentType, AgreementStatus } from '@titl-all/shared/dist/enum';
-import { PaymentPlanAPI } from '@titl-all/shared/dist/api-model';
+import { PaymentPlanAPI, PaymentAPI } from '@titl-all/shared/dist/api-model';
 
 export class LandOwnersService {
 
@@ -135,12 +135,16 @@ export class LandOwnersService {
   }
 
   async getPayments(ownerId: string) {
-    const payments = await Agreement.find({
-      relations: ['paymentPlans', 'payments'],
-      where: {
-        owner: ownerId
-      }
-    });
+    const paymentTypes = [PaymentType.groundrent, PaymentType.leaserent];
+
+    const payments = await Payment.createQueryBuilder('payment')
+      .innerJoinAndSelect('payment.paymentPlan', 'paymentPlan',
+                          'paymentPlan.paymentType IN (:...paymentTypes)',
+                          { paymentTypes })
+      .innerJoinAndSelect('paymentPlan.payments', 'payments')
+      .innerJoinAndSelect('paymentPlan.agreement', 'agreement')
+      .where('agreement.owner= :ownerId', { ownerId })
+      .getMany();
 
     return payments;
   }
@@ -257,7 +261,7 @@ export class LandOwnersService {
           paymentPlans: paymentPlans.map((paymentPlan: PaymentPlanAPI) => {
             const { payments, agreedAmount } = paymentPlan;
             if (payments.length > 0) {
-              const totalPaid = payments.reduce((acc, payment) => acc + Number(payment.amount), 0);
+              const totalPaid = payments.reduce((acc: number, payment: PaymentAPI) => acc + Number(payment.amount), 0);
               const outstandingAmount = Number(agreedAmount) - totalPaid;
 
               paymentPlan.totalPaid = totalPaid;
