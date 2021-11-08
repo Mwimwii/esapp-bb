@@ -71,8 +71,6 @@ export class LandOwnersController {
     const { ownerId } = ctx.request.params;
     const payments = await this.landOwnersService.getPayments(ownerId);
 
-    return new HttpResponseOK({
-      payments
-    });
+    return new HttpResponseOK(payments);
   }
 }
