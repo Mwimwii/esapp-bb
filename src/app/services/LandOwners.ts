@@ -147,10 +147,14 @@ export class LandOwnersService {
       .where('agreement.owner= :ownerId', { ownerId })
       .getMany();
 
-      // TODO get a currency and pass that back
-    const totalPayments = payments.reduce((acc: number, payment: Payment) => acc + Number(payment.amount), 0);
+    if (payments.length === 0) {
+      return { totalPayment: 0, payments, currency: ''};
+    }
 
-    return { totalPayments, payments };
+    const totalPayments = payments.reduce((acc: number, payment: Payment) => acc + Number(payment.amount), 0);
+    const [{ paymentPlan: { currency } }] = payments;
+
+    return { totalPayments, currency, payments };
   }
 
 
