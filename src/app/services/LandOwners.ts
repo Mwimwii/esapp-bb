@@ -22,6 +22,7 @@ export class LandOwnersService {
       .where({
         owner: ownerId
       })
+      .orderBy('tenant.lastName', 'ASC')
       .getMany();
 
     return this.reorderByTenantAgreements(agreements);
@@ -146,7 +147,10 @@ export class LandOwnersService {
       .where('agreement.owner= :ownerId', { ownerId })
       .getMany();
 
-    return payments;
+      // TODO get a currency and pass that back
+    const totalPayments = payments.reduce((acc: number, payment: Payment) => acc + Number(payment.amount), 0);
+
+    return { totalPayments, payments };
   }
 
 
