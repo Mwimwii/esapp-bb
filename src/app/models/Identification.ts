@@ -2,9 +2,10 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { Contact } from '.';
 import { BaseTable } from './BaseTable';
 import { IdentificationStatus, IdentificationType } from '@titl-all/shared/dist/enum';
+import { IdentificationAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'identifications' })
-export class Identification extends BaseTable {
+export class Identification extends BaseTable implements IdentificationAPI {
 
     @JoinColumn()
     @ManyToOne(() => Contact)
