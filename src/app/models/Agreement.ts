@@ -8,8 +8,10 @@ import {
   PropertyUseType,
 } from '@titl-all/shared/dist/enum';
 
+import { AgreementAPI } from '@titl-all/shared/dist/api-model';
+
 @Entity({ name: 'agreements' })
-export class Agreement extends BaseTable {
+export class Agreement extends BaseTable implements AgreementAPI {
   fieldsNoRelations() {
     return {
       secondaryTenants: this.secondaryTenants,
