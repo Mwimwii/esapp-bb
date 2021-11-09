@@ -1,6 +1,6 @@
-import { Agreement, Property, Payment, PropertyGroup, Contact } from 'app/models';
+import { Agreement, Payment, PropertyGroup, Contact } from 'app/models';
 import { PaymentType, AgreementStatus } from '@titl-all/shared/dist/enum';
-import { PaymentPlanAPI, PaymentAPI } from '@titl-all/shared/dist/api-model';
+import { PaymentAPI } from '@titl-all/shared/dist/api-model';
 import { LandownerDashboardData } from 'app/types';
 
 export class LandOwnersService {
