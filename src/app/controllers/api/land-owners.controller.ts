@@ -51,18 +51,16 @@ export class LandOwnersController {
     const { ownerId } = ctx.request.params;
     const properties = await this.landOwnersService.getProperties(ownerId);
 
-    return new HttpResponseOK({
-      properties
-    });
+    return new HttpResponseOK(properties);
   }
 
   @Get('/:ownerId/property/:propertyUuid')
   async getProperty(ctx: Context) {
     const { ownerId, propertyUuid } = ctx.request.params;
-    const property = await this.landOwnersService.getProperty(propertyUuid, ownerId);
+    const propertyGroup = await this.landOwnersService.getProperty(propertyUuid, ownerId);
 
     return new HttpResponseOK({
-      property
+      propertyGroup
     });
   }
 

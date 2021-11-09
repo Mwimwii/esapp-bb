@@ -6,9 +6,10 @@ import {
   PaymentStatus,
   PaymentType,
 } from '@titl-all/shared/dist/enum';
+import { PaymentAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'payments' })
-export class Payment extends BaseTable {
+export class Payment extends BaseTable implements PaymentAPI {
     @JoinColumn()
     @ManyToOne(() => PaymentPlan)
     paymentPlan: PaymentPlan;

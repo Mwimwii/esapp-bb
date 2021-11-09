@@ -2,9 +2,10 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { Contact } from '.';
 import { BaseTable } from './BaseTable';
 import { ContactDetailStatus, ContactDetailType } from '@titl-all/shared/dist/enum';
+import { ContactDetailAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contact_details' })
-export class ContactDetail extends BaseTable {
+export class ContactDetail extends BaseTable implements ContactDetailAPI {
     @Column({ type: 'enum', enum: ContactDetailType })
     contactDetailType: ContactDetailType;
 

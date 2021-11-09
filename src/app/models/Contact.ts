@@ -10,6 +10,7 @@ import { ContactAPI } from '@titl-all/shared/dist/api-model';
 export class Contact extends BaseTable implements ContactAPI {
   fields() {
     return {
+      id: this.id,
       firstName: this.firstName,
       lastName: this.lastName,
       gender: this.gender,
@@ -22,6 +23,7 @@ export class Contact extends BaseTable implements ContactAPI {
       identifications: this.identifications,
       status: this.status,
       lastModifiedDate: this.modifiedAt,
+      hubSpotId: this.hubSpotId,
     }
   }
 
