@@ -298,27 +298,4 @@ export class LandOwnersService {
 
     return { totalReceived, outstandingToReceive };
   }
-
-  private calculateOutstandingAmountFromProperty(property: Property) {
-    const { agreements } = property;
-    return {
-      ...property,
-      agreements: agreements.map((agreement: Agreement) => {
-        const { paymentPlans } = agreement;
-        return {
-          ...agreement,
-          paymentPlans: paymentPlans.map((paymentPlan: PaymentPlanAPI) => {
-            const { payments, agreedAmount } = paymentPlan;
-            if (payments.length > 0) {
-              const totalPaid = payments.reduce((acc: number, payment: PaymentAPI) => acc + Number(payment.amount), 0);
-              const outstandingAmount = Number(agreedAmount) - totalPaid;
-
-              paymentPlan.totalPaid = totalPaid;
-              paymentPlan.calculatedOutstandingAmount = outstandingAmount;
-            }
-            return {...paymentPlan};
-          })}
-      })}
-  }
-
 }
