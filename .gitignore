@@ -12,3 +12,4 @@ yarn-error.log
 .vscode/
 exe/
 *lock.json
+**/*.http
