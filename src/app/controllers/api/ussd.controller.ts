@@ -25,14 +25,23 @@ export class UssdController {
   // @ValidateBody(UssdRequest)
   async processUssdRequest(ctx: Context) {
 
-    console.log(ctx.request.body);
-    const result = ProcessUssd(ctx.request.body);
+    const ussdRequest = ctx.request.body;
+    console.log(ussdRequest);
+    const sequence = ussdRequest.text.split('*');
+    console.log(sequence);
+    ctx.session?.set('ussdRequest', ussdRequest);
+    const result = ProcessUssd(sequence);
 
-    return new HttpResponseOK('CON 1. Continue 2. Stop');
+    return new HttpResponseOK(result);
   }
 }
 
-function ProcessUssd(ussdRequest: UssdRequest) {
-  console.log(ussdRequest);
+function ProcessUssd(sequence: string[]) {
+  let output = 'CON ';
+  do {
+    output += `${sequence.shift()} Completed \n`;
+    console.log(output);
+  } while (sequence.length > 0);
+  return output;
 }
 
