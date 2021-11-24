@@ -14,6 +14,30 @@ export class UssdRequest {
   networkCode: string;
 }
 
+class UssdNode {
+  /**
+   *
+   */
+  constructor(title: string, branches: UssdNode[]) {
+    this.title = title;
+    this.branches = branches;
+  }
+  title: string;
+  branches: UssdNode[];
+  getText = (): string => {
+    if (this.branches.length > 0) {
+      let text = 'CON ';
+      for (let index = 0; index < this.branches.length; index++) {
+        text += `${index + 1}. ${this.branches[index].title}\n`;
+      }
+      return text;
+    }
+    else {
+      return 'END ' + this.title;
+    }
+  }
+}
+
 export class UssdResponse {
 
 }
@@ -37,11 +61,24 @@ export class UssdController {
 }
 
 function ProcessUssd(sequence: string[]) {
-  let output = 'CON ';
+  console.log(sequence);
+  let rootNodes = new UssdNode(
+    'Choose Language',
+    [
+      <UssdNode>({
+        title: 'English',
+      }),
+      <UssdNode>({
+        title: 'Luganda',
+      })
+    ]
+  );
+
   do {
-    output += `${sequence.shift()} Completed \n`;
+    // output += `${sequence.shift()} Completed \n`;
     console.log(output);
   } while (sequence.length > 0);
-  return output;
+  const x = navNodes.getText;
+  return rootNodes.getText();
 }
 
