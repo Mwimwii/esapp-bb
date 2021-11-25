@@ -24,9 +24,9 @@ class UssdNode {
   }
   title: string;
   branches: UssdNode[];
-  getText = (): string => {
+  execute = (): string => {
     if (this.branches.length > 0) {
-      let text = 'CON ';
+      let text = 'CON ' + this.title + '\n';
       for (let index = 0; index < this.branches.length; index++) {
         text += `${index + 1}. ${this.branches[index].title}\n`;
       }
@@ -35,6 +35,13 @@ class UssdNode {
     else {
       return 'END ' + this.title;
     }
+  }
+
+  getNext = (sequenceid: number): UssdNode => {
+    if (sequenceid > 0) {
+      return this.branches[sequenceid - 1];
+    }
+    return this;
   }
 }
 
@@ -54,31 +61,32 @@ export class UssdController {
     const sequence = ussdRequest.text.split('*');
     console.log(sequence);
     ctx.session?.set('ussdRequest', ussdRequest);
-    const result = ProcessUssd(sequence);
+    const result = executeUssdSequence(rootNode, sequence);
+    console.log(result);
 
     return new HttpResponseOK(result);
   }
 }
 
-function ProcessUssd(sequence: string[]) {
+function executeUssdSequence(startNode: UssdNode, sequence: string[]) {
   console.log(sequence);
-  let rootNodes = new UssdNode(
-    'Choose Language',
-    [
-      <UssdNode>({
-        title: 'English',
-      }),
-      <UssdNode>({
-        title: 'Luganda',
-      })
-    ]
-  );
+  let currentNode = startNode;
 
   do {
-    // output += `${sequence.shift()} Completed \n`;
-    console.log(output);
+    const nextInt = +(sequence.shift() || 0);
+    if (nextInt > 0) {
+      currentNode = currentNode.getNext(nextInt);
+    }
   } while (sequence.length > 0);
-  const x = navNodes.getText;
-  return rootNodes.getText();
+
+  return currentNode.execute();
 }
 
+const rootNode =
+  new UssdNode(
+    'Welcome to TrueSoil.',
+    [
+      new UssdNode('English', []),
+      new UssdNode('Luganda', []),
+    ]
+  );
