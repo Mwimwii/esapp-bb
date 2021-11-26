@@ -4,6 +4,9 @@ module.exports = {
   port: 8000,
   settings: {
     loggerFormat: "tiny",
+    bodyParser: {
+      limit: "50mb",
+    },
     session: {
       store: "@foal/typeorm",
       csrf: {
