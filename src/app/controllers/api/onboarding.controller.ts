@@ -41,8 +41,8 @@ export class OnboardingController {
     const tenant = this.tenantService.add(body.fields, body.files.tenantPicture, user);
 
     const property = this.propertyService.add(body.fields);
-    const agreement = this.agreementService.add(body.fields, body.fields.agreement, property, tenant);
-    this.paymentService.add(body.fields, body.fields.agreement, agreement);
+    const agreement = this.agreementService.add(body.fields, body.files.agreement, property, tenant);
+    this.paymentService.add(body.fields, agreement);
 
     return new HttpResponseOK({received: true});
   }
