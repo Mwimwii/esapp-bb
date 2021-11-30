@@ -58,7 +58,7 @@ export class Agreement extends BaseTable implements AgreementAPI {
   acquisitionType: AcquisitionType;
 
   @Column({ type: 'simple-array', nullable: true })
-  propertUseType: PropertyUseType[];
+  propertyUseType: PropertyUseType[];
 
   @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
   status: AgreementStatus;

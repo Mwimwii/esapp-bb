@@ -8,13 +8,21 @@ import { ValidateMultipartFormDataBody } from '@foal/storage';
 import { JWTRequired } from '@foal/jwt';
 import { RefreshJWT } from 'app/hooks';
 
-import { TenantService } from 'app/services';
+import {
+  TenantService,
+  PropertyService,
+  AgreementService,
+  PaymentService,
+} from 'app/services';
 
 @JWTRequired({ cookie: true})
 @RefreshJWT()
 export class OnboardingController {
   @dependency
   tenantService: TenantService;
+  propertyService: PropertyService;
+  agreementService: AgreementService;
+  paymentService: PaymentService;
 
   @Post('/submit')
   @ValidateMultipartFormDataBody({
@@ -30,7 +38,11 @@ export class OnboardingController {
   async submit(ctx: Context) {
     const { user } = ctx;
     const body = ctx.request.body;
-    this.tenantService.add(body.fields, body.files.tenantPicture, user);
+    const tenant = this.tenantService.add(body.fields, body.files.tenantPicture, user);
+
+    const property = this.propertyService.add(body.fields);
+    const agreement = this.agreementService.add(body.fields, body.fields.agreement, property, tenant);
+    this.paymentService.add(body.fields, body.fields.agreement, agreement);
 
     return new HttpResponseOK({received: true});
   }
