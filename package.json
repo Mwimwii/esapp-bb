@@ -28,8 +28,10 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@foal/aws-s3": "^2.6.0",
     "@foal/core": "^2.0.0",
     "@foal/jwt": "^2.5.0",
+    "@foal/storage": "^2.6.0",
     "@foal/typeorm": "^2.0.0",
     "@titl-all/shared": "2.0.3",
     "express": "4.17.1",
