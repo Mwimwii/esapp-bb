@@ -6,20 +6,33 @@ import {
 } from 'app/models';
 import { PaymentCycle } from '@titl-all/shared/dist/enum';
 
+interface PaymentInfo {
+  baseAmount: number;
+  amountPaid: number;
+}
+
 export class PaymentService {
   add(data: Partial<OnboardingQuestions>, agreement: Agreement) {
     const {
-      kanzuBaseAmount: baseAmount,
-      payment: cycle
+      kanzuBaseAmount,
+      kanzuAmountPaid,
+      busuluBaseAmount,
+      busuluAmountPaid,
+      paymentCycle,
     } = data;
 
-    const createdPaymentPlan = new PaymentPlan();
+    const kanzuInfo: PaymentInfo = { baseAmount: Number(kanzuBaseAmount), amountPaid: Number(kanzuAmountPaid) };
+    const busuluInfo: PaymentInfo = { baseAmount: Number(busuluBaseAmount), amountPaid: Number(busuluAmountPaid) };
 
-    createdPaymentPlan.agreement = agreement;
-    createdPaymentPlan.baseAmount = Number(baseAmount);
-    // this should be a single value
-    createdPaymentPlan.cycle = Array.isArray(cycle) ? cycle[0] as PaymentCycle : cycle as unknown as PaymentCycle;
+    [kanzuInfo, busuluInfo].map((info: PaymentInfo) => {
+      const createdPaymentPlan = new PaymentPlan();
+      createdPaymentPlan.baseAmount = info.baseAmount
+      createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
+      createdPaymentPlan.agreement = agreement;
+      createdPaymentPlan.cycle = paymentCycle as PaymentCycle;
 
-    createdPaymentPlan.save();
+      createdPaymentPlan.save();
+    });
+
   }
 }

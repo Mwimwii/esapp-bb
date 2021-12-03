@@ -58,6 +58,9 @@ export class Contact extends BaseTable implements ContactAPI {
   @Column({ type: 'enum', enum: ContactType })
   contactType: ContactType;
 
+  @Column({ default: false })
+  hasPicture: boolean;
+
   @Column('simple-array', { default: 'en' })
   languages: Language[];
 
