@@ -1,8 +1,8 @@
 import { PropertyNameLiteral } from 'typescript';
 import { UssdNodeType } from "../enums/UssdNodeType";
+import { UssdRequest } from './UssdRequest';
 
 export class UssdNode {
-
   /**
    *
    * @param title
@@ -95,6 +95,11 @@ export class UssdNode {
     }
     return this;
   };
+
+  executeCallback(request: UssdRequest, nextSequenceVal: string | undefined): UssdNode {
+    this.callback(request, nextSequenceVal);
+    return this.getNext(1);
+  }
 }
 
 function toPascalCase(text: string) {
