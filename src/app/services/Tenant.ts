@@ -16,8 +16,6 @@ export class TenantService {
       languages,
     } = data;
 
-    console.log(picture)
-
     const tenantContact = new Contact();
 
     tenantContact.firstName = String(firstName);
@@ -31,13 +29,16 @@ export class TenantService {
       //tenantContact.contactType = contactType[0];
       tenantContact.contactType = 'Tenant' as ContactType;
     }
-    // format this
+
+    if (picture) {
+      tenantContact.hasPicture = true;
+      // upload pictures in the correct naming format
+    }
     tenantContact.languages = this.formatLanguages(languages);
     tenantContact.createdBy = user;
 
     tenantContact.save();
 
-    // upload pictures in the correct naming format
     return tenantContact;
   }
 
@@ -45,11 +46,11 @@ export class TenantService {
     const formattedLanguages = languages?.map(language => {
       switch(language) {
         case 'English':
-          return 'en';
+          return Language.English;
         case 'Luganda':
-          return 'lu';
+          return Language.Luganda;
         case 'Swahali':
-          return 'sw';
+          return Language.Swahali;
         default:
           return '';
       }

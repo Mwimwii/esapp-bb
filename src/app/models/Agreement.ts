@@ -52,8 +52,8 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column('date', { nullable: true })
   dateArrived: Date;
 
-  @Column({ type: 'enum', enum: AgreementType, nullable: true })
-  requestedAgreementType: AgreementType;
+  @Column({ type: 'enum', array: true, enum: AgreementType, nullable: true })
+  requestedAgreementType: AgreementType[];
 
   @Column({ type: 'simple-array', nullable: true })
   otherAgreementTypes: AgreementType[];
