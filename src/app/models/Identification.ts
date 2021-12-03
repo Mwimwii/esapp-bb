@@ -22,4 +22,7 @@ export class Identification extends BaseTable implements IdentificationAPI {
 
     @Column({ type: 'enum', enum: IdentificationStatus, default: IdentificationStatus.underreview })
     status: IdentificationStatus;
+
+    @Column({ default: false })
+    hasIdentificationImages: boolean;
 }
