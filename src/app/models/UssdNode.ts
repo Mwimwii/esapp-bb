@@ -1,5 +1,5 @@
 import { PropertyNameLiteral } from 'typescript';
-import { UssdNodeType } from '../controllers/api/ussd.controller';
+import { UssdNodeType } from "../enums/UssdNodeType";
 
 export class UssdNode {
 
@@ -15,11 +15,11 @@ export class UssdNode {
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[]);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[], callback?: any);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[], callback?: any) {
-    this.title = title;
+    this.title = convertToLabel(title) || '';
     this.branches = branches;
     this.datalist = datalist || [];
     this.type = type;
-    this.prompt = prompt;
+    this.prompt = prompt ? convertToLabel(prompt) : prompt;
     this.callback = callback;
   }
   title: string;
@@ -43,38 +43,37 @@ export class UssdNode {
           this.branches = options;
         } else {
           for (let index = 0; index < this.branches.length; index++) {
-            text += `${index + 1}. ${this.branches[index].title}\n`;
+            text += `${index + 1}. ${convertToLabel(this.branches[index].title)}\n`;
           }
         }
         break;
       case UssdNodeType.detail:
         if (this.datalist[0]) {
-          text = 'CON ' + (this.datalist[0].title) + '\n\n';
+          text = 'CON ' + (this.datalist[0].title) + '\n';
           for (const key in this.datalist[0]) {
             if (!['id', 'title'].includes(key.toLocaleLowerCase()))
-              text += `${key.toLocaleUpperCase().replace('_', ' ')}: ${this.datalist[0][key]}\n`;
+              text += `${key}: ${this.datalist[0][key]}\n`;
           }
         }
 
         if (this.branches.length > 0) {
           for (let index = 0; index < this.branches.length; index++) {
-            text += `${index + 1}. ${this.branches[index].title}\n`;
+            text += `${index + 1}. ${convertToLabel(this.branches[index].title)}\n`;
           }
         }
         break;
       case UssdNodeType.nav:
         if (this.branches.length > 0) {
           for (let index = 0; index < this.branches.length; index++) {
-            text += `${index + 1}. ${this.branches[index].title}\n`;
+            text += `${index + 1}. ${convertToLabel(this.branches[index].title)}\n`;
           }
         }
         break;
-      case UssdNodeType.prompt:
-        text = 'END ' + this.prompt || this.title + this.callback;
-        break;
       case UssdNodeType.end:
-      default:
         text = 'END ' + this.prompt || this.title;
+        break;
+      default:
+
         break;
     }
     return text;
@@ -96,4 +95,21 @@ export class UssdNode {
     }
     return this;
   };
+}
+
+function toPascalCase(text: string) {
+  if (text) {
+    text = text.toLowerCase();
+    // let words = text.split(' ') || [];
+    // words.forEach(word => {
+    //   out += word[0].toUpperCase() + word.substr(1) + ' ';
+    // });
+  }
+  return text.trim();
+}
+
+function convertToLabel(text: string) {
+  if (!text) return;
+  text = toPascalCase(text.replace(/[^a-zA-Z0-9.]/g, ' '));
+  return text;
 }
