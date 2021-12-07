@@ -1,14 +1,23 @@
-import { File } from '@foal/storage';
+import path from 'path';
+import { File, Disk } from '@foal/storage';
+import { dependency } from '@foal/core';
 
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import { Language, ContactType } from '@titl-all/shared/dist/enum';
 import { User, Contact } from 'app/models';
 
 export class TenantService {
-  add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
+  @dependency
+  disk: Disk;
+
+  async add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
     const {
       firstName,
       lastName,
+      firstPhoneNumber,
+      firstNumberIsWhatsApp,
+      secondPhoneNumber,
+      secondNumberIsWhatsApp,
       nickname,
       gender,
       dateOfBirth,
@@ -30,16 +39,43 @@ export class TenantService {
       tenantContact.contactType = 'Tenant' as ContactType;
     }
 
+    const phoneNumber = this.obtainNonWhatsAppPhoneNumber(
+      String(firstPhoneNumber),
+      String(firstNumberIsWhatsApp),
+      String(secondPhoneNumber),
+      String(secondNumberIsWhatsApp),
+    );
+
     if (picture) {
       tenantContact.hasPicture = true;
-      // upload pictures in the correct naming format
+      const directoryName = `0_${firstName}_${lastName}`;
+      await this.disk.write(`attachments/contacts/${directoryName}`, picture.buffer, {
+        name: `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}.${path.extname(String(picture.filename))}`,
+      });
+
     }
-    tenantContact.languages = this.formatLanguages(languages);
+    tenantContact.languages = Array.isArray(languages) ? this.formatLanguages(languages) : [];
     tenantContact.createdBy = user;
 
     tenantContact.save();
 
     return tenantContact;
+  }
+
+  obtainNonWhatsAppPhoneNumber(
+    firstNumber: string,
+    firstIsWhatsApp: string,
+    secondNumber: string,
+    secondIsWhatsApp: string) {
+      if (firstIsWhatsApp === 'No') {
+        return firstNumber;
+      }
+
+      if (secondIsWhatsApp === 'No') {
+        return secondNumber;
+      }
+
+      return firstNumber;
   }
 
   formatLanguages(languages?: string[]): Language[] {

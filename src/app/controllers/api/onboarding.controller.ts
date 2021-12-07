@@ -13,6 +13,7 @@ import {
   PropertyService,
   AgreementService,
   PaymentService,
+  FileService,
 } from 'app/services';
 
 @JWTRequired({ cookie: true})
@@ -23,6 +24,7 @@ export class OnboardingController {
   propertyService: PropertyService;
   agreementService: AgreementService;
   paymentService: PaymentService;
+  fileService: FileService;
 
   @Post('/submit')
   @ValidateMultipartFormDataBody({
@@ -38,8 +40,8 @@ export class OnboardingController {
   async submit(ctx: Context) {
     const { user } = ctx;
     const body = ctx.request.body;
-    const tenant = this.tenantService.add(body.fields, body.files.tenantPicture, user);
 
+    const tenant = await this.tenantService.add(body.fields, body.files.tenantPicture, user);
     const property = this.propertyService.add(body.fields);
     const agreement = this.agreementService.add(
       body.fields,
@@ -50,6 +52,7 @@ export class OnboardingController {
       tenant
     );
     this.paymentService.add(body.fields, agreement);
+    this.fileService.add(body.fields, body.files);
 
     return new HttpResponseOK({received: true});
   }
