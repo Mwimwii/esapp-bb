@@ -8,7 +8,6 @@ export class PropertyService {
       dimensionsOfLand: sizeSqf,
       metricUnits: sizeUnit,
       conflict,
-      //propertyUse: propertyType, // format this
     } = data;
 
     const createdProperty = new Property();
@@ -16,8 +15,6 @@ export class PropertyService {
     createdProperty.sizeSqf = String(sizeSqf);
     createdProperty.sizeUnit = sizeUnit as MeasurementType;
     createdProperty.inConflict = conflict === 'Yes';
-    // should be an array?
-    //createdProperty.propertyType = propertyType;
 
     createdProperty.save();
 

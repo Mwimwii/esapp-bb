@@ -5,3 +5,4 @@ export * from './Tenant';
 export * from './Property';
 export * from './Agreement';
 export * from './Payment';
+export * from './File';
