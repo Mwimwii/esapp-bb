@@ -33,10 +33,9 @@ export class TenantService {
     tenantContact.gender = String(gender);
     tenantContact.dob = new Date(String(dateOfBirth));
 
-    if (contactType && contactType.length > 0) {
-      // format this
-      //tenantContact.contactType = contactType[0];
-      tenantContact.contactType = 'Tenant' as ContactType;
+    if (contactType) {
+      // split(',')
+      tenantContact.contactType = ContactType.tenant;
     }
 
     const phoneNumber = this.obtainNonWhatsAppPhoneNumber(
