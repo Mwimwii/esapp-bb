@@ -50,11 +50,10 @@ export class TenantService {
       tenantContact.hasPicture = true;
       const directoryName = `0_${firstName}_${lastName}`;
       await this.disk.write(`attachments/contacts/${directoryName}`, picture.buffer, {
-        name: `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}.${path.extname(String(picture.filename))}`,
+        name: `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(picture.filename))}`,
       });
-
     }
-    tenantContact.languages = Array.isArray(languages) ? this.formatLanguages(languages) : [];
+    tenantContact.languages = languages ? this.formatLanguages(String(languages).split(',')) : [];
     tenantContact.createdBy = user;
 
     tenantContact.save();
@@ -85,7 +84,7 @@ export class TenantService {
           return Language.English;
         case 'Luganda':
           return Language.Luganda;
-        case 'Swahali':
+        case 'Swahili':
           return Language.Swahali;
         default:
           return '';

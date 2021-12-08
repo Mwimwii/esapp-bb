@@ -25,8 +25,6 @@ export class AgreementService {
       terms: termsAccepted,
     } = data;
 
-    // upload agreementImage to AWS
-    console.log(agreementImage);
     const createdAgreement = new Agreement();
 
     createdAgreement.property = property;
@@ -34,16 +32,40 @@ export class AgreementService {
     createdAgreement.dateArrived = new Date(String(dateArrived));
     createdAgreement.agreementType = agreementType as AgreementType;
     createdAgreement.acquisitionType = acquisitionType as AcquisitionType;
-    createdAgreement.propertyUseType = propertyUseType as PropertyUseType[];
-    createdAgreement.requestedAgreementType = requestedAgreementType as AgreementType[];
+    createdAgreement.propertyUseType = String(propertyUseType).split(',') as PropertyUseType[];
+    createdAgreement.requestedAgreementType = this.mapRequestedAgreementType(String(requestedAgreementType)) as AgreementType[];
     createdAgreement.termsAccepted = termsAccepted === 'Yes';
 
     if (consentImageFront && consentImageBack) {
       createdAgreement.hasContentFormImages = true;
     }
 
+    if (agreementImage) {
+      createdAgreement.hasAgreementImage = true;
+    }
+
     createdAgreement.save();
 
     return createdAgreement;
+  }
+
+  mapRequestedAgreementType(requestedAgreementType: string) {
+    const types = requestedAgreementType.split(',');
+    const agreeementTypesArr = types.map((type: string) => {
+      switch(type) {
+        case 'Pay Busulu':
+          return AgreementType.kibanja;
+        case 'Turn to leasehold':
+          return AgreementType.lease;
+        case 'Buy-out owner':
+          return AgreementType.buyout;
+        case 'Be compensated by owner':
+          return AgreementType.compensation;
+        default:
+          return '';
+      }
+    });
+
+    return agreeementTypesArr;
   }
 }

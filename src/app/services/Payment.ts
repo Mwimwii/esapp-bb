@@ -4,7 +4,11 @@ import {
   Agreement,
   PaymentPlan,
 } from 'app/models';
-import { PaymentCycle } from '@titl-all/shared/dist/enum';
+import {
+  PaymentCycle,
+  PaymentPlanStatus,
+  PaymentCurrency,
+} from '@titl-all/shared/dist/enum';
 
 interface PaymentInfo {
   baseAmount: number;
@@ -30,6 +34,8 @@ export class PaymentService {
       createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
       createdPaymentPlan.agreement = agreement;
       createdPaymentPlan.cycle = paymentCycle as PaymentCycle;
+      createdPaymentPlan.status = PaymentPlanStatus.active;
+      createdPaymentPlan.currency = PaymentCurrency.ugx;
 
       createdPaymentPlan.save();
     });

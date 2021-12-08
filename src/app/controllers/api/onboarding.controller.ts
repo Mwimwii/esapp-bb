@@ -21,9 +21,13 @@ import {
 export class OnboardingController {
   @dependency
   tenantService: TenantService;
+  @dependency
   propertyService: PropertyService;
+  @dependency
   agreementService: AgreementService;
+  @dependency
   paymentService: PaymentService;
+  @dependency
   fileService: FileService;
 
   @Post('/submit')
