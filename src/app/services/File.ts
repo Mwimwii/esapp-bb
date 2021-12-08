@@ -48,33 +48,33 @@ export class FileService {
     if (identificationImageFront) {
       await this.disk.write(`attachments/contacts/${directoryName}`, identificationImageFront.buffer, {
         // TODO won't have access to the number or exp date
-        name: `ID_${iDShortCode}_0_0_.${path.extname(String(identificationImageFront.filename))}`,
+        name: `ID_${iDShortCode}_FRONT_0_0${path.extname(String(identificationImageFront.filename))}`,
       });
     }
 
     if (identificationImageBack) {
       await this.disk.write(`attachments/contacts/${directoryName}`, identificationImageBack.buffer, {
         // TODO won't have access to the number or exp date
-        name: `ID_${iDShortCode}_0_0_.${path.extname(String(identificationImageBack.filename))}`,
+        name: `ID_${iDShortCode}_BACK_0_0${path.extname(String(identificationImageBack.filename))}`,
       });
     }
 
     if (agreement) {
       await this.disk.write(`attachments/contacts/${directoryName}`, agreement.buffer, {
-        name: `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}_.${path.extname(String(agreement.filename))}`,
+        name: `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(agreement.filename))}`,
       });
     }
 
     if (consentImageFront) {
       await this.disk.write(`attachments/contacts/${directoryName}`, consentImageFront.buffer, {
-        name: `DOC_CONSENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}_.${path.extname(String(consentImageFront.filename))}`,
+        name: `DOC_CONSENT_FRONT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageFront.filename))}`,
       });
 
     }
 
     if (consentImageBack) {
       await this.disk.write(`attachments/contacts/${directoryName}`, consentImageBack.buffer, {
-        name: `DOC_CONSENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}_.${path.extname(String(consentImageBack.filename))}`,
+        name: `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageBack.filename))}`,
       });
     }
   }

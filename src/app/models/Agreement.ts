@@ -79,6 +79,9 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column({ default: false })
   hasContentFormImages: boolean;
 
+  @Column({ default: false })
+  hasAgreementImage: boolean;
+
   @Column({ type: 'simple-array', nullable: true })
   namedVerifiers: string[];
 

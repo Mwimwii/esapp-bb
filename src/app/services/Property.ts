@@ -1,5 +1,5 @@
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
-import { MeasurementType } from '@titl-all/shared/dist/enum';
+import { MeasurementType, PropertyStatus } from '@titl-all/shared/dist/enum';
 import { Property } from 'app/models';
 
 export class PropertyService {
@@ -13,8 +13,12 @@ export class PropertyService {
     const createdProperty = new Property();
 
     createdProperty.sizeSqf = String(sizeSqf);
-    createdProperty.sizeUnit = sizeUnit as MeasurementType;
+    if (sizeUnit) {
+      createdProperty.sizeUnit = sizeUnit as MeasurementType;
+    }
     createdProperty.inConflict = conflict === 'Yes';
+    // TODO confirm
+    createdProperty.status = PropertyStatus.active;
 
     createdProperty.save();
 
