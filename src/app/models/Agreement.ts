@@ -14,7 +14,7 @@ import { AgreementAPI } from '@titl-all/shared/dist/api-model';
 export class Agreement extends BaseTable implements AgreementAPI {
   fieldsNoRelations() {
     return {
-      secondaryTenants: this.secondaryTenants,
+      secondaryTenantsWithoutSignatoryRights: this.secondaryTenantsWithoutSignatoryRights,
       dateArrived: this.dateArrived,
       requestedAgreementType: this.requestedAgreementType,
       agreementType: this.agreementType,
@@ -35,9 +35,16 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @ManyToOne(() => Contact)
   tenant: Contact;
 
+  @Column({ default: true })
+  registeredTenantHasSignatoryRights: boolean;
+
   @JoinTable()
   @ManyToMany(() => Contact)
-  secondaryTenants: Contact[];
+  secondaryTenantsWithSignatoryRights: Contact[];
+
+  @JoinTable()
+  @ManyToMany(() => Contact)
+  secondaryTenantsWithoutSignatoryRights: Contact[];
 
   @OneToMany(() => PaymentPlan, paymentPlan => paymentPlan.agreement, { cascade: true })
   paymentPlans: PaymentPlan[];
@@ -45,8 +52,8 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column('date', { nullable: true })
   dateArrived: Date;
 
-  @Column({ type: 'enum', enum: AgreementType, nullable: true })
-  requestedAgreementType: AgreementType;
+  @Column({ type: 'enum', array: true, enum: AgreementType, nullable: true })
+  requestedAgreementType: AgreementType[];
 
   @Column({ type: 'simple-array', nullable: true })
   otherAgreementTypes: AgreementType[];
@@ -58,13 +65,22 @@ export class Agreement extends BaseTable implements AgreementAPI {
   acquisitionType: AcquisitionType;
 
   @Column({ type: 'simple-array', nullable: true })
-  propertUseType: PropertyUseType[];
+  propertyUseType: PropertyUseType[];
 
   @Column({ type: 'enum', enum: AgreementStatus, nullable: true })
   status: AgreementStatus;
 
   @Column({ type: 'simple-array', nullable: true })
   namedNeighbors: string[];
+
+  @Column({ default: false })
+  termsAccepted: boolean;
+
+  @Column({ default: false })
+  hasContentFormImages: boolean;
+
+  @Column({ default: false })
+  hasAgreementImage: boolean;
 
   @Column({ type: 'simple-array', nullable: true })
   namedVerifiers: string[];
