@@ -66,4 +66,6 @@ phases:
         --set DB_PORT=$DB_PORT \
         --set DB_NAME=$DB_NAME \
         --set DB_USERNAME=$DB_USERNAME \
-        --set ROOT_DOMAIN=$ROOT_DOMAIN
+        --set ROOT_DOMAIN=$ROOT_DOMAIN \
+        --set AWS_REGION=$AWS_DEFAULT_REGION \
+        --set AWS_BUCKET=$ASSET_STORAGE_BUCKET

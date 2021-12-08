@@ -17,7 +17,7 @@ export class PaymentPlan extends BaseTable implements PaymentPlanAPI {
     @ManyToOne(() => Agreement)
     agreement: Agreement;
 
-    @Column({ type: 'enum', enum: PaymentType })
+    @Column({ type: 'enum', enum: PaymentType, nullable: true })
     paymentType: PaymentType;
 
     @Column('numeric', { default: 0 })
