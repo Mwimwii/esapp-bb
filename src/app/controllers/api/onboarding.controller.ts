@@ -14,6 +14,8 @@ import {
   AgreementService,
   PaymentService,
   FileService,
+  IdentificationService,
+  CommentService,
 } from 'app/services';
 
 @JWTRequired({ cookie: true})
@@ -21,10 +23,18 @@ import {
 export class OnboardingController {
   @dependency
   tenantService: TenantService;
+  @dependency
   propertyService: PropertyService;
+  @dependency
   agreementService: AgreementService;
+  @dependency
   paymentService: PaymentService;
+  @dependency
   fileService: FileService;
+  @dependency
+  identificationService: IdentificationService;
+  @dependency
+  commentService: CommentService;
 
   @Post('/submit')
   @ValidateMultipartFormDataBody({
@@ -42,17 +52,20 @@ export class OnboardingController {
     const body = ctx.request.body;
 
     const tenant = await this.tenantService.add(body.fields, body.files.tenantPicture, user);
-    const property = this.propertyService.add(body.fields);
-    const agreement = this.agreementService.add(
+    const property = await this.propertyService.add(body.fields, user);
+    const agreement = await this.agreementService.add(
       body.fields,
       body.files.agreement,
       body.files.consentImageFront,
       body.files.consentImageBack,
       property,
-      tenant
+      tenant,
+      user,
     );
-    this.paymentService.add(body.fields, agreement);
-    this.fileService.add(body.fields, body.files);
+    await this.commentService.add(agreement, user, body.fields.comments);
+    await this.identificationService.add(body.fields, body.files, tenant, user);
+    await this.paymentService.add(body.fields, agreement, user);
+    await this.fileService.add(body.fields, body.files, tenant, user);
 
     return new HttpResponseOK({received: true});
   }

@@ -73,8 +73,8 @@ spec:
                 secretKeyRef:
                   name: asset-storage-access-key-secret
                   key: value
-          - name: AWS_BUCKET
-            value: {{ .Values.AWS_BUCKET }}
-          - name: DISK_DRIVER
-            value: '@foal/aws-s3'
+            - name: AWS_BUCKET
+              value: {{ .Values.AWS_BUCKET }}
+            - name: DISK_DRIVER
+              value: '@foal/aws-s3'
       restartPolicy: Always

@@ -44,7 +44,7 @@ export class Property extends BaseTable implements PropertyAPI {
     @Column('varchar', { length: 50, nullable: true })
     nickname: string;
 
-    @Column({ type: 'enum', enum: PropertyType })
+    @Column({ type: 'enum', enum: PropertyType, nullable: true })
     propertyType: PropertyType;
 
     @Column('varchar', { length: 25, nullable: true })

@@ -3,8 +3,13 @@ import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import {
   Agreement,
   PaymentPlan,
+  User,
 } from 'app/models';
-import { PaymentCycle } from '@titl-all/shared/dist/enum';
+import {
+  PaymentCycle,
+  PaymentPlanStatus,
+  PaymentCurrency,
+} from '@titl-all/shared/dist/enum';
 
 interface PaymentInfo {
   baseAmount: number;
@@ -12,7 +17,7 @@ interface PaymentInfo {
 }
 
 export class PaymentService {
-  add(data: Partial<OnboardingQuestions>, agreement: Agreement) {
+  async add(data: Partial<OnboardingQuestions>, agreement: Agreement, user: User) {
     const {
       kanzuBaseAmount,
       kanzuAmountPaid,
@@ -24,14 +29,17 @@ export class PaymentService {
     const kanzuInfo: PaymentInfo = { baseAmount: Number(kanzuBaseAmount), amountPaid: Number(kanzuAmountPaid) };
     const busuluInfo: PaymentInfo = { baseAmount: Number(busuluBaseAmount), amountPaid: Number(busuluAmountPaid) };
 
-    [kanzuInfo, busuluInfo].map((info: PaymentInfo) => {
+    [kanzuInfo, busuluInfo].map(async (info: PaymentInfo) => {
       const createdPaymentPlan = new PaymentPlan();
       createdPaymentPlan.baseAmount = info.baseAmount
       createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
       createdPaymentPlan.agreement = agreement;
       createdPaymentPlan.cycle = paymentCycle as PaymentCycle;
+      createdPaymentPlan.status = PaymentPlanStatus.active;
+      createdPaymentPlan.currency = PaymentCurrency.ugx;
+      createdPaymentPlan.createdBy = user;
 
-      createdPaymentPlan.save();
+      await createdPaymentPlan.save();
     });
 
   }
