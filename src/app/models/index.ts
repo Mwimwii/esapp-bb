@@ -15,3 +15,4 @@ export { ApiToken } from './ApiToken';
 export { Conflict } from './Conflict';
 export { Administrator } from './Administrator';
 export { Asset } from './Asset';
+export { Comment } from './Comment';
