@@ -6,6 +6,7 @@ import {
   Contact as Tenant,
   Property,
   Agreement,
+  User,
 } from 'app/models';
 
 export class AgreementService {
@@ -15,7 +16,9 @@ export class AgreementService {
     consentImageFront: File,
     consentImageBack: File,
     property: Property,
-    tenant: Tenant) {
+    tenant: Tenant,
+    user: User,
+  ) {
     const {
       agreementType,
       dateArrived,
@@ -35,6 +38,7 @@ export class AgreementService {
     createdAgreement.propertyUseType = String(propertyUseType).split(',') as PropertyUseType[];
     createdAgreement.requestedAgreementType = this.mapRequestedAgreementType(String(requestedAgreementType)) as AgreementType[];
     createdAgreement.termsAccepted = termsAccepted === 'Yes';
+    createdAgreement.createdBy = user;
 
     if (consentImageFront && consentImageBack) {
       createdAgreement.hasContentFormImages = true;
