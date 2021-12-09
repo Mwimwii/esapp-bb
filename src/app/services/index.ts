@@ -6,3 +6,5 @@ export * from './Property';
 export * from './Agreement';
 export * from './Payment';
 export * from './File';
+export * from './Identification';
+export * from './Comment';
