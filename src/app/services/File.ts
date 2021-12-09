@@ -37,7 +37,7 @@ export class FileService {
       tenantPicture,
     } = files;
 
-    let codes = { shortCode: '', assetType: AssetType.other };
+    let codes = { shortCode: 'OTH', assetType: AssetType.other };
     const directoryName = `0_${firstName}_${lastName}`;
     const assetPath = `attachments/contacts/${directoryName}`;
 
@@ -98,7 +98,7 @@ export class FileService {
         return { shortCode: 'VID', assetType: AssetType.villageId };
     }
 
-    return { shortCode: '', assetType: AssetType.other };
+    return { shortCode: 'OTH', assetType: AssetType.other };
   }
 
   async saveAsset(file: File, type: AssetType, name: string, path: string, contact: Contact, user: User) {

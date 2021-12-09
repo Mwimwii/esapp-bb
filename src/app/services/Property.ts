@@ -3,7 +3,7 @@ import { MeasurementType, PropertyStatus } from '@titl-all/shared/dist/enum';
 import { Property } from 'app/models';
 
 export class PropertyService {
-  add(data: Partial<OnboardingQuestions>) {
+  async add(data: Partial<OnboardingQuestions>) {
     const {
       dimensionsOfLand: sizeSqf,
       metricUnits: sizeUnit,
@@ -20,7 +20,7 @@ export class PropertyService {
     // TODO confirm
     createdProperty.status = PropertyStatus.active;
 
-    createdProperty.save();
+    await createdProperty.save();
 
     return createdProperty;
   }
