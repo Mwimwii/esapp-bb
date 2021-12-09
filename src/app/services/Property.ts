@@ -1,5 +1,5 @@
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
-import { MeasurementType, PropertyStatus } from '@titl-all/shared/dist/enum';
+import { MeasurementType, PropertyStatus, PropertyType } from '@titl-all/shared/dist/enum';
 import { Property, User } from 'app/models';
 
 export class PropertyService {
@@ -8,6 +8,7 @@ export class PropertyService {
       dimensionsOfLand: sizeSqf,
       metricUnits: sizeUnit,
       conflict,
+      propertyType,
     } = data;
 
     const createdProperty = new Property();
@@ -17,9 +18,13 @@ export class PropertyService {
       createdProperty.sizeUnit = sizeUnit as MeasurementType;
     }
     createdProperty.inConflict = conflict === 'Yes';
+    if (propertyType) {
+      createdProperty.propertyType = propertyType as PropertyType;
+    }
     // TODO confirm
     createdProperty.status = PropertyStatus.active;
     createdProperty.createdBy = user;
+
 
     await createdProperty.save();
 
