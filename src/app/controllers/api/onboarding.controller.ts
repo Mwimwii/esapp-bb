@@ -56,7 +56,7 @@ export class OnboardingController {
       tenant
     );
     this.paymentService.add(body.fields, agreement);
-    this.fileService.add(body.fields, body.files);
+    this.fileService.add(body.fields, body.files, tenant, user);
 
     return new HttpResponseOK({received: true});
   }

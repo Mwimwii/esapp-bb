@@ -1,5 +1,5 @@
 import { Entity, Column, OneToMany, Generated, JoinColumn, ManyToOne } from 'typeorm';
-import { ContactDetail } from '.';
+import { ContactDetail, Asset } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
 import { PropertyGroup } from './PropertyGroup';
@@ -82,4 +82,7 @@ export class Contact extends BaseTable implements ContactAPI {
 
   @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
+
+  @OneToMany(() => Asset, asset => asset.ownedBy, { cascade: true })
+  assets: Asset[];
 }
