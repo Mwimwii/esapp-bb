@@ -15,6 +15,7 @@ import {
   PaymentService,
   FileService,
   IdentificationService,
+  CommentService,
 } from 'app/services';
 
 @JWTRequired({ cookie: true})
@@ -32,6 +33,8 @@ export class OnboardingController {
   fileService: FileService;
   @dependency
   identificationService: IdentificationService;
+  @dependency
+  commentService: CommentService;
 
   @Post('/submit')
   @ValidateMultipartFormDataBody({
@@ -59,6 +62,7 @@ export class OnboardingController {
       tenant,
       user,
     );
+    await this.commentService.add(agreement, user, body.fields.comments);
     await this.identificationService.add(body.fields, body.files, tenant, user);
     await this.paymentService.add(body.fields, agreement, user);
     await this.fileService.add(body.fields, body.files, tenant, user);

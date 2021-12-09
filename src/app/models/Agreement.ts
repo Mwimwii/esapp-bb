@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
-import { Contact, PaymentPlan, Property } from '.';
+import { Contact, PaymentPlan, Property, Comment } from '.';
 import { BaseTable } from './BaseTable';
 import {
   AgreementStatus,
@@ -48,6 +48,9 @@ export class Agreement extends BaseTable implements AgreementAPI {
 
   @OneToMany(() => PaymentPlan, paymentPlan => paymentPlan.agreement, { cascade: true })
   paymentPlans: PaymentPlan[];
+
+  @OneToMany(() => Comment, comment => comment.agreement, { cascade: true })
+  comments: Comment[];
 
   @Column('date', { nullable: true })
   dateArrived: Date;
