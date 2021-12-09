@@ -1,10 +1,12 @@
 import path from 'path';
-import { Disk } from '@foal/storage';
-import { dependency } from '@foal/core';
+import { Disk, File } from '@foal/storage';
+import { dependency, Env } from '@foal/core';
 
+import { Asset, Contact, User } from 'app/models';
 import { TenantService } from 'app/services';
 import { OnboardingFiles } from 'app/types';
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
+import { AssetType } from '@titl-all/shared/dist/enum';
 
 export class FileService {
   @dependency
@@ -13,7 +15,12 @@ export class FileService {
   @dependency
   tenantService: TenantService;
 
-  async add(data: Partial<OnboardingQuestions>, files: OnboardingFiles) {
+  async add(
+    data: Partial<OnboardingQuestions>,
+    files: OnboardingFiles,
+    contact: Contact,
+    user: User,
+  ) {
     const {
       firstName,
       lastName,
@@ -32,8 +39,10 @@ export class FileService {
       consentImageBack,
     } = files;
 
-    let iDShortCode = '';
+    let codes = { shortCode: '', assetType: AssetType.other };
     const directoryName = `0_${firstName}_${lastName}`;
+    const assetPath = `attachments/contacts/${directoryName}`;
+
     const phoneNumber = this.tenantService.obtainNonWhatsAppPhoneNumber(
       String(firstPhoneNumber),
       String(firstNumberIsWhatsApp),
@@ -42,57 +51,68 @@ export class FileService {
     );
 
     if (identificationImageFront || identificationImageBack) {
-        iDShortCode = this.getShortCodeForIdentification(String(identificationType));
+      codes = this.getCodesForIdentification(String(identificationType));
     }
 
     if (identificationImageFront) {
-      await this.disk.write(`attachments/contacts/${directoryName}`, identificationImageFront.buffer, {
-        // TODO won't have access to the number or exp date
-        name: `ID_${iDShortCode}_FRONT_0_0${path.extname(String(identificationImageFront.filename))}`,
-      });
+      // TODO won't have access to the number or exp date
+      const idFrontName = `ID_${codes.shortCode}_FRONT_0_0${path.extname(String(identificationImageFront.filename))}`;
+      await this.saveAsset(identificationImageFront, codes.assetType, idFrontName, assetPath, contact, user);
     }
 
     if (identificationImageBack) {
-      await this.disk.write(`attachments/contacts/${directoryName}`, identificationImageBack.buffer, {
-        // TODO won't have access to the number or exp date
-        name: `ID_${iDShortCode}_BACK_0_0${path.extname(String(identificationImageBack.filename))}`,
-      });
+      // TODO won't have access to the number or exp date
+      const idBackName = `ID_${codes.shortCode}_BACK_0_0${path.extname(String(identificationImageBack.filename))}`;
+      await this.saveAsset(identificationImageBack, codes.assetType, idBackName, assetPath, contact, user);
     }
 
     if (agreement) {
-      await this.disk.write(`attachments/contacts/${directoryName}`, agreement.buffer, {
-        name: `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(agreement.filename))}`,
-      });
+      const agreementName = `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(agreement.filename))}`;
+      await this.saveAsset(agreement, AssetType.agreement, agreementName, assetPath, contact, user);
     }
 
     if (consentImageFront) {
-      await this.disk.write(`attachments/contacts/${directoryName}`, consentImageFront.buffer, {
-        name: `DOC_CONSENT_FRONT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageFront.filename))}`,
-      });
-
+      const consentFrontName = `DOC_CONSENT_FRONT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageFront.filename))}`;
+      await this.saveAsset(consentImageFront, AssetType.consent, consentFrontName, assetPath, contact, user);
     }
 
     if (consentImageBack) {
-      await this.disk.write(`attachments/contacts/${directoryName}`, consentImageBack.buffer, {
-        name: `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageBack.filename))}`,
-      });
+      const consentBackName = `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageBack.filename))}`;
+      await this.saveAsset(consentImageBack, AssetType.consent, consentBackName, assetPath, contact, user);
     }
   }
 
-  getShortCodeForIdentification(type: string): string {
+  getCodesForIdentification(type: string): { shortCode: string; assetType: AssetType } {
     switch(type) {
       case 'National Id':
-        return 'NIN';
+        return { shortCode: 'NIN', assetType: AssetType.nationalId };
       case 'Driver\'s License':
-        return 'DRV';
+        return { shortCode: 'DRV', assetType: AssetType.driversLicense };
       case 'Passport':
-        return 'PAS';
+        return { shortCode: 'PAS', assetType: AssetType.passport };
       // TODO update documentation https://github.com/titl-all/data-importer/blob/main/AWS_Image_Cleanup.md
       case 'Village Id':
-        return 'VID';
+        return { shortCode: 'VID', assetType: AssetType.villageId };
     }
 
-    return '';
+    return { shortCode: '', assetType: AssetType.other };
+  }
+
+  async saveAsset(file: File, type: AssetType, name: string, path: string, contact: Contact, user: User) {
+    await this.disk.write(path, file.buffer, {
+      name,
+    });
+
+    const s3Bucket = Env.get('AWS_BUCKET');
+    const asset = new Asset();
+    asset.name = name;
+    asset.type = type;
+    asset.path = path;
+    asset.bucket = String(s3Bucket);
+    asset.ownedBy = contact;
+    asset.uploadedBy = user;
+
+    asset.save();
   }
 }
 
