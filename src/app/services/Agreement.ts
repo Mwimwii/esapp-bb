@@ -9,7 +9,7 @@ import {
 } from 'app/models';
 
 export class AgreementService {
-  add(
+  async add(
     data: Partial<OnboardingQuestions>,
     agreementImage: File,
     consentImageFront: File,
@@ -44,7 +44,7 @@ export class AgreementService {
       createdAgreement.hasAgreementImage = true;
     }
 
-    createdAgreement.save();
+    await createdAgreement.save();
 
     return createdAgreement;
   }
