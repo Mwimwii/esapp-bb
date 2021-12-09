@@ -16,7 +16,7 @@ interface PaymentInfo {
 }
 
 export class PaymentService {
-  add(data: Partial<OnboardingQuestions>, agreement: Agreement) {
+  async add(data: Partial<OnboardingQuestions>, agreement: Agreement) {
     const {
       kanzuBaseAmount,
       kanzuAmountPaid,
@@ -28,7 +28,7 @@ export class PaymentService {
     const kanzuInfo: PaymentInfo = { baseAmount: Number(kanzuBaseAmount), amountPaid: Number(kanzuAmountPaid) };
     const busuluInfo: PaymentInfo = { baseAmount: Number(busuluBaseAmount), amountPaid: Number(busuluAmountPaid) };
 
-    [kanzuInfo, busuluInfo].map((info: PaymentInfo) => {
+    [kanzuInfo, busuluInfo].map(async (info: PaymentInfo) => {
       const createdPaymentPlan = new PaymentPlan();
       createdPaymentPlan.baseAmount = info.baseAmount
       createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
@@ -37,7 +37,7 @@ export class PaymentService {
       createdPaymentPlan.status = PaymentPlanStatus.active;
       createdPaymentPlan.currency = PaymentCurrency.ugx;
 
-      createdPaymentPlan.save();
+      await createdPaymentPlan.save();
     });
 
   }
