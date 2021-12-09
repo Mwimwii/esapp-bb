@@ -3,17 +3,14 @@ import { Disk, File } from '@foal/storage';
 import { dependency, Env } from '@foal/core';
 
 import { Asset, Contact, User } from 'app/models';
-import { TenantService } from 'app/services';
 import { OnboardingFiles } from 'app/types';
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import { AssetType } from '@titl-all/shared/dist/enum';
+import { obtainNonWhatsAppPhoneNumber } from 'app/utils';
 
 export class FileService {
   @dependency
   disk: Disk;
-
-  @dependency
-  tenantService: TenantService;
 
   async add(
     data: Partial<OnboardingQuestions>,
@@ -37,18 +34,24 @@ export class FileService {
       agreement,
       consentImageFront,
       consentImageBack,
+      tenantPicture,
     } = files;
 
     let codes = { shortCode: '', assetType: AssetType.other };
     const directoryName = `0_${firstName}_${lastName}`;
     const assetPath = `attachments/contacts/${directoryName}`;
 
-    const phoneNumber = this.tenantService.obtainNonWhatsAppPhoneNumber(
+    const phoneNumber = obtainNonWhatsAppPhoneNumber(
       String(firstPhoneNumber),
       String(firstNumberIsWhatsApp),
       String(secondPhoneNumber),
       String(secondNumberIsWhatsApp),
     );
+
+    if (tenantPicture) {
+      const pictureName = `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(tenantPicture.filename))}`;
+      await this.saveAsset(tenantPicture, AssetType.profile, pictureName, assetPath, contact, user);
+    }
 
     if (identificationImageFront || identificationImageBack) {
       codes = this.getCodesForIdentification(String(identificationType));
