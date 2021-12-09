@@ -1,9 +1,9 @@
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import { MeasurementType, PropertyStatus } from '@titl-all/shared/dist/enum';
-import { Property } from 'app/models';
+import { Property, User } from 'app/models';
 
 export class PropertyService {
-  async add(data: Partial<OnboardingQuestions>) {
+  async add(data: Partial<OnboardingQuestions>, user: User) {
     const {
       dimensionsOfLand: sizeSqf,
       metricUnits: sizeUnit,
@@ -19,6 +19,7 @@ export class PropertyService {
     createdProperty.inConflict = conflict === 'Yes';
     // TODO confirm
     createdProperty.status = PropertyStatus.active;
+    createdProperty.createdBy = user;
 
     await createdProperty.save();
 

@@ -6,7 +6,7 @@ import { Asset, Contact, User } from 'app/models';
 import { OnboardingFiles } from 'app/types';
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import { AssetType } from '@titl-all/shared/dist/enum';
-import { obtainNonWhatsAppPhoneNumber } from 'app/utils';
+import { obtainNonWhatsAppPhoneNumber, getCodesForIdentification } from 'app/utils';
 
 export class FileService {
   @dependency
@@ -54,7 +54,7 @@ export class FileService {
     }
 
     if (identificationImageFront || identificationImageBack) {
-      codes = this.getCodesForIdentification(String(identificationType));
+      codes = getCodesForIdentification(String(identificationType));
     }
 
     if (identificationImageFront) {
@@ -83,22 +83,6 @@ export class FileService {
       const consentBackName = `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageBack.filename))}`;
       await this.saveAsset(consentImageBack, AssetType.consent, consentBackName, assetPath, contact, user);
     }
-  }
-
-  getCodesForIdentification(type: string): { shortCode: string; assetType: AssetType } {
-    switch(type) {
-      case 'National Id':
-        return { shortCode: 'NIN', assetType: AssetType.nationalId };
-      case 'Driver\'s License':
-        return { shortCode: 'DRV', assetType: AssetType.driversLicense };
-      case 'Passport':
-        return { shortCode: 'PAS', assetType: AssetType.passport };
-      // TODO update documentation https://github.com/titl-all/data-importer/blob/main/AWS_Image_Cleanup.md
-      case 'Village Id':
-        return { shortCode: 'VID', assetType: AssetType.villageId };
-    }
-
-    return { shortCode: 'OTH', assetType: AssetType.other };
   }
 
   async saveAsset(file: File, type: AssetType, name: string, path: string, contact: Contact, user: User) {
