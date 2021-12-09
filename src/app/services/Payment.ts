@@ -3,6 +3,7 @@ import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import {
   Agreement,
   PaymentPlan,
+  User,
 } from 'app/models';
 import {
   PaymentCycle,
@@ -16,7 +17,7 @@ interface PaymentInfo {
 }
 
 export class PaymentService {
-  async add(data: Partial<OnboardingQuestions>, agreement: Agreement) {
+  async add(data: Partial<OnboardingQuestions>, agreement: Agreement, user: User) {
     const {
       kanzuBaseAmount,
       kanzuAmountPaid,
@@ -36,6 +37,7 @@ export class PaymentService {
       createdPaymentPlan.cycle = paymentCycle as PaymentCycle;
       createdPaymentPlan.status = PaymentPlanStatus.active;
       createdPaymentPlan.currency = PaymentCurrency.ugx;
+      createdPaymentPlan.createdBy = user;
 
       await createdPaymentPlan.save();
     });
