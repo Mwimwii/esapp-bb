@@ -57,7 +57,7 @@ export class AgreementService {
     const types = requestedAgreementType.split(',');
     const agreeementTypesArr = types.map((type: string) => {
       switch(type) {
-        case 'Pay Busulu':
+        case 'Pay ground rent':
           return AgreementType.kibanja;
         case 'Turn to leasehold':
           return AgreementType.lease;
