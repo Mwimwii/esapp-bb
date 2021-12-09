@@ -21,15 +21,15 @@ export class PaymentService {
     const {
       kanzuBaseAmount,
       kanzuAmountPaid,
-      busuluBaseAmount,
-      busuluAmountPaid,
+      groundRentBaseAmount,
+      groundRentAmountPaid,
       paymentCycle,
     } = data;
 
     const kanzuInfo: PaymentInfo = { baseAmount: Number(kanzuBaseAmount), amountPaid: Number(kanzuAmountPaid) };
-    const busuluInfo: PaymentInfo = { baseAmount: Number(busuluBaseAmount), amountPaid: Number(busuluAmountPaid) };
+    const groundRentInfo: PaymentInfo = { baseAmount: Number(groundRentBaseAmount), amountPaid: Number(groundRentAmountPaid) };
 
-    [kanzuInfo, busuluInfo].map(async (info: PaymentInfo) => {
+    [kanzuInfo, groundRentInfo].map(async (info: PaymentInfo) => {
       const createdPaymentPlan = new PaymentPlan();
       createdPaymentPlan.baseAmount = info.baseAmount
       createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
