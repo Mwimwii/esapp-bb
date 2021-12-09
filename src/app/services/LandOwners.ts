@@ -12,7 +12,7 @@ export class LandOwnersService {
    * given an owner ID
    */
   async allTenantsWithRentPaymentPlans(ownerId: string) {
-    const paymentTypes = [PaymentType.groundRent, PaymentType.leaserent];
+    const paymentTypes = [PaymentType.groundrent, PaymentType.leaserent];
 
     const agreements = await Agreement.createQueryBuilder('agreement')
       .innerJoinAndSelect('agreement.property', 'property')
