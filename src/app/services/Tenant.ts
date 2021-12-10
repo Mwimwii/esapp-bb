@@ -1,13 +1,13 @@
-import { File } from '@foal/storage';
+import { File } from "@foal/storage";
 
-import { OnboardingQuestions } from '@titl-all/shared/dist/types';
+import { OnboardingQuestions } from "@titl-all/shared/dist/types";
 import {
   Language,
   ContactType,
   ContactDetailStatus,
   ContactDetailType,
-} from '@titl-all/shared/dist/enum';
-import { User, Contact, ContactDetail } from 'app/models';
+} from "@titl-all/shared/dist/enum";
+import { User, Contact, ContactDetail } from "app/models";
 
 export class TenantService {
   async add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
@@ -40,29 +40,33 @@ export class TenantService {
 
     tenantContact.hasPicture = Boolean(picture);
 
-    tenantContact.languages = languages ? this.formatLanguages(String(languages).split(',')) : [];
+    tenantContact.languages = languages
+      ? this.formatLanguages(String(languages).split(","))
+      : [];
     tenantContact.createdBy = user;
 
-    const createdContactDetailFirstPhoneNum = new ContactDetail();
-    createdContactDetailFirstPhoneNum.contactDetailType =
-      firstNumberIsWhatsApp === 'Yes'
-        ? ContactDetailType.whatsapp
-        : ContactDetailType.phone;
-    createdContactDetailFirstPhoneNum.contactDetailValue =
-      String(firstPhoneNumber);
-    createdContactDetailFirstPhoneNum.status = ContactDetailStatus.active;
-
-    const createdContactDetailSecondPhoneNum = new ContactDetail();
-    createdContactDetailSecondPhoneNum.contactDetailType =
-      secondNumberIsWhatsApp === 'Yes'
-        ? ContactDetailType.whatsapp
-        : ContactDetailType.phone;
-    createdContactDetailSecondPhoneNum.contactDetailValue =
-      String(secondPhoneNumber);
-    createdContactDetailSecondPhoneNum.status = ContactDetailStatus.active;
-
-    createdContactDetailFirstPhoneNum.contact = tenantContact;
-    createdContactDetailSecondPhoneNum.contact = tenantContact;
+    interface ContactDetailsInfo {
+      phoneNumber: string;
+      isWhatsApp: string;
+    }
+    const firstPhoneInfo: ContactDetailsInfo = {
+      phoneNumber: String(firstPhoneNumber),
+      isWhatsApp: String(firstNumberIsWhatsApp),
+    };
+    const secondPhoneInfo: ContactDetailsInfo = {
+      phoneNumber: String(secondPhoneNumber),
+      isWhatsApp: String(secondNumberIsWhatsApp),
+    };
+    [firstPhoneInfo, secondPhoneInfo].map((details: ContactDetailsInfo) => {
+      const createdContactDetail = new ContactDetail();
+      createdContactDetail.contactDetailType =
+        details.isWhatsApp === "Yes"
+          ? ContactDetailType.whatsapp
+          : ContactDetailType.phone;
+      createdContactDetail.contactDetailValue = details.phoneNumber;
+      createdContactDetail.status = ContactDetailStatus.active;
+      createdContactDetail.contact = tenantContact;
+    });
 
     tenantContact.save();
 
@@ -70,16 +74,16 @@ export class TenantService {
   }
 
   formatLanguages(languages?: string[]): Language[] {
-    const formattedLanguages = languages?.map(language => {
-      switch(language) {
-        case 'English':
+    const formattedLanguages = languages?.map((language) => {
+      switch (language) {
+        case "English":
           return Language.English;
-        case 'Luganda':
+        case "Luganda":
           return Language.Luganda;
-        case 'Swahili':
+        case "Swahili":
           return Language.Swahali;
         default:
-          return '';
+          return "";
       }
     });
 
