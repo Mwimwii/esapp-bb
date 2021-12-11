@@ -1,13 +1,13 @@
-import { File } from "@foal/storage";
+import { File } from '@foal/storage';
 
-import { OnboardingQuestions } from "@titl-all/shared/dist/types";
+import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import {
   Language,
   ContactType,
   ContactDetailStatus,
   ContactDetailType,
-} from "@titl-all/shared/dist/enum";
-import { User, Contact, ContactDetail } from "app/models";
+} from '@titl-all/shared/dist/enum';
+import { User, Contact, ContactDetail } from 'app/models';
 
 export class TenantService {
   async add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
@@ -41,7 +41,7 @@ export class TenantService {
     tenantContact.hasPicture = Boolean(picture);
 
     tenantContact.languages = languages
-      ? this.formatLanguages(String(languages).split(","))
+      ? this.formatLanguages(String(languages).split(','))
       : [];
     tenantContact.createdBy = user;
 
@@ -61,13 +61,13 @@ export class TenantService {
       async (details: ContactDetailsInfo) => {
         const createdContactDetail = new ContactDetail();
         createdContactDetail.contactDetailType =
-          details.isWhatsApp === "Yes"
+          details.isWhatsApp === 'Yes'
             ? ContactDetailType.whatsapp
             : ContactDetailType.phone;
         createdContactDetail.contactDetailValue = details.phoneNumber;
         createdContactDetail.status = ContactDetailStatus.active;
-        await createdContactDetail.save();
         createdContactDetail.contact = tenantContact;
+        await createdContactDetail.save();
       }
     );
 
@@ -79,14 +79,14 @@ export class TenantService {
   formatLanguages(languages?: string[]): Language[] {
     const formattedLanguages = languages?.map((language) => {
       switch (language) {
-        case "English":
+        case 'English':
           return Language.English;
-        case "Luganda":
+        case 'Luganda':
           return Language.Luganda;
-        case "Swahili":
+        case 'Swahili':
           return Language.Swahali;
         default:
-          return "";
+          return '';
       }
     });
 
