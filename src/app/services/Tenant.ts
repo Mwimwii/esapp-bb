@@ -57,16 +57,19 @@ export class TenantService {
       phoneNumber: String(secondPhoneNumber),
       isWhatsApp: String(secondNumberIsWhatsApp),
     };
-    [firstPhoneInfo, secondPhoneInfo].map((details: ContactDetailsInfo) => {
-      const createdContactDetail = new ContactDetail();
-      createdContactDetail.contactDetailType =
-        details.isWhatsApp === "Yes"
-          ? ContactDetailType.whatsapp
-          : ContactDetailType.phone;
-      createdContactDetail.contactDetailValue = details.phoneNumber;
-      createdContactDetail.status = ContactDetailStatus.active;
-      createdContactDetail.contact = tenantContact;
-    });
+    [firstPhoneInfo, secondPhoneInfo].map(
+      async (details: ContactDetailsInfo) => {
+        const createdContactDetail = new ContactDetail();
+        createdContactDetail.contactDetailType =
+          details.isWhatsApp === "Yes"
+            ? ContactDetailType.whatsapp
+            : ContactDetailType.phone;
+        createdContactDetail.contactDetailValue = details.phoneNumber;
+        createdContactDetail.status = ContactDetailStatus.active;
+        await createdContactDetail.save();
+        createdContactDetail.contact = tenantContact;
+      }
+    );
 
     tenantContact.save();
 
