@@ -77,7 +77,7 @@ export class TenantService {
   }
 
   formatLanguages(languages?: string[]): Language[] {
-    const formattedLanguages = languages?.map((language) => {
+    const formattedLanguages = languages?.map(language => {
       switch (language) {
         case 'English':
           return Language.English;
