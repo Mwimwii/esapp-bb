@@ -9,6 +9,11 @@ import {
 } from '@titl-all/shared/dist/enum';
 import { User, Contact, ContactDetail } from 'app/models';
 
+interface ContactDetailsInfo {
+  phoneNumber: string;
+  isWhatsApp: string;
+}
+
 export class TenantService {
   async add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
     const {
@@ -45,10 +50,6 @@ export class TenantService {
       : [];
     tenantContact.createdBy = user;
 
-    interface ContactDetailsInfo {
-      phoneNumber: string;
-      isWhatsApp: string;
-    }
     const firstPhoneInfo: ContactDetailsInfo = {
       phoneNumber: String(firstPhoneNumber),
       isWhatsApp: String(firstNumberIsWhatsApp),
@@ -57,6 +58,9 @@ export class TenantService {
       phoneNumber: String(secondPhoneNumber),
       isWhatsApp: String(secondNumberIsWhatsApp),
     };
+
+    await tenantContact.save();
+
     [firstPhoneInfo, secondPhoneInfo].map(
       async (details: ContactDetailsInfo) => {
         const createdContactDetail = new ContactDetail();
@@ -70,8 +74,6 @@ export class TenantService {
         await createdContactDetail.save();
       }
     );
-
-    tenantContact.save();
 
     return tenantContact;
   }
