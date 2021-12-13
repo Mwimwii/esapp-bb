@@ -36,6 +36,10 @@ export class UssdController {
     do {
       let nextSequenceVal = sequence.shift();
       let nextInt = +(nextSequenceVal || 0);
+      if (currentNode.type == UssdNodeType.list) {
+        currentNode.executeCalldata(request, nextSequenceVal);
+        currentNode.buildListNodes();
+      }
       if (nextInt >= 0 && nextInt <= currentNode.branches.length) {
         currentNode = currentNode.getNext(nextInt);
       } else {
@@ -80,17 +84,22 @@ const propertyList = [
   }
 ]
 
+function paymentsPropertyList(request: UssdRequest, params: any, data: any) {
+  console.log(request, params, data);
+  return propertyList;
+}
+
 function payNodeCallBack(request: UssdRequest, params: any) {
   console.log({ request, params });
 }
 
 const endNode = new UssdNode('Cancel', UssdNodeType.end, [], 'Thank you for using TrueSoil');
-const payNode = new UssdNode('Pay', UssdNodeType.prompt, [endNode], 'Enter UGX Amount:', [], payNodeCallBack);
+const payNode = new UssdNode('Pay', UssdNodeType.prompt, [endNode], 'Enter UGX Amount:', payNodeCallBack);
 
 const propertyNodePayments = new UssdNode('Payments', UssdNodeType.list, [
   payNode,
   endNode
-], 'Choose Property', propertyList);
+], 'Choose Property', paymentsPropertyList);
 
 const propertyNodeSell = new UssdNode('Sell', UssdNodeType.list, [
 
@@ -113,18 +122,19 @@ const contactNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
   new UssdNode('Call TrueSoil', UssdNodeType.nav, []),
 ])
 
-const rootNode =
-  new UssdNode(
-    'Welcome to TrueSoil.',
-    UssdNodeType.nav,
-    [
-      new UssdNode('English', UssdNodeType.nav, [
-        propertyNodePayments,
-        requestNodeList,
-        contactNode,
-        propertyNodeSell,
-        propertyNodeBuyout,
-      ], 'What do you want to do?'),
-      new UssdNode('Luganda', UssdNodeType.nav, []),
-    ]
-  );
+const englishNode = new UssdNode('English', UssdNodeType.nav, [
+  propertyNodePayments,
+  requestNodeList,
+  contactNode,
+  propertyNodeSell,
+  propertyNodeBuyout,
+], 'What do you want to do?')
+
+const rootNode = new UssdNode(
+  'Welcome to TrueSoil.',
+  UssdNodeType.nav,
+  [
+    englishNode,
+    new UssdNode('Luganda', UssdNodeType.nav, []),
+  ]
+);
