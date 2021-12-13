@@ -12,12 +12,11 @@ export class UssdNode {
    */
   constructor(title: string, type: UssdNodeType, branches: UssdNode[]);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string);
-  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[]);
-  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[], callback?: any);
-  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, datalist?: any[], callback?: any) {
+  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any);
+  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any) {
     this.title = convertToLabel(title) || '';
     this.branches = branches;
-    this.datalist = datalist || [];
+    // this.datalist = datalist || [];
     this.type = type;
     this.prompt = prompt ? convertToLabel(prompt) : prompt;
     this.callback = callback;
@@ -95,6 +94,10 @@ export class UssdNode {
     }
     return this;
   };
+
+  executeCalldata(request: UssdRequest, nextSequenceVal: string | undefined) {
+    this.datalist = this.callback(request, nextSequenceVal);
+  }
 
   executeCallback(request: UssdRequest, nextSequenceVal: string | undefined): UssdNode {
     this.callback(request, nextSequenceVal);
