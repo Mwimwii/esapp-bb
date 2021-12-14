@@ -96,7 +96,7 @@ export class FileService {
     asset.type = type;
     asset.path = path;
     asset.bucket = String(s3Bucket);
-    asset.ownedBy = contact;
+    asset.ownedByContact = contact;
     asset.uploadedBy = user;
 
     asset.save();

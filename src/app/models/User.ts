@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToOne,
   JoinColumn,
+  Generated,
   CreateDateColumn,
 } from 'typeorm';
 import { Contact, Administrator } from '.';
@@ -18,6 +19,10 @@ export class User extends BaseEntity {
       lastLogin: this.lastLogin,
     }
   }
+
+  @Column({ nullable: true })
+  @Generated('uuid')
+  uuid: string;
 
   @PrimaryGeneratedColumn()
   id: number;
