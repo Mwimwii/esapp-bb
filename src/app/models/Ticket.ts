@@ -42,13 +42,13 @@ export class Ticket extends BaseTable {
     @Column()
     body: string;
 
-    @Column({ type: 'enum', enum: TicketResolution })
+    @Column({ type: 'enum', enum: TicketResolution, nullable: true })
     resolution: TicketResolution;
 
-    @Column()
+    @Column({ nullable: true })
     resolutionExplanation: string;
 
-    @Column('date')
+    @Column({ type: 'date', nullable: true })
     dueDate: Date;
 
     @Column({ type: 'enum', enum: TicketSeverity })
