@@ -53,7 +53,7 @@ phases:
           --install \
           --set namespace=$NAMESPACE \
           --set DB_VERSION=$DB_VERSION \
-          --set DB_DATABASE=$DB_NAME \
+          --set DB_NAME=$DB_NAME \
           --set DB_USERNAME=$DB_USERNAME
         fi
       - echo Installing helm chart
