@@ -21,7 +21,29 @@ export default class AddTicketData implements Seeder {
       .select(['admin.userId'])
       .getRawMany()
 
+    // Dorothy
     const phoneNumber = 772457925;
+
+    const internalAssigneeEmail = 'benjamin@titl.app';
+
+    const { id: internalAssigneeUserId } = await connection.createQueryBuilder()
+      .select([
+        'id'
+      ])
+      .from(User, 'users')
+      .where('email = :email', { email:  internalAssigneeEmail })
+      .getRawOne();
+
+    const ticketUser = 'ham@titl.app';
+
+    const { id: ticketUserId } = await connection.createQueryBuilder()
+      .select([
+        'id'
+      ])
+      .from(User, 'users')
+      .where('email = :email', { email:  ticketUser })
+      .getRawOne();
+
     const { userid } = await connection.createQueryBuilder()
       .select([
         'users.id as userid'
@@ -39,12 +61,12 @@ export default class AddTicketData implements Seeder {
       .into(Ticket)
       .values([
         {
-          // use a differet user id
-          user: userid,
+          user: ticketUserId,
           sourceType: SourceType.contact,
           sourceTypeId: userid,
           ticketType: TicketType.reqservice,
-          body: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Legimus tamen Diogenem, Antipatrum, Mnesarchum, Panaetium, multos alios in primisque familiarem nostrum Posidonium. A mene tu? Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Nec lapathi suavitatem acupenseri Galloni Laelius anteponebat, sed suavitatem ipsam neglegebat; Hoc ille tuus non vult omnibusque ex rebus voluptatem quasi mercedem exigit.',
+          internalAssignee: internalAssigneeUserId,
+          body: 'TEST TICKET: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Legimus tamen Diogenem, Antipatrum, Mnesarchum, Panaetium, multos alios in primisque familiarem nostrum Posidonium. A mene tu? Atqui iste locus est, Piso, tibi etiam atque etiam confirmandus, inquam; Nec lapathi suavitatem acupenseri Galloni Laelius anteponebat, sed suavitatem ipsam neglegebat; Hoc ille tuus non vult omnibusque ex rebus voluptatem quasi mercedem exigit.',
           severity: TicketSeverity.high,
           status: TicketStatus.pendingunread,
           collaborators: adminUsers,
@@ -69,8 +91,5 @@ export default class AddTicketData implements Seeder {
         ])
         .execute();
       }
-
-    //const sourceType = SourceType.contact;
-    //const sourceTypeId = ; // contact id
   }
 }
