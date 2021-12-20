@@ -9,9 +9,10 @@ import {
   CreateDateColumn,
 } from 'typeorm';
 import { Contact, Administrator } from '.';
+import { UserAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'users' })
-export class User extends BaseEntity {
+export class User extends BaseEntity implements UserAPI {
   fields() {
     return {
       email: this.email,

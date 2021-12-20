@@ -71,4 +71,13 @@ export class LandOwnersController {
 
     return new HttpResponseOK(payments);
   }
+
+  @Get('/:ownerId/tickets')
+  async getTickets(ctx: Context) {
+    const { user } = ctx;
+
+    const tickets = await this.landOwnersService.allTicketsByTenant(user.id);
+
+    return new HttpResponseOK(tickets);
+  }
 }
