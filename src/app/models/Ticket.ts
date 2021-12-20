@@ -6,7 +6,7 @@ import {
   JoinTable,
   OneToMany,
   ManyToMany,
-  Generated
+  Generated,
 } from 'typeorm';
 import { User, TicketCollaborator, Asset } from '.';
 import { BaseTable } from './BaseTable';
@@ -18,10 +18,11 @@ import {
   TicketStatus,
   TicketResolution,
 } from '@titl-all/shared/dist/enum';
+import { TicketAPI } from '@titl-all/shared/dist/api-model';
 
 
 @Entity({ name: 'tickets' })
-export class Ticket extends BaseTable {
+export class Ticket extends BaseTable implements TicketAPI {
     @Column({ nullable: true })
     @Generated('uuid')
     uuid: string;

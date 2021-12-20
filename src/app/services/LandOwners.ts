@@ -1,6 +1,15 @@
-import { Agreement, Payment, PropertyGroup, Contact } from 'app/models';
-import { PaymentType, AgreementStatus } from '@titl-all/shared/dist/enum';
+import {
+  Agreement,
+  Payment,
+  PropertyGroup,
+  Contact,
+  Ticket,
+  TicketCollaborator,
+  User,
+} from 'app/models';
+import { PaymentType, AgreementStatus, SourceType } from '@titl-all/shared/dist/enum';
 import { PaymentAPI } from '@titl-all/shared/dist/api-model';
+import { TicketAPI } from '@titl-all/shared/dist/api-model';
 import { LandownerDashboardData } from 'app/types';
 
 export class LandOwnersService {
@@ -28,6 +37,35 @@ export class LandOwnersService {
       .getMany();
 
     return this.reorderByTenantAgreements(agreements);
+  }
+
+  /**
+   * All Ticket By Tenant
+   * @desc grab all tickets this landowner has grouped
+   * by tenants/users
+   */
+  async allTicketsByTenant(ownerUserId: string) {
+    const tickets = await Ticket.createQueryBuilder('ticket')
+      .where({
+        sourceTypeId: Number(ownerUserId)
+      })
+      .innerJoinAndSelect('ticket.user', 'user')
+      .orderBy('ticket.userId')
+      .getMany();
+
+    const ticketsCollaboratingOn = await TicketCollaborator.createQueryBuilder('ticket_collaborator')
+      .innerJoinAndSelect('ticket_collaborator.ticket', 'ticket')
+      .innerJoinAndSelect('ticket.user', 'user')
+      .leftJoinAndSelect('user.contact', 'contact')
+      .where({
+        user: ownerUserId
+      })
+      .getMany();
+
+    const resp = await this.reconcileTickets(tickets, ticketsCollaboratingOn);
+    console.log(resp)
+
+    return resp;
   }
 
   /**
@@ -195,7 +233,7 @@ export class LandOwnersService {
    * @description given some agreement data filter our the data given a status
    * to get a count for that type of agreement
    */
-  agreementStatusCount(data: Partial<Agreement>[], status: string): number {
+  private agreementStatusCount(data: Partial<Agreement>[], status: string): number {
     let count = 0;
 
     switch(status) {
@@ -297,5 +335,49 @@ export class LandOwnersService {
     })
 
     return { totalReceived, outstandingToReceive };
+  }
+
+  /**
+   * Reconcile Tickets
+   * @desc get the source type if a contact or user and join any tickets
+   * collaborating on and included on
+   */
+  private async reconcileTickets(tickets: TicketAPI[], ticketsCollaboratingOn: TicketCollaborator[]): Promise<Ticket[]> {
+    const ticketsWithSourceInfo = await Promise.all(tickets.map(async (ticket: TicketAPI) => {
+      const ticketSource = await this.getTicketSourceTypes(ticket);
+      return ticketSource;
+    }));
+
+    const reorderdTicketsCollaboratingOn = await Promise.all(ticketsCollaboratingOn.map(async (ticketCollabrator: TicketCollaborator) => {
+      const ticketSource = await this.getTicketSourceTypes(ticketCollabrator.ticket);
+      return ticketSource;
+    }));
+
+    return [
+      ...ticketsWithSourceInfo as unknown as Ticket[],
+      ...reorderdTicketsCollaboratingOn as unknown as Ticket[]
+    ];
+  }
+
+  private async getTicketSourceTypes(ticket: TicketAPI) {
+    if (ticket.sourceType === SourceType.contact) {
+      const contact = await Contact.findOne({
+        where: {
+          id: Number(ticket.sourceTypeId)
+        }
+      });
+      ticket.sourceTypeContact = contact;
+    }
+
+    if (ticket.sourceType === SourceType.user) {
+      const user = await User.findOne({
+        where: {
+          id: Number(ticket.sourceTypeId)
+        }
+      });
+      ticket.sourceTypeUser = user;
+    }
+
+    return ticket;
   }
 }
