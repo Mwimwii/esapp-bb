@@ -2,7 +2,6 @@ import {
   Context,
   HttpResponseOK,
   Post,
-  Get,
   Put,
   dependency,
 } from '@foal/core';
@@ -22,24 +21,6 @@ export class TicketController {
   ticketService: TicketService;
   @dependency
   fileService: FileService;
-
-  @Get('/')
-  async all(ctx: Context) {
-    const { user } = ctx;
-    const tickets = await this.ticketService.getAll(user);
-
-    return new HttpResponseOK(tickets);
-  }
-
-  @Get('/ticket/:ticketUuId')
-  async get(ctx: Context) {
-    const { ticketUuid } = ctx.request.params;
-    const { user } = ctx;
-
-    const ticket = this.ticketService.get(user, ticketUuid);
-
-    return new HttpResponseOK(ticket);
-  }
 
   @Post('/create')
   @ValidateMultipartFormDataBody({
