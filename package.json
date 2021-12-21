@@ -18,7 +18,7 @@
     "db:migration:create": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:create -n $1",
     "db:migration:generate": "ts-node --transpile-only ./node_modules/typeorm/cli.js migration:generate -n $1",
     "migrate:undo": "npx typeorm migration:revert",
-    "db:seed:run": "npm run build && ts-node ./node_modules/typeorm-seeding/dist/cli.js seed -n ormconfig.js -s $1",
+    "db:seed:run": "npm run build && ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -n ormconfig.js -s $1",
     "lint": "eslint --ext ts src",
     "lint:fix": "eslint --ext ts --fix src",
     "postinstall": "node-git-hooks",
@@ -28,10 +28,12 @@
     "node": ">=14"
   },
   "dependencies": {
+    "@foal/aws-s3": "^2.6.0",
     "@foal/core": "^2.0.0",
     "@foal/jwt": "^2.5.0",
+    "@foal/storage": "^2.6.0",
     "@foal/typeorm": "^2.0.0",
-    "@titl-all/shared": "2.0.3",
+    "@titl-all/shared": "3.0.18",
     "express": "4.17.1",
     "jsonwebtoken": "^8.5.1",
     "module-alias": "^2.2.2",
