@@ -6,7 +6,12 @@ import {
   AuthChecksController,
   UserController,
   LandOwnersController,
+<<<<<<< HEAD
   UssdController
+=======
+  OnboardingController,
+  TicketController,
+>>>>>>> dev
 } from './api';
 
 @ApiInfo({
@@ -27,5 +32,7 @@ export class ApiController {
     controller('/land-owners', LandOwnersController),
     controller('/user', UserController),
     controller('/ussd', UssdController),
+    controller('/onboarding', OnboardingController),
+    controller('/tickets', TicketController),
   ];
 }
