@@ -8,8 +8,7 @@ import {
   User,
 } from 'app/models';
 import { PaymentType, AgreementStatus, SourceType } from '@titl-all/shared/dist/enum';
-import { PaymentAPI } from '@titl-all/shared/dist/api-model';
-import { TicketAPI } from '@titl-all/shared/dist/api-model';
+import { PaymentAPI, TicketAPI } from '@titl-all/shared/dist/api-model';
 import { LandownerDashboardData } from 'app/types';
 
 export class LandOwnersService {
@@ -62,10 +61,37 @@ export class LandOwnersService {
       })
       .getMany();
 
-    const resp = await this.reconcileTickets(tickets, ticketsCollaboratingOn);
-    console.log(resp)
+    return await this.reconcileTickets(tickets, ticketsCollaboratingOn);
+  }
 
-    return resp;
+  async getTicket(ownerUserId: string, ticketUuid: string) {
+    const ticket = await Ticket.createQueryBuilder('ticket')
+      .where({
+        uuid: ticketUuid,
+        sourceTypeId: Number(ownerUserId),
+      })
+      .innerJoinAndSelect('ticket.user', 'user')
+      .orderBy('ticket.userId')
+      .getOne();
+
+    const ticketCollaboratingOn = await TicketCollaborator.createQueryBuilder('ticket_collaborator')
+      .innerJoinAndSelect('ticket_collaborator.ticket', 'ticket')
+      .innerJoinAndSelect('ticket.user', 'user')
+      .leftJoinAndSelect('user.contact', 'contact')
+      .where({
+        user: ownerUserId
+      })
+      .andWhere('ticket.uuid = :ticketUuid', { ticketUuid })
+      .getOne();
+
+      if (!ticket && !ticketCollaboratingOn) {
+        return;
+      }
+
+      const foundTicket = ticket ? ticket : ticketCollaboratingOn?.ticket;
+      const ticketSource = await this.getTicketSourceTypes(foundTicket as TicketAPI);
+
+      return ticketSource;
   }
 
   /**
