@@ -16,3 +16,4 @@ export { Conflict } from './Conflict';
 export { Administrator } from './Administrator';
 export { Asset } from './Asset';
 export { Comment } from './Comment';
+export { TicketCollaborator } from './TicketCollaborator';

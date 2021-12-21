@@ -7,6 +7,7 @@ import {
   UserController,
   LandOwnersController,
   OnboardingController,
+  TicketController,
 } from './api';
 
 @ApiInfo({
@@ -27,5 +28,6 @@ export class ApiController {
     controller('/land-owners', LandOwnersController),
     controller('/user', UserController),
     controller('/onboarding', OnboardingController),
+    controller('/tickets', TicketController),
   ];
 }
