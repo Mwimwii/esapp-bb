@@ -6,12 +6,9 @@ import {
   AuthChecksController,
   UserController,
   LandOwnersController,
-<<<<<<< HEAD
-  UssdController
-=======
+  UssdController,
   OnboardingController,
   TicketController,
->>>>>>> dev
 } from './api';
 
 @ApiInfo({
