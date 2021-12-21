@@ -1,5 +1,11 @@
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
-import { User, Contact } from '.';
+import {
+  User,
+  Contact,
+  Property,
+  Ticket,
+  Agreement,
+} from '.';
 import { BaseTable } from './BaseTable';
 import { AssetType } from '@titl-all/shared/dist/enum';
 
@@ -20,7 +26,19 @@ export class Asset extends BaseTable {
 
   @JoinColumn()
   @ManyToOne(() => Contact)
-  ownedBy: Contact;
+  ownedByContact: Contact;
+
+  @JoinColumn()
+  @ManyToOne(() => Contact)
+  ownedByProperty: Property;
+
+  @JoinColumn()
+  @ManyToOne(() => Contact)
+  ownedByTicket: Ticket;
+
+  @JoinColumn()
+  @ManyToOne(() => Contact)
+  ownedByAgreement: Agreement;
 
   @JoinColumn()
   @ManyToOne(() => User)

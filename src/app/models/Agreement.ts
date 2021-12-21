@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
-import { Contact, PaymentPlan, Property, Comment } from '.';
+import { Contact, PaymentPlan, Property, Comment, Asset } from '.';
 import { BaseTable } from './BaseTable';
 import {
   AgreementStatus,
@@ -87,6 +87,9 @@ export class Agreement extends BaseTable implements AgreementAPI {
 
   @Column({ type: 'simple-array', nullable: true })
   namedVerifiers: string[];
+
+  @OneToMany(() => Asset, ((asset: Asset) => asset.ownedByAgreement), { cascade: true })
+  assets: Asset[];
 
   // Airtable.TenantID connects to Contact.airTableId
   @Column({ nullable: true })

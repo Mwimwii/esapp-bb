@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, Generated, OneToMany } from 'typeorm';
-import { Agreement, Conflict, Contact, PropertyGroup } from '.';
+import { Agreement, Conflict, Contact, PropertyGroup, Asset } from '.';
 import { BaseTable } from './BaseTable';
 import {
   PropertyType,
@@ -71,4 +71,7 @@ export class Property extends BaseTable implements PropertyAPI {
 
     @OneToMany(() => Conflict, conflict => conflict.property, { cascade: true })
     conflicts: Conflict[];
+
+    @OneToMany(() => Asset, ((asset: Asset) => asset.ownedByProperty), { cascade: true })
+    assets: Asset[];
 }
