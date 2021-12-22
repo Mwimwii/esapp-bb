@@ -1,27 +1,7 @@
+import { convertToLabel } from 'app/utils/convertToLabel';
 import { PropertyNameLiteral } from 'typescript';
 import { UssdNodeType } from '../enums/UssdNodeType';
 import { UssdRequest } from './UssdRequest';
-
-function toPascalCase(text: string) {
-  if (text && text != '') {
-    text = text.trim().toLowerCase();
-    let words = text.split(' ') || [];
-    let out = '';
-    if (words.length > 0) {
-      words.forEach(word => {
-        out += word[0].toUpperCase() + word.substr(1) + ' ';
-      });
-    }
-    text = out;
-  }
-  return text.trim();
-}
-
-function convertToLabel(text: string) {
-  if (!text) return;
-  text = toPascalCase(text.replace(/[^a-zA-Z0-9.]/g, ' '));
-  return text;
-}
 
 export class UssdNode {
   /**
