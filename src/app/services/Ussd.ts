@@ -92,16 +92,16 @@ const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose
 
 const requestListNode = new UssdNode('Requests', UssdNodeType.list, [endNode], 'Choose Request', paymentsRequestsList);
 
-const contactNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
-  new UssdNode('Request us to Call You', UssdNodeType.nav, []),
-  new UssdNode('Call TrueSoil', UssdNodeType.nav, []),
+const contactTrueSoilNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
+  new UssdNode('Request us to Call You', UssdNodeType.end, [], 'We have received your request We will call you as soon as possible'),
+  new UssdNode('Call TrueSoil', UssdNodeType.end, [], 'You can contact us at 256 123 123456'),
 ])
 
 const englishNode = new UssdNode('English', UssdNodeType.nav, [
   propertyPaymentsNode,
   requestListNode,
   propertySellNode,
-  contactNode,
+  contactTrueSoilNode,
   propertyNodeBuyout,
 ], 'What do you want to do?')
 
