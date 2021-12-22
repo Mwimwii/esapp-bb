@@ -6,6 +6,7 @@ import {
   AuthChecksController,
   UserController,
   LandOwnersController,
+  UssdController,
   OnboardingController,
   TicketController,
 } from './api';
@@ -27,6 +28,7 @@ export class ApiController {
     controller('/auth-checks', AuthChecksController),
     controller('/land-owners', LandOwnersController),
     controller('/user', UserController),
+    controller('/ussd', UssdController),
     controller('/onboarding', OnboardingController),
     controller('/tickets', TicketController),
   ];
