@@ -69,15 +69,24 @@ function payNodeCallBack(request: UssdRequest, params: any) {
   console.log({ request, params });
 }
 
-const endNode = new UssdNode('Cancel', UssdNodeType.end, [], 'Thank you for using TrueSoil');
+function sellNodeCallBack(request: UssdRequest, params: any) {
+  console.log({ request, params });
+}
+
+const endNode = new UssdNode('Exit', UssdNodeType.end, [], 'Thank you for using TrueSoil');
 const payNode = new UssdNode('Pay', UssdNodeType.prompt, [endNode], 'Enter UGX Amount:', payNodeCallBack);
+const sellConcentNode = new UssdNode('Sell Concent', UssdNodeType.prompt, [endNode], 'You are about to request consent to sell on property. Write last two digits of your NIN to confirm.');
+const sellNode = new UssdNode('Sell', UssdNodeType.prompt, [sellConcentNode], 'Enter UGX Amount:', sellNodeCallBack);
 
 const propertyPaymentsNode = new UssdNode('Payments', UssdNodeType.list, [
   payNode,
   endNode
 ], 'Choose Property', paymentsPropertyList);
 
-const propertySellNode = new UssdNode('Sell', UssdNodeType.list, [], 'Choose Property', propertyList);
+const propertySellNode = new UssdNode('Sell', UssdNodeType.list, [
+  sellNode,
+  endNode
+], 'Choose Property', paymentsPropertyList);
 
 const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', propertyList);
 
