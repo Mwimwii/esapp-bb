@@ -1,4 +1,4 @@
-import { toPascalCase } from "./toPascalCase";
+import { toPascalCase } from './toPascalCase';
 
 export function convertToLabel(text: string) {
   if (!text)

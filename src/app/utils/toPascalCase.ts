@@ -2,7 +2,7 @@
 export function toPascalCase(text: string) {
   if (text && text != '') {
     text = text.trim().toLowerCase();
-    let words = text.split(' ') || [];
+    const words = text.split(' ') || [];
     let out = '';
     if (words.length > 0) {
       words.forEach(word => {
