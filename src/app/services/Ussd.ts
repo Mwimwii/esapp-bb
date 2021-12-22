@@ -2,6 +2,26 @@ import { UssdNodeType } from 'app/enums/UssdNodeType';
 import { UssdNode } from 'app/models/UssdNode';
 import { UssdRequest } from 'app/models/UssdRequest';
 
+
+const requestList = [
+  {
+    id: 133,
+    title: 'Sell Najjera House',
+    property: 'Najjera House',
+    request: 'Sell',
+    status: 'Waiting reply',
+    dueDate: '20/12/2012',
+  },
+  {
+    id: 11,
+    title: 'Buyout Land Mukono',
+    property: 'Land Mukono',
+    request: 'Buyout',
+    status: 'Approved',
+    dueDate: '20/12/2012',
+  },
+];
+
 const propertyList = [
   {
     id: 133,
@@ -33,7 +53,12 @@ const propertyList = [
     PaidUntil: '20/12/2012',
     DueDate: '20/12/2012',
   }
-]
+];
+
+function paymentsRequestsList(request: UssdRequest, params: any, data: any) {
+  console.log(request, params, data);
+  return requestList;
+}
 
 function paymentsPropertyList(request: UssdRequest, params: any, data: any) {
   console.log(request, params, data);
@@ -56,13 +81,7 @@ const propertyNodeSell = new UssdNode('Sell', UssdNodeType.list, [], 'Choose Pro
 
 const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', propertyList);
 
-const requestNodeList = new UssdNode('Check Requests', UssdNodeType.nav, [
-  new UssdNode('Requests', UssdNodeType.list, [], '', [
-    'Land Sell',
-    'Land Purchase',
-    'Buyout'
-  ]), // Add datalist
-], 'Choose Request');
+const requestNodeList = new UssdNode('Requests', UssdNodeType.list, [endNode], 'Choose Request', paymentsRequestsList);
 
 const contactNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
   new UssdNode('Request us to Call You', UssdNodeType.nav, []),
