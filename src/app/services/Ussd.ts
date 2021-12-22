@@ -65,6 +65,11 @@ function paymentsPropertyList(request: UssdRequest, params: any, data: any) {
   return propertyList;
 }
 
+function buyPropertyList(request: UssdRequest, params: any, data: any) {
+  console.log(request, params, data);
+  return propertyList;
+}
+
 function payNodeCallBack(request: UssdRequest, params: any) {
   console.log({ request, params });
 }
@@ -88,7 +93,7 @@ const propertySellNode = new UssdNode('Sell', UssdNodeType.list, [
   endNode
 ], 'Choose Property', paymentsPropertyList);
 
-const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', propertyList);
+const propertyBuyNode = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', buyPropertyList);
 
 const requestListNode = new UssdNode('Requests', UssdNodeType.list, [endNode], 'Choose Request', paymentsRequestsList);
 
@@ -102,7 +107,7 @@ const englishNode = new UssdNode('English', UssdNodeType.nav, [
   requestListNode,
   propertySellNode,
   contactTrueSoilNode,
-  propertyNodeBuyout,
+  propertyBuyNode,
 ], 'What do you want to do?')
 
 export const rootNode = new UssdNode(
