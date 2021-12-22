@@ -72,16 +72,16 @@ function payNodeCallBack(request: UssdRequest, params: any) {
 const endNode = new UssdNode('Cancel', UssdNodeType.end, [], 'Thank you for using TrueSoil');
 const payNode = new UssdNode('Pay', UssdNodeType.prompt, [endNode], 'Enter UGX Amount:', payNodeCallBack);
 
-const propertyNodePayments = new UssdNode('Payments', UssdNodeType.list, [
+const propertyPaymentsNode = new UssdNode('Payments', UssdNodeType.list, [
   payNode,
   endNode
 ], 'Choose Property', paymentsPropertyList);
 
-const propertyNodeSell = new UssdNode('Sell', UssdNodeType.list, [], 'Choose Property', propertyList);
+const propertySellNode = new UssdNode('Sell', UssdNodeType.list, [], 'Choose Property', propertyList);
 
 const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', propertyList);
 
-const requestNodeList = new UssdNode('Requests', UssdNodeType.list, [endNode], 'Choose Request', paymentsRequestsList);
+const requestListNode = new UssdNode('Requests', UssdNodeType.list, [endNode], 'Choose Request', paymentsRequestsList);
 
 const contactNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
   new UssdNode('Request us to Call You', UssdNodeType.nav, []),
@@ -89,10 +89,10 @@ const contactNode = new UssdNode('Contact Truesoil', UssdNodeType.nav, [
 ])
 
 const englishNode = new UssdNode('English', UssdNodeType.nav, [
-  propertyNodePayments,
-  requestNodeList,
+  propertyPaymentsNode,
+  requestListNode,
+  propertySellNode,
   contactNode,
-  propertyNodeSell,
   propertyNodeBuyout,
 ], 'What do you want to do?')
 
