@@ -3,12 +3,16 @@ import { UssdNodeType } from '../enums/UssdNodeType';
 import { UssdRequest } from './UssdRequest';
 
 function toPascalCase(text: string) {
-  if (text) {
-    text = text.toLowerCase();
-    // let words = text.split(' ') || [];
-    // words.forEach(word => {
-    //   out += word[0].toUpperCase() + word.substr(1) + ' ';
-    // });
+  if (text && text != '') {
+    text = text.trim().toLowerCase();
+    let words = text.split(' ') || [];
+    let out = '';
+    if (words.length > 0) {
+      words.forEach(word => {
+        out += word[0].toUpperCase() + word.substr(1) + ' ';
+      });
+    }
+    text = out;
   }
   return text.trim();
 }
@@ -30,10 +34,12 @@ export class UssdNode {
   constructor(title: string, type: UssdNodeType, branches: UssdNode[]);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any);
+  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any);
+  constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any, datalist?: any[]);
   constructor(title: string, type: UssdNodeType, branches: UssdNode[], prompt?: string, callback?: any) {
     this.title = convertToLabel(title) || '';
     this.branches = branches;
-    // this.datalist = datalist || [];
+    this.datalist = [];
     this.type = type;
     this.prompt = prompt ? convertToLabel(prompt) : prompt;
     this.callback = callback;
@@ -99,7 +105,7 @@ export class UssdNode {
     const result = Array<UssdNode>();
     for (const listItem of this.datalist) {
       result.push(
-        new UssdNode(listItem.title, UssdNodeType.detail, this.branches, this.prompt, [listItem])
+        new UssdNode(listItem.title, UssdNodeType.detail, this.branches, this.prompt, this.callback, [listItem])
       );
     }
     return result;
@@ -113,11 +119,16 @@ export class UssdNode {
   };
 
   executeCalldata(request: UssdRequest, nextSequenceVal: string | undefined) {
-    this.datalist = this.callback(request, nextSequenceVal);
+    if (this.callback) {
+      this.datalist = this.callback(request, nextSequenceVal);
+    }
   }
 
   executeCallback(request: UssdRequest, nextSequenceVal: string | undefined): UssdNode {
-    this.callback(request, nextSequenceVal);
-    return this.getNext(1);
+    if (this.callback) {
+      this.callback(request, nextSequenceVal);
+      return this.getNext(1);
+    }
+    return this;
   }
 }
