@@ -9,78 +9,36 @@ import { UssdRequest } from 'app/models/UssdRequest';
 
 // import { LandOwnersService } from 'app/services';
 
-export class UssdController {
-  // @dependency
-  // landOwnersService: LandOwnersService;
-
-  @Post('/')
-  // @ValidateBody(UssdRequest)
-  async processUssdRequest(ctx: Context) {
-
-    const ussdRequest = ctx.request.body;
-    console.log(ussdRequest);
-    const sequence = ussdRequest.text.split('*');
-    console.log(sequence);
-    ctx.session?.set('ussdRequest', ussdRequest);
-
-    const result = this.executeUssdSequence(rootNode, sequence, ussdRequest);
-    console.log(result);
-
-    return new HttpResponseOK(result);
-  }
-
-  executeUssdSequence(startNode: UssdNode, sequence: string[], request: UssdRequest) {
-    console.log(sequence);
-    let currentNode = startNode;
-
-    do {
-      let nextSequenceVal = sequence.shift();
-      let nextInt = +(nextSequenceVal || 0);
-      if (currentNode.type == UssdNodeType.list) {
-        currentNode.executeCalldata(request, nextSequenceVal);
-        currentNode.buildListNodes();
-      }
-      if (nextInt >= 0 && nextInt <= currentNode.branches.length) {
-        currentNode = currentNode.getNext(nextInt);
-      } else {
-        currentNode = currentNode.executeCallback(request, nextSequenceVal);
-      }
-    } while (sequence.length > 0);
-    console.log(currentNode);
-    return currentNode.execute();
-  }
-}
-
 const propertyList = [
   {
     id: 133,
     title: 'Migalu Rd plot 1289',
-    tenancy_start: '20/12/2012',
-    payments: 200000,
-    frequency: 'Monthly',
-    payment_due: '20/12/2012',
-    paid_until: '20/12/2012',
-    due_date: '20/12/2012',
+    TenancyStart: '20/12/2012',
+    Payments: 200000,
+    Frequency: 'Monthly',
+    PaymentDue: '20/12/2012',
+    PaidUntil: '20/12/2012',
+    DueDate: '20/12/2012',
   },
   {
     id: 122,
     title: 'Property 2',
-    tenancy_start: '20/12/2012',
-    payments: 1500000,
-    frequency: 'Weekly',
-    payment_due: '20/12/2012',
-    paid_until: '20/12/2012',
-    due_date: '20/12/2012',
+    TenancyStart: '20/12/2012',
+    Payments: 1500000,
+    Frequency: 'Weekly',
+    PaymentDue: '20/12/2012',
+    PaidUntil: '20/12/2012',
+    DueDate: '20/12/2012',
   },
   {
     id: 312,
     title: 'Daily Property',
-    tenancy_start: '20/12/2012',
-    payments: 20000,
-    frequency: 'Daily',
-    payment_due: '20/12/2012',
-    paid_until: '20/12/2012',
-    due_date: '20/12/2012',
+    TenancyStart: '20/12/2012',
+    Payments: 20000,
+    Frequency: 'Daily',
+    PaymentDue: '20/12/2012',
+    PaidUntil: '20/12/2012',
+    DueDate: '20/12/2012',
   }
 ]
 
@@ -138,3 +96,45 @@ const rootNode = new UssdNode(
     new UssdNode('Luganda', UssdNodeType.nav, []),
   ]
 );
+
+export class UssdController {
+  // @dependency
+  // landOwnersService: LandOwnersService;
+
+  @Post('/')
+  // @ValidateBody(UssdRequest)
+  async processUssdRequest(ctx: Context) {
+
+    const ussdRequest = ctx.request.body;
+    console.log(ussdRequest);
+    const sequence = ussdRequest.text.split('*');
+    console.log(sequence);
+    ctx.session?.set('ussdRequest', ussdRequest);
+
+    const result = this.executeUssdSequence(rootNode, sequence, ussdRequest);
+    console.log(result);
+
+    return new HttpResponseOK(result);
+  }
+
+  executeUssdSequence(startNode: UssdNode, sequence: string[], request: UssdRequest) {
+    console.log(sequence);
+    let currentNode = startNode;
+
+    do {
+      const nextSequenceVal = sequence.shift();
+      const nextInt = +(nextSequenceVal || 0);
+      if (currentNode.type == UssdNodeType.list) {
+        currentNode.executeCalldata(request, nextSequenceVal);
+        currentNode.buildListNodes();
+      }
+      if (nextInt >= 0 && nextInt <= currentNode.branches.length) {
+        currentNode = currentNode.getNext(nextInt);
+      } else {
+        currentNode = currentNode.executeCallback(request, nextSequenceVal);
+      }
+    } while (sequence.length > 0);
+    console.log(currentNode);
+    return currentNode.execute();
+  }
+}

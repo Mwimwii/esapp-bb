@@ -1,6 +1,23 @@
 import { PropertyNameLiteral } from 'typescript';
-import { UssdNodeType } from "../enums/UssdNodeType";
+import { UssdNodeType } from '../enums/UssdNodeType';
 import { UssdRequest } from './UssdRequest';
+
+function toPascalCase(text: string) {
+  if (text) {
+    text = text.toLowerCase();
+    // let words = text.split(' ') || [];
+    // words.forEach(word => {
+    //   out += word[0].toUpperCase() + word.substr(1) + ' ';
+    // });
+  }
+  return text.trim();
+}
+
+function convertToLabel(text: string) {
+  if (!text) return;
+  text = toPascalCase(text.replace(/[^a-zA-Z0-9.]/g, ' '));
+  return text;
+}
 
 export class UssdNode {
   /**
@@ -33,7 +50,7 @@ export class UssdNode {
     switch (this.type) {
       case UssdNodeType.list:
         if (this.branches.length != this.datalist.length) {
-          let options = this.buildListNodes();
+          const options = this.buildListNodes();
           if (options.length > 0) {
             for (let index = 0; index < options.length; index++) {
               text += `${index + 1}. ${options[index].title}\n`;
@@ -103,21 +120,4 @@ export class UssdNode {
     this.callback(request, nextSequenceVal);
     return this.getNext(1);
   }
-}
-
-function toPascalCase(text: string) {
-  if (text) {
-    text = text.toLowerCase();
-    // let words = text.split(' ') || [];
-    // words.forEach(word => {
-    //   out += word[0].toUpperCase() + word.substr(1) + ' ';
-    // });
-  }
-  return text.trim();
-}
-
-function convertToLabel(text: string) {
-  if (!text) return;
-  text = toPascalCase(text.replace(/[^a-zA-Z0-9.]/g, ' '));
-  return text;
 }
