@@ -59,13 +59,9 @@ const propertyNodePayments = new UssdNode('Payments', UssdNodeType.list, [
   endNode
 ], 'Choose Property', paymentsPropertyList);
 
-const propertyNodeSell = new UssdNode('Sell', UssdNodeType.list, [
+const propertyNodeSell = new UssdNode('Sell', UssdNodeType.list, [], 'Choose Property', propertyList);
 
-], 'Choose Property', propertyList);
-
-const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [
-
-], 'Choose Property', propertyList);
+const propertyNodeBuyout = new UssdNode('Buyout', UssdNodeType.list, [], 'Choose Property', propertyList);
 
 const requestNodeList = new UssdNode('Check Requests', UssdNodeType.nav, [
   new UssdNode('Requests', UssdNodeType.list, [], '', [
@@ -124,12 +120,13 @@ export class UssdController {
     do {
       const nextSequenceVal = sequence.shift();
       const nextInt = +(nextSequenceVal || 0);
-      if (currentNode.type == UssdNodeType.list) {
-        currentNode.executeCalldata(request, nextSequenceVal);
-        currentNode.buildListNodes();
-      }
+
       if (nextInt >= 0 && nextInt <= currentNode.branches.length) {
         currentNode = currentNode.getNext(nextInt);
+        currentNode.executeCalldata(request, nextSequenceVal);
+        if (currentNode.type == UssdNodeType.detail) {
+          currentNode.datalist = [currentNode.datalist[+(nextSequenceVal || 1) - 1]];
+        }
       } else {
         currentNode = currentNode.executeCallback(request, nextSequenceVal);
       }
