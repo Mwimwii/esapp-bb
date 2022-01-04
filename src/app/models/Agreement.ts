@@ -55,6 +55,9 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column('date', { nullable: true })
   dateArrived: Date;
 
+  @Column('boolean', { nullable: true })
+  coOwnership: boolean;
+
   @Column({ type: 'enum', array: true, enum: AgreementType, nullable: true })
   requestedAgreementType: AgreementType[];
 
@@ -76,6 +79,9 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column({ type: 'simple-array', nullable: true })
   namedNeighbors: string[];
 
+  @Column({ type: 'simple-array', nullable: true })
+  namedVerifiers: string[];
+
   @Column({ default: false })
   termsAccepted: boolean;
 
@@ -87,6 +93,15 @@ export class Agreement extends BaseTable implements AgreementAPI {
 
   @Column({ type: 'simple-array', nullable: true })
   namedVerifiers: string[];
+
+  @Column({ type: 'text', nullable: true })
+  negotiationType: string;
+
+  @Column({ type: 'simple-array', nullable: true })
+  heardAboutUs: string[];
+
+  @Column({ type: 'text', nullable: true })
+  employeeName: string;
 
   @OneToMany(() => Asset, ((asset: Asset) => asset.ownedByAgreement), { cascade: true })
   assets: Asset[];
