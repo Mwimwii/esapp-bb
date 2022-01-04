@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, Generated, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, Generated, OneToMany, JoinColumn } from 'typeorm';
 import { Contact, Property } from '.';
 import { BaseTable } from './BaseTable';
 import { PropertyType } from '@titl-all/shared/dist/enum';

@@ -91,9 +91,6 @@ export class Agreement extends BaseTable implements AgreementAPI {
   @Column({ default: false })
   hasAgreementImage: boolean;
 
-  @Column({ type: 'simple-array', nullable: true })
-  namedVerifiers: string[];
-
   @Column({ type: 'text', nullable: true })
   negotiationType: string;
 
