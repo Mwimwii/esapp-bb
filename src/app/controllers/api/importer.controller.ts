@@ -22,7 +22,7 @@ import { env } from 'process';
 import { createConnection } from 'typeorm';
 import { readAirtelCsvFile } from 'app/importers/Airtel/readAirtelCsvFile';
 import { readMtnCsvFile } from 'app/importers/MTN/readMtnCsvFile';
-// import request = require('request');
+import request = require('request');
 
 export class ImporterController {
 
@@ -53,12 +53,12 @@ export class ImporterController {
         });
 
         importAirTable(base, connection.manager);
-        // importJotForm(jf, connection.manager, s3Client);
-        // importXLSXFile(connection.manager, `payments.xlsx`);
-        // importJSONFile(connection.manager, `ussd.json`);
-        // importAirtelReports(connection.manager, s3Client);
-        importMTNReports(connection.manager, s3Client);
-        // importHubImages(hub, s3Client, connection.manager);
+        importJotForm(jf, connection.manager, s3Client);
+        importXLSXFile(connection.manager, `payments.xlsx`);
+        importJSONFile(connection.manager, `ussd.json`);
+        importAirtelReports(connection.manager);
+        importMTNReports(connection.manager);
+        importHubImages(hub, s3Client, connection.manager);
       }).catch(error => console.log(error));
     return new HttpResponseOK({
       text: 'Import Test complete'
@@ -67,45 +67,45 @@ export class ImporterController {
 
   @Post('/sns')
   async snslistener(ctx: Context) {
-    // const connection = createConnection();
+    const connection = createConnection();
 
     console.debug(ctx.request.body);
     const message = JSON.parse(ctx.request.body);
     console.log(message);
 
-    // if (message.Type == 'SubscriptionConfirmation') {
-    //   request.get(message.SubscribeURL, (err: any, resp: { body: any; }) => {
-    //     if (err) {
-    //       console.log(err);
-    //       return new HttpResponseInternalServerError(err);
-    //     } else {
-    //       console.log(resp)
-    //       return new HttpResponseOK(resp.body);
-    //     }
-    //   })
-    // }
+    if (message.Type == 'SubscriptionConfirmation') {
+      request.get(message.SubscribeURL, (err: any, resp: { body: any; }) => {
+        if (err) {
+          console.log(err);
+          return new HttpResponseInternalServerError(err);
+        } else {
+          console.log(resp)
+          return new HttpResponseOK(resp.body);
+        }
+      })
+    }
 
-    // if (message.Type == 'Notification') {
-    //   const records = JSON.parse(message.Message);
-    //   console.log(records);
+    if (message.Type == 'Notification') {
+      const records = JSON.parse(message.Message);
+      console.log(records);
 
-    //   if (!records.Records[0].s3.object) {
-    //     return new HttpResponseBadRequest('No object found');
-    //   }
+      if (!records.Records[0].s3.object) {
+        return new HttpResponseBadRequest('No object found');
+      }
 
-    //   if (message.TopicArn.includes('airtel')) {
-    //     const s3Client = new S3Client({ region: env.AWS_REGION });
-    //     readAirtelCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
-    //     return new HttpResponseOK('Airtel Import Complete');
-    //   }
+      if (message.TopicArn.includes('airtel')) {
+        const s3Client = new S3Client({ region: env.AWS_REGION });
+        readAirtelCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
+        return new HttpResponseOK('Airtel Import Complete');
+      }
 
-    //   if (message.TopicArn.includes('mtn')) {
-    //     const s3Client = new S3Client({ region: env.AWS_REGION });
-    //     readMtnCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
-    //     return new HttpResponseOK('MTN Import Complete');
-    //   }
+      if (message.TopicArn.includes('mtn')) {
+        const s3Client = new S3Client({ region: env.AWS_REGION });
+        readMtnCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
+        return new HttpResponseOK('MTN Import Complete');
+      }
 
-    // }
+    }
     return new HttpResponseNotImplemented('Action Unknown');
   }
 }
