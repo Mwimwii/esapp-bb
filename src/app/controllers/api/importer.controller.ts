@@ -57,7 +57,7 @@ export class ImporterController {
         // importXLSXFile(connection.manager, `payments.xlsx`);
         // importJSONFile(connection.manager, `ussd.json`);
         // importAirtelReports(connection.manager, s3Client);
-        // importMTNReports(connection.manager, s3Client);
+        importMTNReports(connection.manager, s3Client);
         // importHubImages(hub, s3Client, connection.manager);
       }).catch(error => console.log(error));
     return new HttpResponseOK({

@@ -1,4 +1,3 @@
-import { S3Client } from '@aws-sdk/client-s3';
 import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import { Payment } from '../../models';
@@ -9,7 +8,7 @@ import AWS = require('aws-sdk');
 import { cleanMtnNumber } from './cleanMtnNumber';
 const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
-export function readMtnCsvFile(manager: EntityManager, s3Client: S3Client, obj: any) {
+export function readMtnCsvFile(manager: EntityManager, obj: any) {
   console.log(obj);
   const paymentRepo = manager.getRepository(Payment);
 
