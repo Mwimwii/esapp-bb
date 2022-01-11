@@ -9,7 +9,7 @@ build/
 yarn-error.log
 
 .idea
-.vscode/
+.vscode
 exe/
 *lock.json
 **/*.http
