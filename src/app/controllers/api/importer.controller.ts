@@ -94,14 +94,12 @@ export class ImporterController {
       }
 
       if (message.TopicArn.includes('airtel')) {
-        const s3Client = new S3Client({ region: env.AWS_REGION });
-        readAirtelCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
+        readAirtelCsvFile((await connection).manager, records.Records[0].s3.object);
         return new HttpResponseOK('Airtel Import Complete');
       }
 
       if (message.TopicArn.includes('mtn')) {
-        const s3Client = new S3Client({ region: env.AWS_REGION });
-        readMtnCsvFile((await connection).manager, s3Client, records.Records[0].s3.object);
+        readMtnCsvFile((await connection).manager, records.Records[0].s3.object);
         return new HttpResponseOK('MTN Import Complete');
       }
 
