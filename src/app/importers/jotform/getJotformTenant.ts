@@ -1,4 +1,4 @@
-import { Attachment, Contact, ContactDetail } from '../../models';
+import { Contact, ContactDetail } from '../../models';
 import { SanitizeNumber } from '../../utils/SanitizeNumber';
 import { Repository } from 'typeorm';
 import { ContactType } from '@titl-all/shared/dist/enum';
