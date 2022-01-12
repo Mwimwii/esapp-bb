@@ -90,21 +90,21 @@ export async function importHubImages(hub: hubspot.Client, s3: S3Client, manager
                   wStream.on('finish', () => {
                     const rStream = fs.createReadStream(path);
                     try { // Upload to S3 bucket
-                      s3.send(new PutObjectCommand(<PutObjectCommandInput>{
+                      s3.send(new PutObjectCommand({
                         Bucket: env.AWS_BUCKET,
                         Key: `attachments/contacts/${foldername}/${signedResult.body.name}.${signedResult.body.extension}`,
                         Body: rStream,
                         ServerSideEncryption: 'AES256'
                         // options:
-                      })).then(data => {
+                      } as PutObjectCommandInput)).then(data => {
                         console.log('Success', data);
                         rStream.close();
-                        fileRepo.save(<Attachment>{
+                        fileRepo.save({
                           filePath: `https://${env.AWS_BUCKET}.s3.${env.AWS_REGION}.amazonaws.com/attachments/contacts/${foldername}/${signedResult.body.name}.${signedResult.body.extension}`,
                           hubSpotId: attachment.id,
                           hubSpotParentId: `${cnct.id}`,
                           status: AttachmentStatus.active
-                        }).then(file => {
+                        } as Attachment).then(file => {
                           console.log(file);
                         });
                         return data;
