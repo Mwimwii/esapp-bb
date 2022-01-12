@@ -65,11 +65,11 @@ export function readJotformSubmissions(
         where: [{ nickname: nickname }],
       });
       if (!propertyGroup) {
-        propertyGroup = <PropertyGroup>{
+        propertyGroup = {
           nickname: nickname,
           propertyType: PropertyType.mailo,
           lC: await getJotformLC(records[0], manager.getRepository(Contact)),
-        };
+        } as PropertyGroup;
         propertyGroupRepo.save(propertyGroup);
       }
 
@@ -83,7 +83,7 @@ export function readJotformSubmissions(
       records.forEach(async (record: any) => {
         if (!savedIds.find(p => p.jotFormId == record.id)) {
           try {
-            const property = <Property><unknown>{
+            const property = ({
               jotFormId: record.id,
               propertyGroup: propertyGroup,
               propertyType: propertyGroup!.propertyType,
@@ -99,9 +99,9 @@ export function readJotformSubmissions(
               conflicts: [],
               agreements: [],
               status: PropertyStatus.active,
-            };
+            } as unknown) as Property;
 
-            const agreement = <Agreement><unknown>{
+            const agreement = ({
               requestedAgreementType: readJotFormValue(record, 28, null)
                 ? mapAgreementType(readJotFormValue(record, 28, null)[0])
                 : null,
@@ -129,14 +129,14 @@ export function readJotformSubmissions(
               employeeName: readJotFormValue(record, 200, null),
               paymentPlans: [],
               comments: [],
-            };
+            } as unknown) as Agreement;
 
             if (readJotFormValue(record, 204, null)) {
               console.log(`comment ${readJotFormValue(record, 204, null)}`);
-              agreement.comments.push(<Comment>{
+              agreement.comments.push({
                 comment: readJotFormValue(record, 204, null),
                 createdAt: record.updated_at || record.created_at,
-              });
+              } as Comment);
             }
 
             if (readJotFormDate(record, 166)) {
@@ -171,10 +171,10 @@ export function readJotformSubmissions(
             property.agreements.push(agreement);
 
             if (readJotFormValue(record, 145, null) === 'YES') {
-              property.conflicts.push(<Conflict>{
+              property.conflicts.push({
                 conflictType: readJotFormValue(record, 202, null),
                 confilctDescription: readJotFormValue(record, 203, null),
-              });
+              } as Conflict);
               property.status = PropertyStatus.conflicted;
             }
 
