@@ -114,7 +114,7 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
             updateRelations(manager);
         });
     } catch (error) {
-        throw error;
+        console.log(error);
     }
 }
 
