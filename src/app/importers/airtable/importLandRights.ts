@@ -43,7 +43,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               nickname: record.get('referenceID'),
               status: PropertyStatus.active,
               agreements: [
-                <Agreement>({
+                <Agreement><unknown>({
                   airTableTenantId: record.get('Tenant')[0],
                   status: mapAgreementStatus(record.get('TenantOnboardingStage (from Tenant)')[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
@@ -60,7 +60,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
 
             if (record.get('PaymentSize')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan>({
+                <PaymentPlan><unknown>({
                   paymentType: mapXLPaymentType(record.get('PaymentType')),
                   baseAmount: parseInt(record.get('PaymentSize')) || 0,
                   agreedAmount: parseInt(record.get('PaymentSize')) || 0,
@@ -76,7 +76,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
 
             if (record.get('OrigOverdueKanzu')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan>({
+                <PaymentPlan><unknown>({
                   paymentType: PaymentType.kanzu,
                   baseAmount: parseInt(record.get('OrigKanzu')) || 0,
                   agreedAmount: parseInt(record.get('OrigKanzu')) || 0,
@@ -92,7 +92,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
 
             if (record.get('RenegotiatedArrearsDue')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan>({
+                <PaymentPlan><unknown>({
                   paymentType: PaymentType.arrears,
                   baseAmount: parseInt(record.get('RenegotiatedArrearsDue')) || 0,
                   agreedAmount: parseInt(record.get('RenegotiatedArrearsDue')) || 0,
