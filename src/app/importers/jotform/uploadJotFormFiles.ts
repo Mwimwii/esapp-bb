@@ -18,7 +18,7 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
       }
     }, (res: { statusCode: number; headers: { location: any } }) => {
       // Image will be stored at this path
-      const filename = url.split('\/')[url.split('\/').length - 1];
+      const filename = url.split('/')[url.split('/').length - 1];
       const path = `${env.TEMP_DIR}/${filename}`;
       const wStream = fs.createWriteStream(path);
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -29,22 +29,22 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
             try { // Upload to S3 bucket
               const uploadTo = `${uploadPath}/${filename}`;
               console.log(uploadTo);
-              s3.send(new PutObjectCommand(<PutObjectCommandInput>{
+              s3.send(new PutObjectCommand({
                 Bucket: env.AWS_BUCKET,
                 Key: uploadTo,
                 Body: rStream,
                 ServerSideEncryption: 'AES256'
                 // options:
-              })).then(data => {
+              } as PutObjectCommandInput)).then(data => {
                 console.log('Success', data);
                 rStream.close();
-                repository.save(<Attachment>{
+                repository.save({
                   filePath: `https://${env.AWS_BUCKET}.s3.${env.AWS_REGION}.amazonaws.com/${uploadTo}`,
                   // jotFormId: attachment.id,
                   hubSpotParentId: parentid,
                   sourceType: sourcetype,
                   status: AttachmentStatus.active
-                }).then(file => {
+                } as Attachment).then(file => {
                   console.log(file);
                 });
                 return data;
