@@ -6,6 +6,7 @@ import {
   ContactType,
   ContactDetailStatus,
   ContactDetailType,
+  HeardAboutUsType
 } from '@titl-all/shared/dist/enum';
 import { User, Contact, ContactDetail } from 'app/models';
 
@@ -17,6 +18,8 @@ interface ContactDetailsInfo {
 export class TenantService {
   async add(data: Partial<OnboardingQuestions>, picture: File, user: User) {
     const {
+      negotiationType,
+      heardAboutUsType,
       firstName,
       lastName,
       firstPhoneNumber,
@@ -27,11 +30,15 @@ export class TenantService {
       gender,
       dateOfBirth,
       tenantType: contactType,
-      languages,
+      languages
     } = data;
 
     const tenantContact = new Contact();
 
+    tenantContact.negotiationType = String(negotiationType);
+    tenantContact.heardAboutUsType = heardAboutUsType
+      ? this.formatReferrals(String(heardAboutUsType).split(','))
+      : [];
     tenantContact.firstName = String(firstName);
     tenantContact.lastName = String(lastName);
     tenantContact.nickName = String(nickname);
@@ -52,11 +59,11 @@ export class TenantService {
 
     const firstPhoneInfo: ContactDetailsInfo = {
       phoneNumber: String(firstPhoneNumber),
-      isWhatsApp: String(firstNumberIsWhatsApp),
+      isWhatsApp: String(firstNumberIsWhatsApp)
     };
     const secondPhoneInfo: ContactDetailsInfo = {
       phoneNumber: String(secondPhoneNumber),
-      isWhatsApp: String(secondNumberIsWhatsApp),
+      isWhatsApp: String(secondNumberIsWhatsApp)
     };
 
     await tenantContact.save();
@@ -76,6 +83,34 @@ export class TenantService {
     );
 
     return tenantContact;
+  }
+
+  formatReferrals(heardAboutUsType?: string[]): HeardAboutUsType[] {
+    const formattedReferrals = heardAboutUsType?.map(aboutUsType => {
+      switch (aboutUsType) {
+        case 'Community Meeting':
+          return HeardAboutUsType.communitymeeting;
+
+        case 'Neighbors':
+          return HeardAboutUsType.neighbors;
+
+        case 'Leaflets':
+          return HeardAboutUsType.leaflets;
+
+        case 'TV':
+          return HeardAboutUsType.tv;
+
+        case 'LC1':
+          return HeardAboutUsType.lc1;
+
+        case 'Other':
+          return HeardAboutUsType.other;
+
+        default:
+          return '';
+      }
+    });
+    return formattedReferrals as HeardAboutUsType[];
   }
 
   formatLanguages(languages?: string[]): Language[] {

@@ -236,10 +236,17 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
+<<<<<<< HEAD
 "@titl-all/shared@3.0.18":
   version "3.0.18"
   resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.18/4a63e29b5839b98091664d0c542709d938edff5de0096b16cff8fc2c67c679ed#5914b60b3c6ff2e185fea9c5451edd0e0f0d4547"
   integrity sha512-tITSwcfbEWD4SXqR1s3Mi5qpYSAqMw/VTkbiQK7VFVn+09+nl8DnJVr1FVKbE3BftjJoGB8lNoa0eC3ge3HoXw==
+=======
+"@titl-all/shared@3.0.17":
+  version "3.0.17"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.17/9aa47733b355d453c9144dad6c871e60bcc6cf37741696f132d6c413c7d24965#c6d893ab2b27f082f712cc7a575208f1b45f2e33"
+  integrity sha512-68zossqO2lCtwPogqdjbjcuuhgj0uwMxrla8orWniW2JMz5R6jD3mR1fnlPU83H9cO+DX1TwTjEC2U+WoNnl2g==
+>>>>>>> titl-1201519085429422-add-extra-questions-at-beginning
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
