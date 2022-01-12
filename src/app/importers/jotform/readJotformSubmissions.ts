@@ -50,7 +50,7 @@ export function readJotformSubmissions(
     orderby: 'created_at',
     direction: 'ASC',
   })
-    .then(async records => {
+    .then(async (records:any) => {
       const nickname = `${readJotFormValue(
         records[0],
         140,
@@ -80,13 +80,13 @@ export function readJotformSubmissions(
         where: { jotFormId: Not(IsNull()) },
       });
 
-      records.forEach(async record => {
+      records.forEach(async (record: any) => {
         if (!savedIds.find(p => p.jotFormId == record.id)) {
           try {
-            const property = <Property>{
+            const property = <Property><unknown>{
               jotFormId: record.id,
               propertyGroup: propertyGroup,
-              propertyType: propertyGroup.propertyType,
+              propertyType: propertyGroup!.propertyType,
               parish: readJotFormValue(record, 140, 1),
               village: readJotFormValue(record, 140, 2),
               blockNo: readJotFormValue(record, 140, 3),
@@ -95,13 +95,13 @@ export function readJotformSubmissions(
               geospatial: readJotFormValue(record, 210, null),
               sizeUnit: mapSizeUnit(readJotFormValue(record, 179, 2)),
               nickname: readJotFormValue(record, 183, null),
-              lC: propertyGroup.lC,
+              lC: propertyGroup!.lC,
               conflicts: [],
               agreements: [],
               status: PropertyStatus.active,
             };
 
-            const agreement = <Agreement>{
+            const agreement = <Agreement><unknown>{
               requestedAgreementType: readJotFormValue(record, 28, null)
                 ? mapAgreementType(readJotFormValue(record, 28, null)[0])
                 : null,
@@ -253,7 +253,7 @@ export function readJotformSubmissions(
       });
       console.log('Import Complete');
     })
-    .fail(function (e) {
+    .fail(function (e: any) {
       console.log({ id, e });
     });
 }
