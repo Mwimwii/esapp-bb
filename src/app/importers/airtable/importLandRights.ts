@@ -43,7 +43,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               nickname: record.get('referenceID'),
               status: PropertyStatus.active,
               agreements: [
-                <Agreement><unknown>({
+                ({
                   airTableTenantId: (record.get('Tenant') as string[])[0],
                   status: mapAgreementStatus((record.get('TenantOnboardingStage (from Tenant)') as string[])[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
@@ -53,14 +53,14 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   paymentPlans: [],
                   comments: [],
                   createdAt: record.get('RecordLastModifiedAt')
-                })
+                } as unknown) as Agreement
               ],
               createdAt: record.get('RecordLastModifiedAt')
             });
 
             if (record.get('PaymentSize')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan><unknown>({
+                ({
                   paymentType: mapXLPaymentType(record.get('PaymentType')),
                   baseAmount: parseInt(record.get('PaymentSize') as string) || 0,
                   agreedAmount: parseInt(record.get('PaymentSize') as string) || 0,
@@ -70,13 +70,13 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   paidUpUntil: record.get('OrigPaidUpUntil'),
                   createdAt: record.get('RecordLastModifiedAt'),
                   status: PaymentPlanStatus.active
-                })
+                } as unknown) as PaymentPlan
               );
             }
 
             if (record.get('OrigOverdueKanzu')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan><unknown>({
+                ({
                   paymentType: PaymentType.kanzu,
                   baseAmount: parseInt(record.get('OrigKanzu') as string) || 0,
                   agreedAmount: parseInt(record.get('OrigKanzu') as string) || 0,
@@ -86,13 +86,13 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   paidUpUntil: record.get('OrigPaidUpUntil'),
                   createdAt: record.get('RecordLastModifiedAt'),
                   status: mapPaymentPlanStatus(record.get('KanzuStatus') as string)
-                })
+                } as unknown) as PaymentPlan
               );
             }
 
             if (record.get('RenegotiatedArrearsDue')) {
               property.agreements[0].paymentPlans.push(
-                <PaymentPlan><unknown>({
+                ({
                   paymentType: PaymentType.arrears,
                   baseAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
                   agreedAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
@@ -102,16 +102,16 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   dueDate: record.get('RenegotiatedArrearsDueDate'),
                   createdAt: record.get('RecordLastModifiedAt'),
                   status: PaymentPlanStatus.active
-                })
+                } as unknown) as PaymentPlan
               );
             }
 
             if (record.get('Notes')) {
-              property.agreements[0].comments.push(<Comment>{
+              property.agreements[0].comments.push({
                 comment: record.get('Notes'),
                 createdAt: record.get('RecordLastModifiedAt'),
                 modifiedAt: record.get('RecordLastModifiedAt')
-              })
+              } as Comment)
             }
 
             propertyRepo.findOne({ where: { airTableId: property.airTableId } }).then(prop => {
