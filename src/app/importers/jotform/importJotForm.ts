@@ -9,8 +9,8 @@ export async function importJotForm(
 ) {
   const folders = await jf.getFolders();
   folders.subfolders
-    .find(q => q.id == '602d44b2687a494344142c02')
-    .forms.forEach(form => {
+    .find((q: any) => q.id == '602d44b2687a494344142c02')
+    .forms.forEach((form: any) => {
       if (form.status == 'ENABLED') {
         console.log(`${form.id} - ${form.title}`);
         readJotformSubmissions(jf, manager, s3Client, form.id);
