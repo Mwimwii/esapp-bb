@@ -20,13 +20,13 @@ export function readMtnCsvFile(manager: EntityManager, obj: any) {
   });
 
   rl.on('line', function (line) {
-    const row = line.replace(/\"/g, '').split(',');
+    const row = line.replace(/"/g, '').split(',');
     if (row.length > 10) {
       if (row[0] != 'Id' && parseFloat(row[16]) > 0) {
         console.log(row);
         paymentRepo.findOne({ where: { paymentReference: row[0] } }).then(payment => {
           if (!payment) {
-            payment = <Payment>({
+            payment = {
               paymentType: PaymentType.unknown,
               paidBy: row[9],
               paidWithAccount: cleanMtnNumber(row[8]),
@@ -39,7 +39,7 @@ export function readMtnCsvFile(manager: EntityManager, obj: any) {
               narration: row[7],
               status: mapAirtelPaymentStatus(row[3]),
               xlSheetName: obj.Key || obj.key
-            });
+            } as Payment;
             paymentRepo.save(payment);
             console.log(payment);
           }
