@@ -25,7 +25,7 @@ export function importLandowners(base: AirtableBase, manager: EntityManager) {
             records.forEach(function (record) {
                 if (!items.find(e => e.airTableId == record.get('LandownerID'))) {
                     console.log(`Reading landOwner.. ${record.get('LandownerID')}`);
-                    const contact = <Contact><unknown>({
+                    const contact = ({
                       airTableId: record.get('LandownerID'),
                       firstName: record.get('Firstname'),
                       lastName: record.get('Lastname'),
@@ -34,22 +34,22 @@ export function importLandowners(base: AirtableBase, manager: EntityManager) {
                       contactDetails: [],
                       contactType: ContactType.owner,
                       createdAt: record.get('RecordLastModifiedAt')
-                    });
+                    } as unknown) as Contact;
                     if (record.get('Phone')) {
-                        contact.contactDetails.push(<ContactDetail>({
+                        contact.contactDetails.push({
                             contactDetailType: ContactDetailType.phone,
                             contactDetailValue: SanitizeNumber(record.get('Phone')),
                             preferred: true,
                             status: SanitizeNumber(record.get('Phone')).length > 9 ? ContactDetailStatus.erroneous : ContactDetailStatus.active
-                        }));
+                        } as ContactDetail);
                     }
                     if (record.get('Email')) {
-                        contact.contactDetails.push(<ContactDetail>({
+                        contact.contactDetails.push({
                             contactDetailType: ContactDetailType.email,
                             contactDetailValue: record.get('Email'),
                             preferred: true,
                             status: ContactDetailStatus.active
-                        }));
+                        } as ContactDetail);
                     }
                     console.debug(contact);
                     contacts.push(contact);
