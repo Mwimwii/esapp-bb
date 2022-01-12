@@ -31,7 +31,7 @@ export function importLandGroups(base: AirtableBase, manager: EntityManager) {
           console.log(`Reading landOwner.. ${record.get('LandGroupID')}`);
           const group = <PropertyGroup>({
             airTableId: record.get('LandGroupID'),
-            airTableParentId: record.get('LandownerID (from Landowner)') ? record?.get('LandownerID (from Landowner)')[0] : null,
+            airTableParentId: record.get('LandownerID (from Landowner)') ? (record?.get('LandownerID (from Landowner)') as Array<string>)[0] : null,
             propertyType: PropertyType.mailo,
             nickname: record.get('LandGroupName'),
             country: record.get('Country'),
@@ -42,8 +42,8 @@ export function importLandGroups(base: AirtableBase, manager: EntityManager) {
 
           if (record.get('LC1Name')) {
             group.lC = <Contact><unknown>({
-              firstName: getFromName(record.get('LC1Name'), 1),
-              lastName: getFromName(record.get('LC1Name'), -1),
+              firstName: getFromName(record.get('LC1Name') as string, 1),
+              lastName: getFromName(record.get('LC1Name') as string, -1),
               contactDetails: []
             });
             if (record.get('LC1Phone')) {
