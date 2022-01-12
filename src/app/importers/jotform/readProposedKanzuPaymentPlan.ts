@@ -8,17 +8,18 @@ import {
 import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
 export function readProposedKanzuPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
-    if (readJotFormValue(record, 161, null)) {
-        return <PaymentPlan>({
-            paymentType: PaymentType.kanzu,
-            baseAmount: readJotFormValue(record, 184, null) || 0,
-            requestedAmount: readJotFormValue(record, 161, null) || 0,
-            agreedAmount: readJotFormValue(record, 161, null) || 0,
-            effectiveDate: record.updated_at || record.created_at,
-            cycle: mapJotFormPaymentCylce(readJotFormValue(record, 197)),
-            currency: PaymentCurrency.ugx,
-            status: PaymentPlanStatus.active,
-            payments: []
-        });
-    }
+  const result = new PaymentPlan();
+  if (readJotFormValue(record, 161, null)) {
+    result.agreement = agreement;
+    result.paymentType = PaymentType.kanzu;
+    result.baseAmount = readJotFormValue(record, 184, null) || 0;
+    result.requestedAmount = readJotFormValue(record, 161, null) || 0;
+    result.agreedAmount = readJotFormValue(record, 161, null) || 0;
+    result.effectiveDate = record.updated_at || record.created_at;
+    result.cycle = mapJotFormPaymentCylce(readJotFormValue(record, 197));
+    result.currency = PaymentCurrency.ugx;
+    result.status = PaymentPlanStatus.active;
+    result.payments = [];
+  }
+  return result;
 }
