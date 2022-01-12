@@ -41,7 +41,7 @@ export function importLandGroups(base: AirtableBase, manager: EntityManager) {
           });
 
           if (record.get('LC1Name')) {
-            group.lC = <Contact>({
+            group.lC = <Contact><unknown>({
               firstName: getFromName(record.get('LC1Name'), 1),
               lastName: getFromName(record.get('LC1Name'), -1),
               contactDetails: []
