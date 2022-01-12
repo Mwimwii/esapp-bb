@@ -7,6 +7,25 @@ import https = require('https');
 import { AttachmentStatus } from '@titl-all/shared/dist/enum';
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 
+function findUrls(text: any) {
+  const source = (text || '').toString();
+  const urlArray: any[] = [];
+  let matchArray;
+
+  // Regular expression to find FTP, HTTP(S) and email URLs.
+  const regexToken = new RegExp('/(((https?)://)[-w@:%_+.~#?,&//=]+)/g'); // ==> /(((https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g
+
+  // Iterate through any URLs in the text.
+  while ((matchArray = regexToken.exec(source)) !== null) {
+    let token = matchArray[0];
+    if (!urlArray.includes(token)) {
+      token = token.replace('https://api.hubspot.com/filemanager/api/v2/files/', '').replace('/signed-url-redirect?portalId=9151217', '');
+      urlArray.push({ id: `${token}` });
+    }
+  }
+  return urlArray;
+}
+
 export async function importHubImages(hub: hubspot.Client, s3: S3Client, manager: EntityManager) {
   const fileRepo = manager.getRepository(Attachment);
   const counter = {
@@ -113,23 +132,4 @@ export async function importHubImages(hub: hubspot.Client, s3: S3Client, manager
     }
     console.log(counter);
   } while (counter.hasMore);
-}
-
-function findUrls(text: any) {
-  const source = (text || '').toString();
-  const urlArray: any[] = [];
-  let matchArray;
-
-  // Regular expression to find FTP, HTTP(S) and email URLs.
-  const regexToken = /(((https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g;
-
-  // Iterate through any URLs in the text.
-  while ((matchArray = regexToken.exec(source)) !== null) {
-    let token = matchArray[0];
-    if (!urlArray.includes(token)) {
-      token = token.replace('https://api.hubspot.com/filemanager/api/v2/files/', '').replace('/signed-url-redirect?portalId=9151217', '');
-      urlArray.push({ id: `${token}` });
-    }
-  }
-  return urlArray;
 }
