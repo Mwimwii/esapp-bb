@@ -31,7 +31,7 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                 records.forEach(function (record) {
                     if (!items.find(e => e.airTableId == record.get('TenantID'))) {
                         console.log(`Reading Tenant.. ${record.get('TenantID')}`);
-                        const contact = <Contact><unknown>({
+                        const contact = ({
                           airTableId: record.get('TenantID'),
                           hubSpotId: record.get('HubspotPersonID'),
                           firstName: record.get('Firstname'),
@@ -41,39 +41,39 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                           contactDetails: [],
                           contactType: ContactType.tenant,
                           createdAt: record.get('RecordLastModifiedAt')
-                        });
+                        } as unknown) as Contact;
 
                         if (Number(record.get('Phone1'))) {
-                            contact.contactDetails.push(<ContactDetail>({
+                            contact.contactDetails.push(({
                                 contactDetailType: ContactDetailType.phone,
                                 contactDetailValue: SanitizeNumber(record.get('Phone1')),
                                 preferred: true,
                                 status: SanitizeNumber(record.get('Phone1')).length > 9 ? ContactDetailStatus.erroneous : ContactDetailStatus.active
-                            }));
+                            } as ContactDetail));
                         } else {
                             if (record.get('Phone1')) {
                                 const phonestr = record.get('Phone1') as string;
                                 (phonestr.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
                                     s = s.trim();
                                     if (Number(s) && SanitizeNumber(s).length == 9) {
-                                        contact.contactDetails.push(<ContactDetail>({
+                                        contact.contactDetails.push(({
                                             contactDetailType: ContactDetailType.phone,
                                             contactDetailValue: SanitizeNumber(s),
                                             preferred: true,
                                             status: ContactDetailStatus.active
-                                        }));
+                                        } as ContactDetail));
                                     }
                                 });
                             }
                         }
 
                         if (Number(record.get('Phone2'))) {
-                            contact.contactDetails.push(<ContactDetail>({
+                            contact.contactDetails.push(({
                                 contactDetailType: ContactDetailType.phone,
                                 contactDetailValue: SanitizeNumber(record.get('Phone2')),
                                 preferred: false,
                                 status: SanitizeNumber(record.get('Phone2')).length > 9 ? ContactDetailStatus.erroneous : ContactDetailStatus.active
-                            }));
+                            } as ContactDetail));
                         }
                         else {
                             if (record.get('Phone2')) {
@@ -81,12 +81,12 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                                 (phonestr.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
                                     s = s.trim();
                                     if (Number(s) && SanitizeNumber(s).length == 9) {
-                                        contact.contactDetails.push(<ContactDetail>({
+                                        contact.contactDetails.push(({
                                             contactDetailType: ContactDetailType.phone,
                                             contactDetailValue: SanitizeNumber(s),
                                             preferred: false,
                                             status: ContactDetailStatus.active
-                                        }));
+                                        } as ContactDetail));
                                     }
                                 });
                             }
