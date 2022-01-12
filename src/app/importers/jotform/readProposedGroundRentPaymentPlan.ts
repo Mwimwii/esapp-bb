@@ -9,7 +9,7 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
 export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
   if (readJotFormValue(record, 160, null)) {
-    return <PaymentPlan><unknown>({
+    return ({
       agreement: agreement,
       paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,
@@ -20,7 +20,7 @@ export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreem
       currency: PaymentCurrency.ugx,
       status: PaymentPlanStatus.active,
       payments: []
-    });
+    } as unknown) as PaymentPlan;
   }
   return new PaymentPlan();
 }
