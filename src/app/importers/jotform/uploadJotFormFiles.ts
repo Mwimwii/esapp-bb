@@ -16,13 +16,13 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
         'APIKEY': env.JOTFORM_API_KEY,
         'content-type': 'application/octet-stream'
       }
-    }, (res: { statusCode: number; headers: { location: any; }; }) => {
+    }, (res: { statusCode: number; headers: { location: any } }) => {
       // Image will be stored at this path
       const filename = url.split('\/')[url.split('\/').length - 1];
       const path = `${env.TEMP_DIR}/${filename}`;
       const wStream = fs.createWriteStream(path);
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        https.get(res.headers.location, (resp: { pipe: (arg0: fs.WriteStream) => void; }) => {
+        https.get(res.headers.location, (resp: { pipe: (arg0: fs.WriteStream) => void }) => {
           resp.pipe(wStream); // Save to local drive
           wStream.on('finish', () => {
             const rStream = fs.createReadStream(path);
@@ -58,7 +58,7 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
           });
         });
       }
-    }).on('error', (err: { message: any; }) => {
+    }).on('error', (err: { message: any }) => {
       console.log('Error: ', err.message);
     });
   });

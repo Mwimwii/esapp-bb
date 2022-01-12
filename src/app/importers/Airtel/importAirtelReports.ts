@@ -10,12 +10,12 @@ export function importAirtelReports(manager: EntityManager) {
   s3.listObjectsV2({
     Bucket: env.AWS_BUCKET,
     Prefix: 'reports/airtel/' // Can be your folder name
-  }, function (err: { stack: any; }, data: { Contents: any[]; }) {
+  }, function (err: { stack: any }, data: { Contents: any[] }) {
     if (err)
       console.log(err, err.stack); // an error occurred
     else {
       console.log(data.Contents);
-      data.Contents.forEach((obj: { Key: string; }) => {
+      data.Contents.forEach((obj: { Key: string }) => {
 
         if (obj.Key.startsWith('reports/airtel/')) {
           readAirtelCsvFile(manager, obj);

@@ -14,7 +14,7 @@ export async function importJSONFile(manager: EntityManager, jsonfile: string) {
   const uploadedPayments = await paymentRepo.find({ select: ['paymentReference', 'paidWithAccount', 'completionDate'] });
   transactions.forEach((transaction: { Id: string; Phone: string; Amount: any; CreatedAt: any; Tenancy_TenantName: any; Status: any }) => {
     if (!uploadedPayments.find(p => p.paymentReference == transaction.Id && p.paidWithAccount == transaction.Phone)) {
-      const payment = <Payment>({
+      const payment = {
         amount: transaction.Amount,
         paymentType: PaymentType.unknown,
         paymentMethod: mapJsonPaymentMethod(transaction.Phone),
@@ -24,7 +24,7 @@ export async function importJSONFile(manager: EntityManager, jsonfile: string) {
         paidWithAccount: transaction.Phone,
         status: mapJsonPaymentStatus(transaction.Status),
         xlSheetName: jsonfile
-      });
+      } as Payment;
       console.log(payment);
       paymentRepo.save(payment);
     }

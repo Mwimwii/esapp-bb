@@ -31,7 +31,7 @@ export function importLandGroups(base: AirtableBase, manager: EntityManager) {
           console.log(`Reading landOwner.. ${record.get('LandGroupID')}`);
           const group = <PropertyGroup>({
             airTableId: record.get('LandGroupID'),
-            airTableParentId: record.get('LandownerID (from Landowner)') ? (record?.get('LandownerID (from Landowner)') as Array<string>)[0] : null,
+            airTableParentId: record.get('LandownerID (from Landowner)') ? (record?.get('LandownerID (from Landowner)') as string[])[0] : null,
             propertyType: PropertyType.mailo,
             nickname: record.get('LandGroupName'),
             country: record.get('Country'),
