@@ -23,7 +23,7 @@ export function importXLSXFile(manager: EntityManager, xlsx: any) {
         const uploadedPayments = await paymentRepo.find({ select: ['paymentReference', 'paidWithAccount', 'completionDate'] });
         temp.forEach((row: any) => {
           if (!uploadedPayments.find(p => p.paymentReference == row['TransactionID'] && p.paidWithAccount == row['Phone Number'])) {
-            const payment = <Payment>({
+            const payment = {
               amount: row['Amount Paid'] || 0,
               paymentType: mapXLPaymentType(row['Paid for']),
               paymentMethod: PaymentMethod.momocollections,
@@ -33,7 +33,7 @@ export function importXLSXFile(manager: EntityManager, xlsx: any) {
               paidWithAccount: row['Phone Number'],
               status: PaymentStatus.completed,
               xlSheetName: sheetname
-            });
+            } as Payment;
             console.debug(payment);
             paymentRepo.save(payment);
           }
