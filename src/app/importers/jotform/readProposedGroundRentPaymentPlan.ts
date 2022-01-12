@@ -9,8 +9,9 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
 export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
   if (readJotFormValue(record, 160, null)) {
-    return <PaymentPlan>({
-      // paymentType: PaymentType.groundrent,
+    return <PaymentPlan><unknown>({
+      agreement: agreement,
+      paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,
       requestedAmount: readJotFormValue(record, 160, null) || 0,
       agreedAmount: readJotFormValue(record, 160, null) || 0,
@@ -21,4 +22,5 @@ export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreem
       payments: []
     });
   }
+  return new PaymentPlan();
 }
