@@ -13,7 +13,7 @@ export function readOldGroundRentPaymentPlan(
   agreement: Agreement
 ): PaymentPlan {
   if (readJotFormValue(record, 185, null)) {
-    const oldBusuluPaymentPlan = <PaymentPlan><unknown>{
+    const oldBusuluPaymentPlan = ({
       paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,
       requestedAmount: readJotFormValue(record, 31, null) || 0,
@@ -24,7 +24,7 @@ export function readOldGroundRentPaymentPlan(
       currency: PaymentCurrency.ugx,
       status: PaymentPlanStatus.active,
       payments: [],
-    };
+    } as unknown) as PaymentPlan;
 
     if (readJotFormDate(record, 152)) {
       oldBusuluPaymentPlan.paidUpUntil = readJotFormDate(record, 152);
