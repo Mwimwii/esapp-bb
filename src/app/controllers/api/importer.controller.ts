@@ -22,7 +22,8 @@ import { env } from 'process';
 import { createConnection } from 'typeorm';
 import { readAirtelCsvFile } from 'app/importers/Airtel/readAirtelCsvFile';
 import { readMtnCsvFile } from 'app/importers/MTN/readMtnCsvFile';
-import request = require('request');
+
+const request = require('request');
 
 export class ImporterController {
 
