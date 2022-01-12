@@ -35,7 +35,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
         .forEach(function (record) {
           if (!items.find(e => e.airTableId == record.get('LandRightID'))) {
             console.log(`Reading landRight.. ${record.get('LandRightID')}`);
-            const property = <Property><unknown>({
+            const property = ({
               airTableId: record.get('LandRightID'),
               airTableParentId: record.get('LandGroup') ? (record.get('LandGroup') as string[])[0] : null,
               sizeSqf: record.get('LandSize(sqf)') || 0,
@@ -56,7 +56,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                 } as unknown) as Agreement
               ],
               createdAt: record.get('RecordLastModifiedAt')
-            });
+            } as unknown) as Property;
 
             if (record.get('PaymentSize')) {
               property.agreements[0].paymentPlans.push(
