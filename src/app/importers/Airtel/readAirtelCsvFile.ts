@@ -25,7 +25,7 @@ export function readAirtelCsvFile(manager: EntityManager, obj: any) {
         console.log(row);
         paymentRepo.findOne({ where: { paymentReference: row[1] } }).then(payment => {
           if (!payment) {
-            payment = <Payment>({
+            payment = {
               paymentType: mapXLPaymentType(row[2]),
               paidBy: row[8],
               paidWithAccount: row[7],
@@ -38,7 +38,7 @@ export function readAirtelCsvFile(manager: EntityManager, obj: any) {
               narration: row[2],
               status: mapAirtelPaymentStatus(row[23]),
               xlSheetName: obj.key || obj.Key
-            });
+            } as Payment;
             paymentRepo.save(payment);
             console.log(payment);
           }
