@@ -13,12 +13,11 @@ export function readOldGroundRentPaymentPlan(
   agreement: Agreement
 ): PaymentPlan {
   if (readJotFormValue(record, 185, null)) {
-    const oldBusuluPaymentPlan = <PaymentPlan>{
-      // paymentType: PaymentType.groundrent,
+    const oldBusuluPaymentPlan = <PaymentPlan><unknown>{
+      paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,
       requestedAmount: readJotFormValue(record, 31, null) || 0,
-      agreedAmount:
-        readJotFormValue(record, 31, null) ||
+      agreedAmount: readJotFormValue(record, 31, null) ||
         readJotFormValue(record, 185, null),
       effectiveDate: agreement.dateArrived || record.created_at,
       cycle: mapJotFormPaymentCylce(readJotFormValue(record, 42)),
@@ -33,4 +32,5 @@ export function readOldGroundRentPaymentPlan(
 
     return oldBusuluPaymentPlan;
   }
+  return new PaymentPlan();
 }

@@ -50,7 +50,7 @@ export function readJotformSubmissions(
     orderby: 'created_at',
     direction: 'ASC',
   })
-    .then(async (records:any) => {
+    .then(async (records: any) => {
       const nickname = `${readJotFormValue(
         records[0],
         140,
