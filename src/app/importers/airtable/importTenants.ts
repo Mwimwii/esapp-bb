@@ -31,16 +31,16 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                 records.forEach(function (record) {
                     if (!items.find(e => e.airTableId == record.get('TenantID'))) {
                         console.log(`Reading Tenant.. ${record.get('TenantID')}`);
-                        const contact = <Contact>({
-                            airTableId: record.get('TenantID'),
-                            hubSpotId: record.get('HubspotPersonID'),
-                            firstName: record.get('Firstname'),
-                            lastName: record.get('Lastname'),
-                            gender: mapGender(record.get('Gender')),
-                            dob: record.get('DateOfBirth'),
-                            contactDetails: [],
-                            contactType: ContactType.tenant,
-                            createdAt: record.get('RecordLastModifiedAt')
+                        const contact = <Contact><unknown>({
+                          airTableId: record.get('TenantID'),
+                          hubSpotId: record.get('HubspotPersonID'),
+                          firstName: record.get('Firstname'),
+                          lastName: record.get('Lastname'),
+                          gender: mapGender(record.get('Gender')),
+                          dob: record.get('DateOfBirth'),
+                          contactDetails: [],
+                          contactType: ContactType.tenant,
+                          createdAt: record.get('RecordLastModifiedAt')
                         });
 
                         if (Number(record.get('Phone1'))) {
@@ -78,7 +78,7 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                         else {
                             if (record.get('Phone2')) {
                                 const phonestr = record.get('Phone2');
-                                (phonestr.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
+                                (phonestr!.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
                                     s = s.trim();
                                     if (Number(s) && SanitizeNumber(s).length == 9) {
                                         contact.contactDetails.push(<ContactDetail>({
