@@ -35,17 +35,17 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
         .forEach(function (record) {
           if (!items.find(e => e.airTableId == record.get('LandRightID'))) {
             console.log(`Reading landRight.. ${record.get('LandRightID')}`);
-            const property = <Property>({
+            const property = <Property><unknown>({
               airTableId: record.get('LandRightID'),
-              airTableParentId: record.get('LandGroup') ? record.get('LandGroup')[0] : null,
+              airTableParentId: record.get('LandGroup') ? (record.get('LandGroup') as Array<string>)[0] : null,
               sizeSqf: record.get('LandSize(sqf)') || 0,
               propertyType: PropertyType.mailo,
               nickname: record.get('referenceID'),
               status: PropertyStatus.active,
               agreements: [
                 <Agreement><unknown>({
-                  airTableTenantId: record.get('Tenant')[0],
-                  status: mapAgreementStatus(record.get('TenantOnboardingStage (from Tenant)')[0]),
+                  airTableTenantId: (record.get('Tenant') as Array<string>)[0],
+                  status: mapAgreementStatus((record.get('TenantOnboardingStage (from Tenant)') as Array<string>)[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
                   requestedAgreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
                   agreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
