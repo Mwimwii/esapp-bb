@@ -13,11 +13,11 @@ import Airtable from 'airtable';
 import { importAirTable } from 'app/importers/airtable/importAirTable';
 import { importAirtelReports } from 'app/importers/Airtel/importAirtelReports';
 import { importXLSXFile } from 'app/importers/Excel/importXLSXFile';
-import { importHubImages } from 'app/importers/hubspot/importHubImages';
+// import { importHubImages } from 'app/importers/hubspot/importHubImages';
 import { importJotForm } from 'app/importers/jotform/importJotForm';
 import { importMTNReports } from 'app/importers/MTN/importMTNReports';
 import { importJSONFile } from 'app/importers/ussd/importJSONFile';
-import * as hubspot from '@hubspot/api-client';
+// import * as hubspot from '@hubspot/api-client';
 import { env } from 'process';
 import { createConnection } from 'typeorm';
 import { readAirtelCsvFile } from 'app/importers/Airtel/readAirtelCsvFile';
@@ -44,7 +44,7 @@ export class ImporterController {
         const base = new Airtable({ apiKey: env.AIRTABLE_KEY }).base(
           env.AIRTABLE_ID || ''
         );
-        const hub = new hubspot.Client({ apiKey: env.HUBSPOT_KEY });
+        // const hub = new hubspot.Client({ apiKey: env.HUBSPOT_KEY });
         const s3Client = new S3Client({ region: env.AWS_REGION });
         const jf = require('jotform');
         jf.options({
@@ -59,7 +59,7 @@ export class ImporterController {
         importJSONFile(connection.manager, 'ussd.json');
         importAirtelReports(connection.manager);
         importMTNReports(connection.manager);
-        importHubImages(hub, s3Client, connection.manager);
+        // importHubImages(hub, s3Client, connection.manager);
       }).catch(error => console.log(error));
     return new HttpResponseOK({
       text: 'Import Test complete'
