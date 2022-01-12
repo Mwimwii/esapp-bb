@@ -22,7 +22,7 @@ export async function importHubImages(hub: hubspot.Client, s3: S3Client, manager
       path: `/engagements/v1/engagements/paged?hapikey=${env.HUBSPOT_KEY}&limit=${counter.limit}&offset=${counter.offset}`
     });
 
-    engagementResult.body.results.filter((r: any) => r.attachments.length > 0 || (r.engagement.bodyPreviewHtml && r.engagement.bodyPreviewHtml.includes('/filemanager/api/v2/files'))).forEach((result: { attachments: any[]; engagement: { bodyPreviewHtml: any; }; associations: { contactIds: string | any[]; companyIds: string | any[]; }; }) => {
+    engagementResult.body.results.filter((r: any) => r.attachments.length > 0 || (r.engagement.bodyPreviewHtml && r.engagement.bodyPreviewHtml.includes('/filemanager/api/v2/files'))).forEach((result: { attachments: any[]; engagement: { bodyPreviewHtml: any }; associations: { contactIds: string | any[]; companyIds: string | any[] } }) => {
       result.attachments = result.attachments.concat(findUrls(result.engagement.bodyPreviewHtml));
       counter.attachments += result.attachments.length;
       result.attachments.forEach(async (attachment: any) => {

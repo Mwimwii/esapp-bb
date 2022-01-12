@@ -40,23 +40,23 @@ export class ImporterController {
     console.log(ctx.request.baseUrl);
 
     createConnection()
-      .then(async (connection) => {
+      .then(async connection => {
         const base = new Airtable({ apiKey: env.AIRTABLE_KEY }).base(
           env.AIRTABLE_ID || ''
         );
         const hub = new hubspot.Client({ apiKey: env.HUBSPOT_KEY });
         const s3Client = new S3Client({ region: env.AWS_REGION });
-        const jf = require("jotform");
+        const jf = require('jotform');
         jf.options({
-          url: "https://eu-api.jotform.com",
+          url: 'https://eu-api.jotform.com',
           debug: true,
           apiKey: env.JOTFORM_API_KEY,
         });
 
         importAirTable(base, connection.manager);
         importJotForm(jf, connection.manager, s3Client);
-        importXLSXFile(connection.manager, `payments.xlsx`);
-        importJSONFile(connection.manager, `ussd.json`);
+        importXLSXFile(connection.manager, 'payments.xlsx');
+        importJSONFile(connection.manager, 'ussd.json');
         importAirtelReports(connection.manager);
         importMTNReports(connection.manager);
         importHubImages(hub, s3Client, connection.manager);
@@ -75,7 +75,7 @@ export class ImporterController {
     console.log(message);
 
     if (message.Type == 'SubscriptionConfirmation') {
-      request.get(message.SubscribeURL, (err: any, resp: { body: any; }) => {
+      request.get(message.SubscribeURL, (err: any, resp: { body: any }) => {
         if (err) {
           console.log(err);
           return new HttpResponseInternalServerError(err);
