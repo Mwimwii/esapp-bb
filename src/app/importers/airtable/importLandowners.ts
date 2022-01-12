@@ -25,15 +25,15 @@ export function importLandowners(base: AirtableBase, manager: EntityManager) {
             records.forEach(function (record) {
                 if (!items.find(e => e.airTableId == record.get('LandownerID'))) {
                     console.log(`Reading landOwner.. ${record.get('LandownerID')}`);
-                    const contact = <Contact>({
-                        airTableId: record.get('LandownerID'),
-                        firstName: record.get('Firstname'),
-                        lastName: record.get('Lastname'),
-                        gender: mapGender(record.get('Gender')),
-                        dob: record.get('DateOfBirth'),
-                        contactDetails: [],
-                        contactType: ContactType.owner,
-                        createdAt: record.get('RecordLastModifiedAt')
+                    const contact = <Contact><unknown>({
+                      airTableId: record.get('LandownerID'),
+                      firstName: record.get('Firstname'),
+                      lastName: record.get('Lastname'),
+                      gender: mapGender(record.get('Gender')),
+                      dob: record.get('DateOfBirth'),
+                      contactDetails: [],
+                      contactType: ContactType.owner,
+                      createdAt: record.get('RecordLastModifiedAt')
                     });
                     if (record.get('Phone')) {
                         contact.contactDetails.push(<ContactDetail>({
