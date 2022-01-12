@@ -47,8 +47,8 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   airTableTenantId: record.get('Tenant')[0],
                   status: mapAgreementStatus(record.get('TenantOnboardingStage (from Tenant)')[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
-                  requestedAgreementType: mapAgreementType(record.get('OrigRequestedNegotiation')),
-                  agreementType: mapAgreementType(record.get('OrigRequestedNegotiation')),
+                  requestedAgreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
+                  agreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
                   coOwnership: record.get('CoOwnership'),
                   paymentPlans: [],
                   comments: [],
@@ -62,11 +62,11 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               property.agreements[0].paymentPlans.push(
                 <PaymentPlan><unknown>({
                   paymentType: mapXLPaymentType(record.get('PaymentType')),
-                  baseAmount: parseInt(record.get('PaymentSize')) || 0,
-                  agreedAmount: parseInt(record.get('PaymentSize')) || 0,
-                  outstandingAmount: parseInt(record.get('PaymentSize')) || 0,
+                  baseAmount: parseInt(record.get('PaymentSize') as string) || 0,
+                  agreedAmount: parseInt(record.get('PaymentSize') as string) || 0,
+                  outstandingAmount: parseInt(record.get('PaymentSize') as string) || 0,
                   currency: PaymentCurrency.ugx,
-                  cycle: mapPaymentCylce(record.get('PaymentFreq')),
+                  cycle: mapPaymentCylce(record.get('PaymentFreq') as string),
                   paidUpUntil: record.get('OrigPaidUpUntil'),
                   createdAt: record.get('RecordLastModifiedAt'),
                   status: PaymentPlanStatus.active
@@ -78,14 +78,14 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               property.agreements[0].paymentPlans.push(
                 <PaymentPlan><unknown>({
                   paymentType: PaymentType.kanzu,
-                  baseAmount: parseInt(record.get('OrigKanzu')) || 0,
-                  agreedAmount: parseInt(record.get('OrigKanzu')) || 0,
-                  outstandingAmount: parseInt(record.get('OrigOverdueKanzu')) || 0,
+                  baseAmount: parseInt(record.get('OrigKanzu') as string) || 0,
+                  agreedAmount: parseInt(record.get('OrigKanzu') as string) || 0,
+                  outstandingAmount: parseInt(record.get('OrigOverdueKanzu') as string) || 0,
                   currency: PaymentCurrency.ugx,
                   cycle: PaymentCycle.oneoff,
                   paidUpUntil: record.get('OrigPaidUpUntil'),
                   createdAt: record.get('RecordLastModifiedAt'),
-                  status: mapPaymentPlanStatus(record.get('KanzuStatus'))
+                  status: mapPaymentPlanStatus(record.get('KanzuStatus') as string)
                 })
               );
             }
@@ -94,9 +94,9 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               property.agreements[0].paymentPlans.push(
                 <PaymentPlan><unknown>({
                   paymentType: PaymentType.arrears,
-                  baseAmount: parseInt(record.get('RenegotiatedArrearsDue')) || 0,
-                  agreedAmount: parseInt(record.get('RenegotiatedArrearsDue')) || 0,
-                  outstandingAmount: parseInt(record.get('RenegotiatedArrearsDue')) || 0,
+                  baseAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
+                  agreedAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
+                  outstandingAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
                   currency: PaymentCurrency.ugx,
                   cycle: PaymentCycle.oneoff,
                   dueDate: record.get('RenegotiatedArrearsDueDate'),
