@@ -12,7 +12,7 @@ export async function getJotformTenant(record: any, repository: Repository<Conta
   let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 94, 'first'), lastName: readJotFormValue(record, 94, 'last'), dob: readJotFormDate(record, 165) }] });
 
   if (!contact) {
-    contact = <Contact><unknown>({
+    contact = ({
       firstName: readJotFormValue(record, 94, 'first'),
       lastName: readJotFormValue(record, 94, 'last'),
       nickName: readJotFormValue(record, 183, null),
@@ -21,22 +21,22 @@ export async function getJotformTenant(record: any, repository: Repository<Conta
       languages: mapJotFormLanguage(readJotFormValue(record, 101, null)),
       dob: readJotFormDate(record, 165),
       contactDetails: []
-    });
+    } as unknown) as Contact;
 
     if (readJotFormValue(record, 177, 1)) {
-      contact.contactDetails.push(<ContactDetail>({
+      contact.contactDetails.push({
         contactDetailType: mapJotformContactDetailPhoneType(readJotFormValue(record, 177, 2)),
         preferred: true,
         contactDetailValue: SanitizeNumber(readJotFormValue(record, 177, 1))
-      }));
+      } as ContactDetail);
     }
 
     if (readJotFormValue(record, 177, 8)) {
-      contact.contactDetails.push(<ContactDetail>({
+      contact.contactDetails.push({
         contactDetailType: mapJotformContactDetailPhoneType(readJotFormValue(record, 177, 5)),
         preferred: true,
         contactDetailValue: SanitizeNumber(readJotFormValue(record, 177, 8))
-      }));
+      } as ContactDetail);
     }
 
     await repository.save(contact);
