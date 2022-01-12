@@ -9,26 +9,26 @@ import { readJotFormValue } from '../../utils/jotform/readJotFormValue';
 
 export async function getJotformLC(record: any, repository: Repository<Contact>): Promise<Contact> {
 
-    let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 190, 1), lastName: readJotFormValue(record, 190, 2) }] });
+  let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 190, 1), lastName: readJotFormValue(record, 190, 2) }] });
 
-    if (!contact) {
-        contact = <Contact>({
-            firstName: readJotFormValue(record, 190, 1),
-            lastName: readJotFormValue(record, 190, 2),
-            contactType: ContactType.govtrepresentative,
-            contactDetails: []
-        });
-        if (SanitizeNumber(readJotFormValue(record, 190, 3))) {
-            contact.contactDetails.push(
-                <ContactDetail>({
-                    contactDetailType: ContactDetailType.phone,
-                    preferred: true,
-                    contactDetailValue: SanitizeNumber(readJotFormValue(record, 190, 3))
-                })
-            );
-        }
-        await repository.save(contact);
+  if (!contact) {
+    contact = <Contact><unknown>({
+      firstName: readJotFormValue(record, 190, 1),
+      lastName: readJotFormValue(record, 190, 2),
+      contactType: ContactType.govtrepresentative,
+      contactDetails: []
+    });
+    if (SanitizeNumber(readJotFormValue(record, 190, 3))) {
+      contact.contactDetails.push(
+        <ContactDetail>({
+          contactDetailType: ContactDetailType.phone,
+          preferred: true,
+          contactDetailValue: SanitizeNumber(readJotFormValue(record, 190, 3))
+        })
+      );
     }
+    await repository.save(contact);
+  }
 
-    return contact;
+  return contact;
 }
