@@ -11,7 +11,7 @@ import {
 
 export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
   if (readJotFormValue(record, 184, null)) {
-    const kanzuPaymentPlan = <PaymentPlan><unknown>({
+    const kanzuPaymentPlan = ({
       paymentType: PaymentType.kanzu,
       baseAmount: readJotFormValue(record, 184, null) || 0,
       agreedAmount: readJotFormValue(record, 184, null) || 0,
@@ -20,17 +20,17 @@ export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): Paym
       currency: PaymentCurrency.ugx,
       status: (readJotFormValue(record, 24, null) === 'YES') ? PaymentPlanStatus.completed : PaymentPlanStatus.active,
       payments: []
-    });
+    } as unknown) as PaymentPlan;
 
     if (readJotFormValue(record, 149, null)) {
-      kanzuPaymentPlan.payments.push(<Payment>({
+      kanzuPaymentPlan.payments.push({
         paymentType: PaymentType.kanzu,
         paidBy: agreement.tenant.firstName,
         amount: readJotFormValue(record, 149, 2) || 0,
         paidTo: readJotFormValue(record, 149, 3),
         paymentMethod: PaymentMethod.cash,
         status: PaymentStatus.completed
-      }));
+      } as Payment);
     }
     return kanzuPaymentPlan;
   }
