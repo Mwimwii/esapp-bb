@@ -52,7 +52,7 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                             }));
                         } else {
                             if (record.get('Phone1')) {
-                                const phonestr = record.get('Phone1');
+                                const phonestr = record.get('Phone1') as string;
                                 (phonestr.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
                                     s = s.trim();
                                     if (Number(s) && SanitizeNumber(s).length == 9) {
@@ -77,8 +77,8 @@ export function importTenants(base: AirtableBase, manager: EntityManager) {
                         }
                         else {
                             if (record.get('Phone2')) {
-                                const phonestr = record.get('Phone2');
-                                (phonestr!.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
+                                const phonestr = record.get('Phone2') as string;
+                                (phonestr.replace(/[a-zA-Z() ]/g, '').replace('/', ',').split(',')).forEach((s: string) => {
                                     s = s.trim();
                                     if (Number(s) && SanitizeNumber(s).length == 9) {
                                         contact.contactDetails.push(<ContactDetail>({
