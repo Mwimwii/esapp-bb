@@ -10,8 +10,9 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
 export function readProposedBuyOutPlan(record: any, agreement: Agreement): PaymentPlan {
   if (readJotFormValue(record, 163, null)) {
-    return <PaymentPlan>({
-      // paymentType: PaymentType.buyout,
+    return <PaymentPlan><unknown>({
+      agreement: agreement,
+      paymentType: PaymentType.buyout,
       baseAmount: readJotFormValue(record, 163, null) || 0,
       requestedAmount: readJotFormValue(record, 163, null) || 0,
       agreedAmount: readJotFormValue(record, 163, null) || 0,
@@ -22,4 +23,5 @@ export function readProposedBuyOutPlan(record: any, agreement: Agreement): Payme
       payments: []
     });
   }
+  return new PaymentPlan();
 }
