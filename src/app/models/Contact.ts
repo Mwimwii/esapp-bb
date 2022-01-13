@@ -119,14 +119,10 @@ export class Contact extends BaseTable implements ContactAPI {
   @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
 
-<<<<<<< HEAD
-  @OneToMany(() => Asset, ((asset: Asset) => asset.ownedByContact), { cascade: true })
-=======
   @OneToMany(
     () => Asset,
-    (asset: Asset) => asset.ownedBy,
+    (asset: Asset) => asset.ownedByContact,
     { cascade: true }
   )
->>>>>>> titl-1201519085429422-add-extra-questions-at-beginning
   assets: Asset[];
 }
