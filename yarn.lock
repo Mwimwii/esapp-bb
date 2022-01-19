@@ -236,10 +236,12 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@^3.0.19":
-  version "3.0.19"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.19/d622d9c749392b1537371d458eb8f73b5d00d5c2c98356c307837525bb7a9182#303de637c2bc9818966fcb47aa6dd42d922bad41"
-  integrity sha512-6sgpxf4zbrGysqlWDzJzRaHyUkXOWOyWwABE8mtoPb5xQFiHDFWqZ3sB5983QoLZ99PFihU2GiN5dLhsGwjYtg==
+"@titl-all/shared@^3.0.20":
+  version "3.0.20"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.20/e7b9e7747aca75ecb6e6ad3f95adc054cd1bd14752adf11ee98b926a95aed721#0b057a9fa6334f15d480e966ea93a5f07ed20713"
+  integrity sha512-rLKYBedT6wxLv/DG3uCkTxL6M0mO6d/oK+F6zvdvRX81sUzZ/oPQ7Aa+e/GSu16Id+tFxK6qBB4SlnxKrGWSJQ==
+  dependencies:
+    react "^17.0.2"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -1741,7 +1743,7 @@ jmespath@0.15.0:
   resolved "https://registry.yarnpkg.com/jmespath/-/jmespath-0.15.0.tgz#a3f222a9aae9f966f5d27c796510e28091764217"
   integrity sha1-o/Iiqarp+Wb10nx5ZRDigJF2Qhc=
 
-js-tokens@^4.0.0:
+"js-tokens@^3.0.0 || ^4.0.0", js-tokens@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-4.0.0.tgz#19203fb59991df98e3a287050d4647cdeaf32499"
   integrity sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==
@@ -1965,6 +1967,13 @@ log-symbols@^3.0.0:
   dependencies:
     chalk "^2.4.2"
 
+loose-envify@^1.1.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/loose-envify/-/loose-envify-1.4.0.tgz#71ee51fa7be4caec1a63839f7e682d8132d30caf"
+  integrity sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==
+  dependencies:
+    js-tokens "^3.0.0 || ^4.0.0"
+
 lru-cache@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/lru-cache/-/lru-cache-6.0.0.tgz#6d6fe6570ebd96aaf90fcad1dafa3b2566db3a94"
@@ -2175,7 +2184,7 @@ normalize-path@^3.0.0, normalize-path@~3.0.0:
   resolved "https://registry.yarnpkg.com/normalize-path/-/normalize-path-3.0.0.tgz#0dcd69ff23a1c9b11fd0978316644a0388216a65"
   integrity sha512-6eZs5Ls3WtCisHWp9S2GUy8dqkpGi4BVSz3GaqiE6ezub0512ESztXUwUB6C6IKbQkY2Pnb/mD4WYojCRwcwLA==
 
-object-assign@^4.0.1:
+object-assign@^4.0.1, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/object-assign/-/object-assign-4.1.1.tgz"
   integrity sha1-IQmtx5ZYh8/AXLvUQsrIv7s2CGM=
@@ -2515,6 +2524,14 @@ raw-body@2.4.0:
     http-errors "1.7.2"
     iconv-lite "0.4.24"
     unpipe "1.0.0"
+
+react@^17.0.2:
+  version "17.0.2"
+  resolved "https://registry.yarnpkg.com/react/-/react-17.0.2.tgz#d0b5cc516d29eb3eee383f75b62864cfb6800037"
+  integrity sha512-gnhPt75i/dq/z3/6q/0asP78D0u592D5L1pd7M8P+dck6Fu/jJeL6iVVK23fptSUZj8Vjf++7wXA8UNclGQcbA==
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
 
 read-pkg@^5.2.0:
   version "5.2.0"
