@@ -9,7 +9,7 @@ import {
   PaymentStatus,
 } from '@titl-all/shared/dist/enum';
 
-export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
+export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 184, null)) {
     const kanzuPaymentPlan = ({
       paymentType: PaymentType.kanzu,
@@ -34,5 +34,4 @@ export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): Paym
     }
     return kanzuPaymentPlan;
   }
-  return new PaymentPlan();
 }

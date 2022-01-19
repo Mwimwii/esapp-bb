@@ -11,7 +11,7 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 export function readOldGroundRentPaymentPlan(
   record: any,
   agreement: Agreement
-): PaymentPlan {
+): any {
   if (readJotFormValue(record, 185, null)) {
     const oldBusuluPaymentPlan = ({
       paymentType: PaymentType.groundrent,
@@ -29,8 +29,6 @@ export function readOldGroundRentPaymentPlan(
     if (readJotFormDate(record, 152)) {
       oldBusuluPaymentPlan.paidUpUntil = readJotFormDate(record, 152);
     }
-
     return oldBusuluPaymentPlan;
   }
-  return new PaymentPlan();
 }

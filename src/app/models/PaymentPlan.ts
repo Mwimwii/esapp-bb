@@ -13,59 +13,59 @@ import { PaymentPlanAPI } from '@titl-all/shared/dist/api-model';
 @Entity({ name: 'payment_plans' })
 export class PaymentPlan extends BaseTable implements PaymentPlanAPI {
 
-    @JoinColumn()
-    @ManyToOne(() => Agreement)
-    agreement: Agreement;
+  @JoinColumn()
+  @ManyToOne(() => Agreement)
+  agreement: Agreement;
 
-    @Column({ type: 'enum', enum: PaymentType, nullable: true })
-    paymentType: PaymentType;
+  @Column({ type: 'enum', enum: PaymentType, nullable: true })
+  paymentType: PaymentType;
 
-    @Column('numeric', { default: 0 })
-    baseAmount: number;
+  @Column('numeric', { default: 0 })
+  baseAmount: number;
 
-    @Column('numeric', { nullable: true, default: 0 })
-    requestedAmount: number;
+  @Column('numeric', { nullable: true, default: 0 })
+  requestedAmount: number;
 
-    @Column('numeric', { default: 0 })
-    agreedAmount: number;
+  @Column('numeric', { default: 0 })
+  agreedAmount: number;
 
-    @Column('timestamp', { nullable: true })
-    effectiveDate: Date;
+  @Column('timestamp', { nullable: true })
+  effectiveDate: Date;
 
-    @Column('timestamp', { nullable: true })
-    dueDate: Date;
+  @Column('timestamp', { nullable: true })
+  dueDate: Date;
 
-    @Column('timestamp', { nullable: true })
-    paidUpUntil: Date;
+  @Column('timestamp', { nullable: true })
+  paidUpUntil: Date;
 
-    @Column({ type: 'enum', enum: PaymentCycle, nullable: true })
-    cycle: PaymentCycle;
+  @Column({ type: 'enum', enum: PaymentCycle, nullable: true })
+  cycle: PaymentCycle;
 
-    @Column({ type: 'enum', enum: PaymentCurrency })
-    currency: PaymentCurrency;
+  @Column({ type: 'enum', enum: PaymentCurrency, default: PaymentCurrency.ugx })
+  currency: PaymentCurrency;
 
-    @Column('int', { default: 0 })
-    gracePeriod: number;
+  @Column('int', { default: 0 })
+  gracePeriod: number;
 
-    @Column('int', { default: 0 })
-    breachPeriod: number;
+  @Column('int', { default: 0 })
+  breachPeriod: number;
 
-    @Column('int', { default: 0 })
-    priority = 0;
+  @Column('int', { default: 0 })
+  priority = 0;
 
-    @Column({ default: false })
-    blocking: boolean;
+  @Column({ default: false })
+  blocking: boolean;
 
-    @Column('numeric', { default: 0 })
-    negotiatedFXRate: number;
+  @Column('numeric', { default: 0 })
+  negotiatedFXRate: number;
 
-    @Column('numeric', { default: 0 })
-    outstandingAmount: number;
+  @Column('numeric', { default: 0 })
+  outstandingAmount: number;
 
-    @Column({ type: 'enum', enum: PaymentPlanStatus })
-    status: PaymentPlanStatus;
+  @Column({ type: 'enum', enum: PaymentPlanStatus })
+  status: PaymentPlanStatus;
 
-    @OneToMany(() => Payment, payment => payment.paymentPlan, { cascade: true })
-    payments: Payment[];
+  @OneToMany(() => Payment, payment => payment.paymentPlan, { cascade: true })
+  payments: Payment[];
 
 }
