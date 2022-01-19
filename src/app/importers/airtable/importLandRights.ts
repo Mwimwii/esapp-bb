@@ -47,7 +47,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
                   airTableTenantId: (record.get('Tenant') as string[])[0],
                   status: mapAgreementStatus((record.get('TenantOnboardingStage (from Tenant)') as string[])[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
-                  requestedAgreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
+                  requestedAgreementType: [mapAgreementType(record.get('OrigRequestedNegotiation') as string)],
                   agreementType: mapAgreementType(record.get('OrigRequestedNegotiation') as string),
                   coOwnership: record.get('CoOwnership'),
                   paymentPlans: [],
