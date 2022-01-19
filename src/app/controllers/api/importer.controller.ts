@@ -9,7 +9,7 @@ import {
   // HttpResponseNotImplemented,
   // dependency,
 } from '@foal/core';
-import { importAirtableData, importAllData, importHubspotData } from 'app/importers';
+import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform } from 'app/importers';
 
 // const request = require('request');
 
@@ -18,6 +18,17 @@ export class ImporterController {
   @Get('/test')
   async getTest(ctx: Context) {
     console.log(ctx.request.baseUrl);
+    return new HttpResponseOK({
+      text: 'Import Test complete'
+    });
+  }
+
+  @Get('/purge')
+  async purge(ctx: Context) {
+    console.log(ctx.request.baseUrl);
+
+    purgeData();
+
     return new HttpResponseOK({
       text: 'Import Test complete'
     });
@@ -34,8 +45,30 @@ export class ImporterController {
     });
   }
 
+  @Get('/jotform')
+  async runJotForm(ctx: Context) {
+    console.log(ctx.request.baseUrl);
+
+    importJotform();
+
+    return new HttpResponseOK({
+      text: 'Import Test complete'
+    });
+  }
+
   @Get('/hubspot')
   async runHubspot(ctx: Context) {
+    console.log(ctx.request.baseUrl);
+
+    importHubspotData();
+
+    return new HttpResponseOK({
+      text: 'Import Test complete'
+    });
+  }
+
+  @Get('/payments')
+  async runPayments(ctx: Context) {
     console.log(ctx.request.baseUrl);
 
     importHubspotData();
