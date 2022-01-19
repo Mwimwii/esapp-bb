@@ -1,6 +1,5 @@
 import { Attachment } from '../../models';
 import { Repository } from 'typeorm';
-import { env } from 'process';
 import fs = require('fs');
 import { PutObjectCommand, PutObjectCommandInput, S3Client } from '@aws-sdk/client-s3';
 import {
@@ -13,13 +12,13 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
   urls.forEach(url => {
     https.get(url, {
       headers: {
-        'APIKEY': env.JOTFORM_API_KEY,
+        'APIKEY': process.env.JOTFORM_API_KEY || '',
         'content-type': 'application/octet-stream'
       }
     }, (res: { statusCode: number; headers: { location: any } }) => {
       // Image will be stored at this path
       const filename = url.split('/')[url.split('/').length - 1];
-      const path = `${env.TEMP_DIR}/${filename}`;
+      const path = `${process.env.TEMP_DIR}/${filename}`;
       const wStream = fs.createWriteStream(path);
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         https.get(res.headers.location, (resp: { pipe: (arg0: fs.WriteStream) => void }) => {
@@ -30,7 +29,7 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
               const uploadTo = `${uploadPath}/${filename}`;
               console.log(uploadTo);
               s3.send(new PutObjectCommand({
-                Bucket: env.AWS_BUCKET,
+                Bucket: process.env.AWS_BUCKET,
                 Key: uploadTo,
                 Body: rStream,
                 ServerSideEncryption: 'AES256'
@@ -39,7 +38,7 @@ export async function uploadJotFormFiles(parentid: string, sourcetype: SourceTyp
                 console.log('Success', data);
                 rStream.close();
                 repository.save({
-                  filePath: `https://${env.AWS_BUCKET}.s3.${env.AWS_REGION}.amazonaws.com/${uploadTo}`,
+                  filePath: `https://${process.env.AWS_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${uploadTo}`,
                   // jotFormId: attachment.id,
                   hubSpotParentId: parentid,
                   sourceType: sourcetype,

@@ -1,4 +1,4 @@
-import { env } from 'process';
+// import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import {
   PaymentMethod,
@@ -12,7 +12,7 @@ export function importXLSXFile(manager: EntityManager, xlsx: any) {
   const xlReader = require('xlsx');
   const paymentRepo = manager.getRepository(Payment);
 
-  const xlfile = xlReader.readFile(`${env.UPLOAD_DIR}/${xlsx}`);
+  const xlfile = xlReader.readFile(`${process.env.UPLOAD_DIR}/${xlsx}`);
 
   xlfile.SheetNames.forEach(async (sheetname: any) => {
     if (!sheetname.toLowerCase().endsWith('details')) {

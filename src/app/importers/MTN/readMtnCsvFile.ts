@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import { Payment } from '../../models';
 import { PaymentMethod, PaymentType } from '@titl-all/shared/dist/enum';
@@ -14,7 +13,7 @@ export function readMtnCsvFile(manager: EntityManager, obj: any) {
 
   const rl = readline.createInterface({
     input: s3.getObject({
-      Bucket: env.AWS_BUCKET || 'titl',
+      Bucket: process.env.AWS_BUCKET || 'titl',
       Key: obj.Key || obj.key
     }).createReadStream()
   });

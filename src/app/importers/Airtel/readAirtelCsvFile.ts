@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import { Payment } from '../../models';
 import { mapXLPaymentType } from '../Excel/mapXLPaymentType';
@@ -13,7 +12,7 @@ export function readAirtelCsvFile(manager: EntityManager, obj: any) {
   const paymentRepo = manager.getRepository(Payment);
   const rl = readline.createInterface({
     input: s3.getObject({
-      Bucket: env.AWS_BUCKET || 'titl',
+      Bucket: process.env.AWS_BUCKET || 'titl',
       Key: obj.Key || obj.key
     }).createReadStream()
   });

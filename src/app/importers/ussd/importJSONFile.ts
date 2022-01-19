@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import { Payment } from '../../models';
 import { PaymentType } from '@titl-all/shared/dist/enum';
@@ -9,7 +8,7 @@ export async function importJSONFile(manager: EntityManager, jsonfile: string) {
   const fs = require('fs');
   const paymentRepo = manager.getRepository(Payment);
 
-  const transactions = JSON.parse(fs.readFileSync(`${env.UPLOAD_DIR}/${jsonfile}`));
+  const transactions = JSON.parse(fs.readFileSync(`${process.env.UPLOAD_DIR}/${jsonfile}`));
   console.log(transactions);
   const uploadedPayments = await paymentRepo.find({ select: ['paymentReference', 'paidWithAccount', 'completionDate'] });
   transactions.forEach((transaction: { Id: string; Phone: string; Amount: any; CreatedAt: any; Tenancy_TenantName: any; Status: any }) => {

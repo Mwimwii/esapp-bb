@@ -1,4 +1,3 @@
-import { env } from 'process';
 import { EntityManager } from 'typeorm';
 import AWS = require('aws-sdk');
 import { readMtnCsvFile } from './readMtnCsvFile';
@@ -8,7 +7,7 @@ export const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
 export function importMTNReports(manager: EntityManager) {
   s3.listObjectsV2({
-    Bucket: env.AWS_BUCKET || 'titl',
+    Bucket: process.env.AWS_BUCKET || 'titl',
     Prefix: 'reports/mtn/' // Can be your folder name
   }, function (err, data) {
     if (err)
