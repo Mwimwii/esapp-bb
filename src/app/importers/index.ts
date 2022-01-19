@@ -29,14 +29,18 @@ export function importAllData() {
     apiKey: process.env.JOTFORM_API_KEY,
   });
 
-  importAirTable(base, connection.manager);
-  importJotForm(jf, connection.manager
-    // , s3Client
-  );
-  importXLSXFile(connection.manager, `payments.xlsx`);
-  importJSONFile(connection.manager, `ussd.json`);
-  importAirtelReports(connection.manager);
-  importMTNReports(connection.manager);
+  try {
+    importAirTable(base, connection.manager);
+    importJotForm(jf, connection.manager
+      // , s3Client
+    );
+    importXLSXFile(connection.manager, `payments.xlsx`);
+    importJSONFile(connection.manager, `ussd.json`);
+    importAirtelReports(connection.manager);
+    importMTNReports(connection.manager);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 export function importJotform() {

@@ -8,7 +8,7 @@ import {
 import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
 
-export function readProposedBuyOutPlan(record: any, agreement: Agreement): PaymentPlan {
+export function readProposedBuyOutPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 163, null)) {
     return ({
       agreement: agreement,
@@ -23,5 +23,4 @@ export function readProposedBuyOutPlan(record: any, agreement: Agreement): Payme
       payments: []
     } as unknown) as PaymentPlan;
   }
-  return new PaymentPlan();
 }

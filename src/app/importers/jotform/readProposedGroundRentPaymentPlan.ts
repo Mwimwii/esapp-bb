@@ -7,7 +7,7 @@ import {
 } from '@titl-all/shared/dist/enum';
 import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 
-export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreement): PaymentPlan {
+export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 160, null)) {
     return ({
       agreement: agreement,
@@ -22,5 +22,4 @@ export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreem
       payments: []
     } as unknown) as PaymentPlan;
   }
-  return new PaymentPlan();
 }
