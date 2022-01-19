@@ -103,7 +103,7 @@ export function readJotformSubmissions(
 
             const agreement = ({
               requestedAgreementType: readJotFormValue(record, 28, null)
-                ? mapAgreementType(readJotFormValue(record, 28, null)[0])
+                ? [mapAgreementType(readJotFormValue(record, 28, null)[0])]
                 : null,
               otherAgreementTypes: readJotFormValue(record, 28, null),
               agreementType: mapAgreementType(
