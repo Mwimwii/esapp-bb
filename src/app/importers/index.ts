@@ -10,6 +10,11 @@ import { importJotForm } from "./jotform/importJotForm";
 import { importMTNReports } from "./MTN/importMTNReports";
 import { importJSONFile } from "./ussd/importJSONFile";
 
+export function purgeData() {
+  const connection = getConnection();
+  connection.query('TRUNCATE TABLE "property_groups" CASCADE; TRUNCATE TABLE "contacts" CASCADE; TRUNCATE TABLE "payments" CASCADE;')
+}
+
 export function importAllData() {
   const connection = getConnection();
   const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base(
@@ -28,6 +33,30 @@ export function importAllData() {
   importJotForm(jf, connection.manager
     // , s3Client
   );
+  importXLSXFile(connection.manager, `payments.xlsx`);
+  importJSONFile(connection.manager, `ussd.json`);
+  importAirtelReports(connection.manager);
+  importMTNReports(connection.manager);
+}
+
+export function importJotform() {
+  const connection = getConnection();
+
+  const jf = require("jotform");
+  jf.options({
+    url: "https://eu-api.jotform.com",
+    debug: true,
+    apiKey: process.env.JOTFORM_API_KEY,
+  });
+
+  importJotForm(jf, connection.manager
+    // , s3Client
+  );
+}
+
+export function importPaymentReports() {
+  const connection = getConnection();
+
   importXLSXFile(connection.manager, `payments.xlsx`);
   importJSONFile(connection.manager, `ussd.json`);
   importAirtelReports(connection.manager);
