@@ -11,8 +11,8 @@ import {
   PropertyType,
   PropertyStatus,
   AgreementStatus,
-  AttachmentType,
-  SourceType,
+  // AttachmentType,
+  // SourceType,
 } from '@titl-all/shared/dist/enum';
 import { mapAcquisitionType } from '../../mappers/mapAcquisitionType';
 import { readJotFormDate } from '../../utils/jotform/readJotFormDate';
@@ -22,8 +22,8 @@ import { readJotFormValue } from '../../utils/jotform/readJotFormValue';
 import { getJotformLC } from './getJotformLC';
 import { getJotformTenant } from './getJotformTenant';
 import { getNamedRelations } from './getNamedRelations';
-import { S3Client } from '@aws-sdk/client-s3';
-import { processJotformFiles } from './processJotformFiles';
+// import { S3Client } from '@aws-sdk/client-s3';
+// import { processJotformFiles } from './processJotformFiles';
 import { readProposedGroundRentPaymentPlan } from './readProposedGroundRentPaymentPlan';
 import { readProposedBuyOutPlan } from './readProposedBuyOutPlan';
 import { readOldGroundRentPaymentPlan } from './readOldGroundRentPaymentPlan';
@@ -33,7 +33,7 @@ import { readOldKanzuPaymentPlan } from './readOldKanzuPaymentPlan';
 export function readJotformSubmissions(
   jf: any,
   manager: EntityManager,
-  s3Client: S3Client,
+  // s3Client: S3Client,
   id: any
 ) {
   const propertyGroupRepo = manager.getRepository(PropertyGroup);
@@ -178,71 +178,71 @@ export function readJotformSubmissions(
               property.status = PropertyStatus.conflicted;
             }
 
-            // Upload identification images
-            processJotformFiles(
-              manager,
-              record,
-              136,
-              AttachmentType.identification,
-              SourceType.identification,
-              property,
-              s3Client
-            );
+            // // Upload identification images
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   136,
+            //   AttachmentType.identification,
+            //   SourceType.identification,
+            //   property,
+            //   s3Client
+            // );
 
-            //Upload profile images
-            processJotformFiles(
-              manager,
-              record,
-              139,
-              AttachmentType.profile,
-              SourceType.identification,
-              property,
-              s3Client
-            );
+            // //Upload profile images
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   139,
+            //   AttachmentType.profile,
+            //   SourceType.identification,
+            //   property,
+            //   s3Client
+            // );
 
-            //Upload agreement files
-            processJotformFiles(
-              manager,
-              record,
-              138,
-              AttachmentType.agreement,
-              SourceType.agreement,
-              property,
-              s3Client
-            );
+            // //Upload agreement files
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   138,
+            //   AttachmentType.agreement,
+            //   SourceType.agreement,
+            //   property,
+            //   s3Client
+            // );
 
-            //Upload agreement files
-            processJotformFiles(
-              manager,
-              record,
-              174,
-              AttachmentType.consent,
-              SourceType.agreement,
-              property,
-              s3Client
-            );
+            // //Upload agreement files
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   174,
+            //   AttachmentType.consent,
+            //   SourceType.agreement,
+            //   property,
+            //   s3Client
+            // );
 
-            //Upload Kanzu Receipts
-            processJotformFiles(
-              manager,
-              record,
-              121,
-              AttachmentType.reciept,
-              SourceType.payment,
-              property,
-              s3Client
-            );
+            // //Upload Kanzu Receipts
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   121,
+            //   AttachmentType.reciept,
+            //   SourceType.payment,
+            //   property,
+            //   s3Client
+            // );
 
-            //Upload Busuulu Receipts
-            processJotformFiles(
-              manager,
-              record,
-              148,
-              AttachmentType.reciept,
-              SourceType.payment,
-              property,
-              s3Client
-            );
+            // //Upload Busuulu Receipts
+            // processJotformFiles(
+            //   manager,
+            //   record,
+            //   148,
+            //   AttachmentType.reciept,
+            //   SourceType.payment,
+            //   property,
+            //   s3Client
+            // );
 
             console.debug(property);
             propertyRepo.save(property);
