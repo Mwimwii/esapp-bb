@@ -1,14 +1,14 @@
 // import { S3Client } from "@aws-sdk/client-s3";
-import Airtable from "airtable";
+import Airtable from 'airtable';
 // import * as hubspot from "@hubspot/api-client";
-import { getConnection } from "typeorm";
-import { importAirTable } from "./airtable/importAirTable";
-import { importAirtelReports } from "./Airtel/importAirtelReports";
-import { importXLSXFile } from "./Excel/importXLSXFile";
+import { getConnection } from 'typeorm';
+import { importAirTable } from './airtable/importAirTable';
+import { importAirtelReports } from './Airtel/importAirtelReports';
+import { importXLSXFile } from './Excel/importXLSXFile';
 // import { importHubImages } from "./hubspot/importHubImages";
-import { importJotForm } from "./jotform/importJotForm";
-import { importMTNReports } from "./MTN/importMTNReports";
-import { importJSONFile } from "./ussd/importJSONFile";
+import { importJotForm } from './jotform/importJotForm';
+import { importMTNReports } from './MTN/importMTNReports';
+import { importJSONFile } from './ussd/importJSONFile';
 
 export function purgeData() {
   const connection = getConnection();
@@ -22,9 +22,9 @@ export function importAllData() {
   );
 
   // const s3Client = new S3Client({ region: process.env.AWS_REGION || 'titl' });
-  const jf = require("jotform");
+  const jf = require('jotform');
   jf.options({
-    url: "https://eu-api.jotform.com",
+    url: 'https://eu-api.jotform.com',
     debug: true,
     apiKey: process.env.JOTFORM_API_KEY,
   });
@@ -34,8 +34,8 @@ export function importAllData() {
     importJotForm(jf, connection.manager
       // , s3Client
     );
-    importXLSXFile(connection.manager, `payments.xlsx`);
-    importJSONFile(connection.manager, `ussd.json`);
+    importXLSXFile(connection.manager, 'payments.xlsx');
+    importJSONFile(connection.manager, 'ussd.json');
     importAirtelReports(connection.manager);
     importMTNReports(connection.manager);
   } catch (error) {
@@ -46,9 +46,9 @@ export function importAllData() {
 export function importJotform() {
   const connection = getConnection();
 
-  const jf = require("jotform");
+  const jf = require('jotform');
   jf.options({
-    url: "https://eu-api.jotform.com",
+    url: 'https://eu-api.jotform.com',
     debug: true,
     apiKey: process.env.JOTFORM_API_KEY,
   });
@@ -61,8 +61,8 @@ export function importJotform() {
 export function importPaymentReports() {
   const connection = getConnection();
 
-  importXLSXFile(connection.manager, `payments.xlsx`);
-  importJSONFile(connection.manager, `ussd.json`);
+  importXLSXFile(connection.manager, 'payments.xlsx');
+  importJSONFile(connection.manager, 'ussd.json');
   importAirtelReports(connection.manager);
   importMTNReports(connection.manager);
 }
