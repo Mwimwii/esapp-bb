@@ -68,4 +68,12 @@ phases:
         --set DB_USERNAME=$DB_USERNAME \
         --set ROOT_DOMAIN=$ROOT_DOMAIN \
         --set AWS_REGION=$AWS_DEFAULT_REGION \
-        --set AWS_BUCKET=$ASSET_STORAGE_BUCKET
+        --set AWS_BUCKET=$ASSET_STORAGE_BUCKET\
+        --set AIRTABLE_ID=$AIRTABLE_ID\
+        --set AIRTABLE_KEY=$AIRTABLE_KEY\
+        --set AWS_REGION=$AWS_REGION\
+        --set HUBSPOT_KEY=$HUBSPOT_KEY\
+        --set JOTFORM_API_KEY=$JOTFORM_API_KEY\
+        --set TEMP_DIR=$TEMP_DIR\
+        --set UPLOAD_DIR=$UPLOAD_DIR\
+        --set REPORTS_DIR=$REPORTS_DIR
