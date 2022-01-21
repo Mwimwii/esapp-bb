@@ -9,6 +9,7 @@ import {
   UssdController,
   OnboardingController,
   TicketController,
+  ImporterController,
 } from './api';
 
 @ApiInfo({
@@ -31,5 +32,6 @@ export class ApiController {
     controller('/ussd', UssdController),
     controller('/onboarding', OnboardingController),
     controller('/tickets', TicketController),
+    controller('/importer', ImporterController),
   ];
 }
