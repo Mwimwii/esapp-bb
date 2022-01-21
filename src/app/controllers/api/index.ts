@@ -5,3 +5,4 @@ export { UserController } from './user.controller';
 export { UssdController } from './ussd.controller';
 export { OnboardingController } from './onboarding.controller';
 export { TicketController } from './ticket.controller';
+export { ImporterController } from './importer.controller';
