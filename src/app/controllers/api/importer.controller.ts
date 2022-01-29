@@ -9,7 +9,7 @@ import {
   // HttpResponseNotImplemented,
   // dependency,
 } from '@foal/core';
-import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform } from 'app/importers';
+import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform, importPaymentReports } from 'app/importers';
 
 // const request = require('request');
 
@@ -71,7 +71,7 @@ export class ImporterController {
   async runPayments(ctx: Context) {
     console.log(ctx.request.baseUrl);
 
-    importHubspotData();
+    importPaymentReports();
 
     return new HttpResponseOK({
       text: 'Import Test complete'
