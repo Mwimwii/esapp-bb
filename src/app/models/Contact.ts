@@ -1,10 +1,11 @@
+/* eslint-disable arrow-parens */
 import {
   Entity,
   Column,
   OneToMany,
   Generated,
   JoinColumn,
-  ManyToOne
+  ManyToOne,
 } from 'typeorm';
 import { ContactDetail, Asset } from '.';
 import { BaseTable } from './BaseTable';
@@ -14,7 +15,7 @@ import {
   ContactStatus,
   ContactType,
   Language,
-  HeardAboutUsType
+  HeardAboutUsType,
 } from '@titl-all/shared/dist/enum';
 import { ContactAPI } from '@titl-all/shared/dist/api-model';
 
@@ -22,6 +23,7 @@ import { ContactAPI } from '@titl-all/shared/dist/api-model';
 export class Contact extends BaseTable implements ContactAPI {
   fields() {
     return {
+      whenRelationship: this.whenRelationship,
       id: this.id,
       negotiationType: this.negotiationType,
       heardAboutUsType: this.heardAboutUsType,
@@ -37,7 +39,7 @@ export class Contact extends BaseTable implements ContactAPI {
       identifications: this.identifications,
       status: this.status,
       lastModifiedDate: this.modifiedAt,
-      hubSpotId: this.hubSpotId
+      hubSpotId: this.hubSpotId,
     };
   }
 
@@ -59,19 +61,22 @@ export class Contact extends BaseTable implements ContactAPI {
   @Column('varchar', { length: 2, default: 'O' })
   gender: string;
 
+  @Column('varchar', { length: 150, nullable: true })
+  whenRelationship: string;
+
   @Column({ nullable: true })
   @Generated('uuid')
   uuid: string;
 
   @Column({
     type: 'date',
-    nullable: true
+    nullable: true,
   })
   dob: Date;
 
   @Column({
     type: 'int',
-    nullable: true
+    nullable: true,
   })
   age: number;
 
@@ -88,41 +93,31 @@ export class Contact extends BaseTable implements ContactAPI {
   @JoinColumn()
   parentSpouse: Contact;
 
-  @OneToMany(
-    () => ContactDetail,
-    contactDetail => contactDetail.contact,
-    { cascade: true }
-  )
+  @OneToMany(() => ContactDetail, (contactDetail) => contactDetail.contact, {
+    cascade: true,
+  })
   contactDetails: ContactDetail[];
 
-  @OneToMany(
-    () => Identification,
-    identification => identification.contact,
-    { cascade: true }
-  )
+  @OneToMany(() => Identification, (identification) => identification.contact, {
+    cascade: true,
+  })
   identifications: Identification[];
 
-  @OneToMany(
-    () => PropertyGroup,
-    propertyGroup => propertyGroup.owner,
-    { cascade: true }
-  )
+  @OneToMany(() => PropertyGroup, (propertyGroup) => propertyGroup.owner, {
+    cascade: true,
+  })
   propertyGroups: PropertyGroup[];
 
-  @OneToMany(
-    () => Contact,
-    contact => contact.parentSpouse,
-    { cascade: true }
-  )
+  @OneToMany(() => Contact, (contact) => contact.parentSpouse, {
+    cascade: true,
+  })
   spouses: Contact[];
 
   @Column({ type: 'enum', enum: ContactStatus, default: ContactStatus.active })
   status: ContactStatus;
 
-  @OneToMany(
-    () => Asset,
-    (asset: Asset) => asset.ownedByContact,
-    { cascade: true }
-  )
+  @OneToMany(() => Asset, (asset: Asset) => asset.ownedByContact, {
+    cascade: true,
+  })
   assets: Asset[];
 }

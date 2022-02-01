@@ -1,3 +1,4 @@
+/* eslint-disable arrow-parens */
 import { File } from '@foal/storage';
 
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
@@ -6,7 +7,7 @@ import {
   ContactType,
   ContactDetailStatus,
   ContactDetailType,
-  HeardAboutUsType
+  HeardAboutUsType,
 } from '@titl-all/shared/dist/enum';
 import { User, Contact, ContactDetail } from 'app/models';
 
@@ -30,7 +31,8 @@ export class TenantService {
       gender,
       dateOfBirth,
       tenantType: contactType,
-      languages
+      languages,
+      whenRelationship,
     } = data;
 
     const tenantContact = new Contact();
@@ -44,6 +46,7 @@ export class TenantService {
     tenantContact.nickName = String(nickname);
     tenantContact.gender = String(gender);
     tenantContact.dob = new Date(String(dateOfBirth));
+    tenantContact.whenRelationship = String(whenRelationship);
 
     if (contactType) {
       // split(',')
@@ -59,11 +62,11 @@ export class TenantService {
 
     const firstPhoneInfo: ContactDetailsInfo = {
       phoneNumber: String(firstPhoneNumber),
-      isWhatsApp: String(firstNumberIsWhatsApp)
+      isWhatsApp: String(firstNumberIsWhatsApp),
     };
     const secondPhoneInfo: ContactDetailsInfo = {
       phoneNumber: String(secondPhoneNumber),
-      isWhatsApp: String(secondNumberIsWhatsApp)
+      isWhatsApp: String(secondNumberIsWhatsApp),
     };
 
     await tenantContact.save();
@@ -86,7 +89,7 @@ export class TenantService {
   }
 
   formatReferrals(heardAboutUsType?: string[]): HeardAboutUsType[] {
-    const formattedReferrals = heardAboutUsType?.map(aboutUsType => {
+    const formattedReferrals = heardAboutUsType?.map((aboutUsType) => {
       switch (aboutUsType) {
         case 'Community Meeting':
           return HeardAboutUsType.communitymeeting;
@@ -114,7 +117,7 @@ export class TenantService {
   }
 
   formatLanguages(languages?: string[]): Language[] {
-    const formattedLanguages = languages?.map(language => {
+    const formattedLanguages = languages?.map((language) => {
       switch (language) {
         case 'English':
           return Language.English;
