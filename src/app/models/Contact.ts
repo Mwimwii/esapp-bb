@@ -23,7 +23,6 @@ import { ContactAPI } from '@titl-all/shared/dist/api-model';
 export class Contact extends BaseTable implements ContactAPI {
   fields() {
     return {
-      whenRelationship: this.whenRelationship,
       id: this.id,
       negotiationType: this.negotiationType,
       heardAboutUsType: this.heardAboutUsType,
@@ -40,6 +39,8 @@ export class Contact extends BaseTable implements ContactAPI {
       status: this.status,
       lastModifiedDate: this.modifiedAt,
       hubSpotId: this.hubSpotId,
+      whenRelationship: this.whenRelationship,
+      whereRelationship: this.whereRelationship,
     };
   }
 
@@ -63,6 +64,9 @@ export class Contact extends BaseTable implements ContactAPI {
 
   @Column('varchar', { length: 150, nullable: true })
   whenRelationship: string;
+
+  @Column('varchar', { length: 150, nullable: true })
+  whereRelationship: string;
 
   @Column({ nullable: true })
   @Generated('uuid')
