@@ -33,6 +33,7 @@ export class TenantService {
       tenantType: contactType,
       languages,
       whenRelationship,
+      whereRelationship,
     } = data;
 
     const tenantContact = new Contact();
@@ -47,6 +48,7 @@ export class TenantService {
     tenantContact.gender = String(gender);
     tenantContact.dob = new Date(String(dateOfBirth));
     tenantContact.whenRelationship = String(whenRelationship);
+    tenantContact.whereRelationship = String(whereRelationship);
 
     if (contactType) {
       // split(',')
