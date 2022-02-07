@@ -27,6 +27,7 @@ export class Contact extends BaseTable implements ContactAPI {
       negotiationType: this.negotiationType,
       heardAboutUsType: this.heardAboutUsType,
       firstName: this.firstName,
+      middleName: this.middleName,
       lastName: this.lastName,
       gender: this.gender,
       uuid: this.uuid,
@@ -52,6 +53,9 @@ export class Contact extends BaseTable implements ContactAPI {
 
   @Column('varchar', { length: 50, nullable: true })
   firstName: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  middleName: string;
 
   @Column('varchar', { length: 50, nullable: true })
   lastName: string;
