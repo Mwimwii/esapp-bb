@@ -22,6 +22,7 @@ export class TenantService {
       negotiationType,
       heardAboutUsType,
       firstName,
+      middleName,
       lastName,
       firstPhoneNumber,
       firstNumberIsWhatsApp,
@@ -43,6 +44,7 @@ export class TenantService {
       ? this.formatReferrals(String(heardAboutUsType).split(','))
       : [];
     tenantContact.firstName = String(firstName);
+    tenantContact.middleName = String(middleName);
     tenantContact.lastName = String(lastName);
     tenantContact.nickName = String(nickname);
     tenantContact.gender = String(gender);
