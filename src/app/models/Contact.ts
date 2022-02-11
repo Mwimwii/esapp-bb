@@ -42,6 +42,10 @@ export class Contact extends BaseTable implements ContactAPI {
       hubSpotId: this.hubSpotId,
       whenRelationship: this.whenRelationship,
       whereRelationship: this.whereRelationship,
+      locationParish: this.locationParish,
+      locationVillage: this.locationVillage,
+      locationBlockNumber: this.locationBlockNumber,
+      locationPlotNumber: this.locationPlotNumber,
     };
   }
 
@@ -71,6 +75,18 @@ export class Contact extends BaseTable implements ContactAPI {
 
   @Column('varchar', { length: 150, nullable: true })
   whereRelationship: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  locationParish: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  locationVillage: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  locationBlockNumber: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  locationPlotNumber: string;
 
   @Column({ nullable: true })
   @Generated('uuid')
