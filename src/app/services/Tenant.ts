@@ -39,6 +39,9 @@ export class TenantService {
       locationParish,
       locationBlockNumber,
       locationPlotNumber,
+      lc1FirstName,
+      lc1LastName,
+      lc1TelNumber,
     } = data;
 
     const tenantContact = new Contact();
@@ -59,6 +62,9 @@ export class TenantService {
     tenantContact.locationVillage = String(locationVillage);
     tenantContact.locationBlockNumber = String(locationBlockNumber);
     tenantContact.locationPlotNumber = String(locationPlotNumber);
+    tenantContact.lc1FirstName = String(lc1FirstName);
+    tenantContact.lc1LastName = String(lc1LastName);
+    tenantContact.lc1TelNumber = String(lc1TelNumber);
 
     if (contactType) {
       // split(',')

@@ -46,6 +46,9 @@ export class Contact extends BaseTable implements ContactAPI {
       locationVillage: this.locationVillage,
       locationBlockNumber: this.locationBlockNumber,
       locationPlotNumber: this.locationPlotNumber,
+      lc1FirstName: this.lc1FirstName,
+      lc1LastName: this.lc1LastName,
+      lc1TelNumber: this.lc1TelNumber,
     };
   }
 
@@ -87,6 +90,15 @@ export class Contact extends BaseTable implements ContactAPI {
 
   @Column('varchar', { length: 50, nullable: true })
   locationPlotNumber: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  lc1FirstName: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  lc1LastName: string;
+
+  @Column('varchar', { length: 50, nullable: true })
+  lc1TelNumber: string;
 
   @Column({ nullable: true })
   @Generated('uuid')
