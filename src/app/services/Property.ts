@@ -1,6 +1,10 @@
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
-import { MeasurementType, PropertyStatus, PropertyType } from '@titl-all/shared/dist/enum';
-import { Property, User } from 'app/models';
+import {
+  MeasurementType,
+  PropertyStatus,
+  PropertyType,
+} from '@titl-all/shared/dist/enum';
+import { Conflict, Property, User } from 'app/models';
 
 export class PropertyService {
   async add(data: Partial<OnboardingQuestions>, user: User) {
@@ -9,9 +13,19 @@ export class PropertyService {
       metricUnits: sizeUnit,
       conflict,
       propertyType,
+      conflictType,
+      conflictComments,
     } = data;
 
+    const createdConflict = new Conflict();
+    createdConflict.conflictType = [];
+    createdConflict.conflictType.push(String(conflictType));
+    createdConflict.confilctDescription = String(conflictComments);
+
     const createdProperty = new Property();
+
+    createdProperty.conflicts = [];
+    createdProperty.conflicts.push(createdConflict);
 
     createdProperty.sizeSqf = String(sizeSqf);
     if (sizeUnit) {
@@ -24,7 +38,6 @@ export class PropertyService {
     // TODO confirm
     createdProperty.status = PropertyStatus.active;
     createdProperty.createdBy = user;
-
 
     await createdProperty.save();
 
