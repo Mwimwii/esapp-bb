@@ -1,5 +1,7 @@
+/* eslint-disable arrow-parens */
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import {
+  ConflictType,
   MeasurementType,
   PropertyStatus,
   PropertyType,
@@ -18,8 +20,9 @@ export class PropertyService {
     } = data;
 
     const createdConflict = new Conflict();
-    createdConflict.conflictType = [];
-    createdConflict.conflictType.push(String(conflictType));
+    createdConflict.conflictType = conflictType
+      ? this.formatConflictTypes(String(conflictType).split(','))
+      : [];
     createdConflict.confilctDescription = String(conflictComments);
 
     const createdProperty = new Property();
@@ -42,5 +45,23 @@ export class PropertyService {
     await createdProperty.save();
 
     return createdProperty;
+  }
+  formatConflictTypes(coflictType?: string[]): ConflictType[] {
+    const formattedConflictTypes = coflictType?.map((confType) => {
+      switch (confType) {
+        case 'Disputed ownership':
+          return ConflictType.disputedOwnership;
+        case 'Boundary disagreement':
+          return ConflictType.boundaryDisagreement;
+        case 'Inheritance':
+          return ConflictType.inheritance;
+        case 'Other':
+          return ConflictType.other;
+
+        default:
+          return '';
+      }
+    });
+    return formattedConflictTypes as ConflictType[];
   }
 }
