@@ -27,8 +27,7 @@ export class PropertyService {
 
     const createdProperty = new Property();
 
-    createdProperty.conflicts = [];
-    createdProperty.conflicts.push(createdConflict);
+    createdProperty.conflicts = [createdConflict];
 
     createdProperty.sizeSqf = String(sizeSqf);
     if (sizeUnit) {
