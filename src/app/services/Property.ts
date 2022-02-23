@@ -1,6 +1,12 @@
+/* eslint-disable arrow-parens */
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
-import { MeasurementType, PropertyStatus, PropertyType } from '@titl-all/shared/dist/enum';
-import { Property, User } from 'app/models';
+import {
+  ConflictType,
+  MeasurementType,
+  PropertyStatus,
+  PropertyType,
+} from '@titl-all/shared/dist/enum';
+import { Conflict, Property, User } from 'app/models';
 
 export class PropertyService {
   async add(data: Partial<OnboardingQuestions>, user: User) {
@@ -9,9 +15,19 @@ export class PropertyService {
       metricUnits: sizeUnit,
       conflict,
       propertyType,
+      conflictType,
+      conflictComments,
     } = data;
 
+    const createdConflict = new Conflict();
+    createdConflict.conflictType = conflictType
+      ? this.formatConflictTypes(String(conflictType).split(','))
+      : [];
+    createdConflict.confilctDescription = String(conflictComments);
+
     const createdProperty = new Property();
+
+    createdProperty.conflicts = [createdConflict];
 
     createdProperty.sizeSqf = String(sizeSqf);
     if (sizeUnit) {
@@ -25,9 +41,26 @@ export class PropertyService {
     createdProperty.status = PropertyStatus.active;
     createdProperty.createdBy = user;
 
-
     await createdProperty.save();
 
     return createdProperty;
+  }
+  formatConflictTypes(coflictType?: string[]): ConflictType[] {
+    const formattedConflictTypes = coflictType?.map((confType) => {
+      switch (confType) {
+        case 'Disputed ownership':
+          return ConflictType.disputedOwnership;
+        case 'Boundary disagreement':
+          return ConflictType.boundaryDisagreement;
+        case 'Inheritance':
+          return ConflictType.inheritance;
+        case 'Other':
+          return ConflictType.other;
+
+        default:
+          return '';
+      }
+    });
+    return formattedConflictTypes as ConflictType[];
   }
 }
