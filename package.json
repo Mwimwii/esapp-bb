@@ -23,8 +23,6 @@
     "lint:fix": "eslint --ext ts --fix src",
     "postinstall": "node-git-hooks",
     "generate:uml": "npm run build && typeorm-uml ormconfig.js --download docs/database-uml.png",
-    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
-    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
     "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
     "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
   },
