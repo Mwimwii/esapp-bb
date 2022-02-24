@@ -22,7 +22,11 @@
     "lint": "eslint --ext ts src",
     "lint:fix": "eslint --ext ts --fix src",
     "postinstall": "node-git-hooks",
-    "generate:uml": "npm run build && typeorm-uml ormconfig.js --download docs/database-uml.png"
+    "generate:uml": "npm run build && typeorm-uml ormconfig.js --download docs/database-uml.png",
+    "seed:config": "ts-node ./node_modules/typeorm-seeding/dist/cli.js config",
+    "seed:run": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed",
+    "schema:drop": "ts-node ./node_modules/typeorm/cli.js schema:drop",
+    "schema:sync": "ts-node ./node_modules/typeorm/cli.js schema:sync"
   },
   "engines": {
     "node": ">=14"
@@ -59,6 +63,7 @@
     "@foal/cli": "^2.5.0",
     "@foal/swagger": "^2.5.0",
     "@types/express": "^4.17.7",
+    "@types/faker": "^6.6.9",
     "@types/jsonwebtoken": "^8.5.5",
     "@types/mocha": "7.0.2",
     "@types/node": "^16.7.1",
