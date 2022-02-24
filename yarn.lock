@@ -1043,10 +1043,10 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@^3.0.32":
-  version "3.0.32"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.32/c063652fe7a49ac2c7fdb5b40751b368826f07f273aa853339724694b2418037#0bc7b5152ee3c69d37898ffc6e719a85a184feeb"
-  integrity sha512-gkOvbiJcA2OexToYVZJwe18tNJmvxB8aYUw23FjNqhNhHhut2gBXvUArPwLMNiGFwkGOyrY2hn+XdpBChv3O5Q==
+"@titl-all/shared@3.0.33":
+  version "3.0.33"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/3.0.33/cd7c9a9c52f9af4db2184f47674e15f113ca29e7237a93cbe0ff9e642b4a183f#f9b793b470a90562c7eca29175d62400900f9e5f"
+  integrity sha512-HDciAxfcLwDbfj35g5Fc14Q6Klgnj3lRJmbl94xWM/6pFPXDVTdUeodFn/UT9cqeYoJXGpI0i510ZgRIN71xtQ==
   dependencies:
     react "^17.0.2"
 
@@ -1108,6 +1108,13 @@
     "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
+
+"@types/faker@^6.6.9":
+  version "6.6.9"
+  resolved "https://registry.yarnpkg.com/@types/faker/-/faker-6.6.9.tgz#1064e7c46be58388fa326e2f918a4f02ab740a7a"
+  integrity sha512-Y9YYm5L//8ooiiknO++4Gr539zzdI0j3aXnOBjo1Vk+kTvffY10GuE2wn78AFPECwZ5MYGTjiDVw1naLLdDimw==
+  dependencies:
+    faker "*"
 
 "@types/json-schema@^7.0.3":
   version "7.0.9"
@@ -2319,6 +2326,11 @@ extsprintf@^1.2.0:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.1.tgz#8d172c064867f235c0c84a596806d279bf4bcc07"
   integrity sha512-Wrk35e8ydCKDj/ArClo1VrPVmN8zph5V4AtHwIuHhvMXsKf73UT3BOD+azBIW+3wOJ4FhEH7zyaJCFvChjYvMA==
+
+faker@*:
+  version "6.6.6"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-6.6.6.tgz#e9529da0109dca4c7c5dbfeaadbd9234af943033"
+  integrity sha512-9tCqYEDHI5RYFQigXFwF1hnCwcWCOJl/hmll0lr5D2Ljjb0o4wphb69wikeJDz5qCEzXCoPvG6ss5SDP6IfOdg==
 
 faker@4.1.0:
   version "4.1.0"
