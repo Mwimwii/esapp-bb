@@ -36,6 +36,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
           if (!items.find(e => e.airTableId == record.get('LandRightID'))) {
             console.log(`Reading landRight.. ${record.get('LandRightID')}`);
             const property = ({
+              hubSpotId: record.get('HubspotPersonID'),
               airTableId: record.get('LandRightID'),
               airTableParentId: record.get('LandGroup') ? (record.get('LandGroup') as string[])[0] : null,
               sizeSqf: record.get('LandSize(sqf)') || 0,
@@ -44,6 +45,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               status: PropertyStatus.active,
               agreements: [
                 ({
+                  hubSpotId: record.get('HubspotPersonID'),
                   airTableTenantId: (record.get('Tenant') as string[])[0],
                   status: mapAgreementStatus((record.get('TenantOnboardingStage (from Tenant)') as string[])[0]),
                   dateArrived: record.get('DateArrived (from Tenant)'),
@@ -61,6 +63,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
             if (record.get('PaymentSize')) {
               property.agreements[0].paymentPlans.push(
                 ({
+                  hubSpotId: record.get('HubspotPersonID'),
                   paymentType: mapXLPaymentType(record.get('PaymentType')),
                   baseAmount: parseInt(record.get('PaymentSize') as string) || 0,
                   agreedAmount: parseInt(record.get('PaymentSize') as string) || 0,
@@ -77,6 +80,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
             if (record.get('OrigOverdueKanzu')) {
               property.agreements[0].paymentPlans.push(
                 ({
+                  hubSpotId: record.get('HubspotPersonID'),
                   paymentType: PaymentType.kanzu,
                   baseAmount: parseInt(record.get('OrigKanzu') as string) || 0,
                   agreedAmount: parseInt(record.get('OrigKanzu') as string) || 0,
@@ -93,6 +97,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
             if (record.get('RenegotiatedArrearsDue')) {
               property.agreements[0].paymentPlans.push(
                 ({
+                  hubSpotId: record.get('HubspotPersonID'),
                   paymentType: PaymentType.arrears,
                   baseAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
                   agreedAmount: parseInt(record.get('RenegotiatedArrearsDue') as string) || 0,
