@@ -3,17 +3,26 @@ import {
   Context,
   HttpResponseOK,
   Get,
+  dependency,
+  Env,
   // Post,
   // HttpResponseInternalServerError,
   // HttpResponseBadRequest,
   // HttpResponseNotImplemented,
   // dependency,
 } from '@foal/core';
+import { Disk } from '@foal/storage';
 import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform, importPaymentReports } from 'app/importers';
+import { Asset } from 'app/models';
+import { getManager } from 'typeorm';
+import { getAsset } from './getAsset';
 
 // const request = require('request');
 
 export class ImporterController {
+
+  @dependency
+  disk: Disk;
 
   @Get('/test')
   async getTest(ctx: Context) {
@@ -49,7 +58,7 @@ export class ImporterController {
   async runJotForm(ctx: Context) {
     console.log(ctx.request.baseUrl);
 
-    importJotform();
+    importJotform(this.disk);
 
     return new HttpResponseOK({
       text: 'Import Test complete'
@@ -84,6 +93,48 @@ export class ImporterController {
     importAllData();
     return new HttpResponseOK({
       text: 'Import Test complete'
+    });
+  }
+
+  @Get('/assets')
+  async updateAssets() {
+    // Load the AWS SDK for Node.js
+    const AWS = require('aws-sdk');
+    const assetRepo = getManager().getRepository(Asset);
+    // Set the region
+    AWS.config.update({ region: Env.get('AWS_REGION') });
+
+    // Create S3 service object
+    const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+
+    // Create the parameters for calling listObjects
+    var bucketParams = {
+      Bucket: Env.get('AWS_BUCKET'),
+    };
+
+    // Call S3 to obtain a list of the objects in the bucket
+    let bucketdata: any[] = [];
+
+    s3.listObjects(bucketParams, (err: any, data: any) => {
+      if (err) {
+        console.log("Error", err);
+      } else {
+        bucketdata = data.Contents;
+
+        bucketdata.forEach(async s3file => {
+          if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
+            const asset = await getAsset(s3file.Key);
+            if (asset) {
+              assetRepo.save(asset);
+            }
+            console.log(asset);
+          }
+        });
+      }
+    });
+
+    return new HttpResponseOK({
+      text: 'Asset Update Running'
     });
   }
 
@@ -161,4 +212,3 @@ export class ImporterController {
   //   return new HttpResponseNotImplemented('Action Unknown');
   // }
 }
-
