@@ -14,6 +14,7 @@ module.exports = {
       },
       s3: {
         bucket: Env.get("AWS_BUCKET"),
+        serverSideEncryption: 'AES256'
       },
     },
     loggerFormat: "tiny",
