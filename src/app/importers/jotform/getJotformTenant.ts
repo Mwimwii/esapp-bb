@@ -9,10 +9,11 @@ import { readJotFormValue } from '../../utils/jotform/readJotFormValue';
 import { mapJotformContactDetailPhoneType } from '../../mappers/mapJotformContactDetailPhoneType';
 
 export async function getJotformTenant(record: any, repository: Repository<Contact>): Promise<Contact> {
-  let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 94, 'first'), lastName: readJotFormValue(record, 94, 'last'), dob: readJotFormDate(record, 165) }] });
+  let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 94, 'first'), lastName: readJotFormValue(record, 94, 'last') }, { jotFormId: record.id }] });
 
   if (!contact) {
     contact = ({
+      jotFormId: record.id,
       firstName: readJotFormValue(record, 94, 'first'),
       lastName: readJotFormValue(record, 94, 'last'),
       nickName: readJotFormValue(record, 183, null),
