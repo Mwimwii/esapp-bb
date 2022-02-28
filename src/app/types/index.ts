@@ -14,4 +14,6 @@ export interface OnboardingFiles {
   agreement: File;
   consentImageFront: File;
   consentImageBack: File;
+  kanzuReceipt: File;
+  groundRentReceipt: File;
 }
