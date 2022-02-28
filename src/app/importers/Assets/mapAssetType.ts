@@ -2,33 +2,33 @@ import { AssetType } from '@titl-all/shared/dist/enum';
 
 export function mapAssetType(value: string): AssetType {
   switch (value?.toLowerCase()) {
-    case "nin":
-    case "identification":
-    case "id":
+    case 'nin':
+    case 'identification':
+    case 'id':
       return AssetType.nationalId;
-    case "identification":
+    case 'vrs':
       return AssetType.driversLicense;
-    case "villageId":
+    case 'villageId':
       return AssetType.villageId;
-    case "passport":
+    case 'passport':
       return AssetType.passport;
-    case "agreement":
+    case 'agreement':
       return AssetType.agreement;
-    case "consent":
+    case 'consent':
       return AssetType.consent;
-    case "receipt":
-    case "receipts":
+    case 'receipt':
+    case 'receipts':
       return AssetType.receipt;
-    case "notes":
+    case 'notes':
       return AssetType.notes;
-    case "map":
+    case 'map':
       return AssetType.map;
-    case "letter":
+    case 'letter':
       return AssetType.letter;
-    case "title":
+    case 'title':
       return AssetType.title;
-    case "profile":
-    case "port":
+    case 'profile':
+    case 'port':
       return AssetType.profile;
     default:
       return AssetType.other;
