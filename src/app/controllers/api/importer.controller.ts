@@ -108,7 +108,7 @@ export class ImporterController {
     const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
 
     // Create the parameters for calling listObjects
-    var bucketParams = {
+    const bucketParams = {
       Bucket: Env.get('AWS_BUCKET'),
     };
 
@@ -117,19 +117,22 @@ export class ImporterController {
 
     s3.listObjects(bucketParams, (err: any, data: any) => {
       if (err) {
-        console.log("Error", err);
+        console.log('Error', err);
       } else {
         bucketdata = data.Contents;
 
-        bucketdata.forEach(async s3file => {
-          if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
-            const asset = await getAsset(s3file.Key);
-            if (asset) {
-              assetRepo.save(asset);
+        bucketdata.forEach(s3file => {
+          async () => {
+            if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
+              const asset = await getAsset(s3file.Key);
+              if (asset) {
+                assetRepo.save(asset);
+              }
+              console.log(asset);
             }
-            console.log(asset);
           }
-        });
+        }
+        );
       }
     });
 

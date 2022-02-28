@@ -22,51 +22,62 @@ export async function uploadJotFormFiles(parentid: string, assetType: AssetType,
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         https.get(res.headers.location, (resp: { pipe: (arg0: fs.WriteStream) => void }) => {
           resp.pipe(wStream); // Save to local drive
-          wStream.on('finish', async () => {
-            const rStream = fs.createReadStream(path);
-            try { // Upload to S3 bucket
-              const uploadTo = `${uploadPath}/${filename}`;
-              console.log(uploadTo);
-              try {
-                if (await disk.write(uploadTo, rStream)) {
-                  // const upload = await disk.write(uploadTo, rStream);
-                  // console.log(upload);
-                  console.log(
-                    {
-                      jotFormId: parentid,
-                      type: assetType,
-                      path: uploadTo,
-                      bucket: Env.get('AWS_BUCKET')
-                    } as Asset
-                  );
-                }
-              } catch (error) {
-                console.log(error);
-              }
+          wStream.on('finish', () => {
+            async () => {
+              const rStream = fs.createReadStream(path);
+              try { // Upload to S3 bucket
+                const uploadTo = `${uploadPath}/${filename}`;
+                console.log(uploadTo);
+                try {
+                  if (await disk.write(uploadTo, rStream)) {
+                    // const upload = await disk.write(uploadTo, rStream);
+                    // console.log(upload);
+                    console.log(
+                      {
+                        jotFormId: parentid,
+                        type: assetType,
+                        path: uploadTo,
+                        bucket: Env.get('AWS_BUCKET')
+                      } as Asset
+                    );
 
-              // s3.send(new PutObjectCommand({
-              //   Bucket: Env.get('AWS_BUCKET'),
-              //   Key: uploadTo,
-              //   Body: rStream,
-              //   ServerSideEncryption: 'AES256'
-              //   // options:
-              // } as PutObjectCommandInput)).then(data => {
-              //   console.log('Success', data);
-              //   rStream.close();
-              //   repository.save({
-              //     filePath: `https://${Env.get('AWS_BUCKET}.s3.${Env.get('AWS_REGION}.amazonaws.com/${uploadTo}`,
-              //     // jotFormId: attachment.id,
-              //     hubSpotParentId: parentid,
-              //     // sourceType: sourcetype,
-              //     status: AttachmentStatus.active
-              //   } as Attachment).then(file => {
-              //     console.log(file);
-              //   });
-              //   return data;
-              // });
-            } catch (err) {
-              console.log('Error', err);
+                    return (
+                      {
+                        jotFormId: parentid,
+                        type: assetType,
+                        path: uploadTo,
+                        bucket: Env.get('AWS_BUCKET')
+                      } as Asset
+                    );
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+                // s3.send(new PutObjectCommand({
+                //   Bucket: Env.get('AWS_BUCKET'),
+                //   Key: uploadTo,
+                //   Body: rStream,
+                //   ServerSideEncryption: 'AES256'
+                //   // options:
+                // } as PutObjectCommandInput)).then(data => {
+                //   console.log('Success', data);
+                //   rStream.close();
+                //   repository.save({
+                //     filePath: `https://${Env.get('AWS_BUCKET}.s3.${Env.get('AWS_REGION}.amazonaws.com/${uploadTo}`,
+                //     // jotFormId: attachment.id,
+                //     hubSpotParentId: parentid,
+                //     // sourceType: sourcetype,
+                //     status: AttachmentStatus.active
+                //   } as Attachment).then(file => {
+                //     console.log(file);
+                //   });
+                //   return data;
+                // });
+              } catch (err) {
+                console.log('Error', err);
+              }
             }
+
             wStream.close();
           }).on('error', err => {
             console.log(err);
