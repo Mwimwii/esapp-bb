@@ -15,7 +15,7 @@ import { Disk } from '@foal/storage';
 import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform, importPaymentReports } from 'app/importers';
 import { Asset } from 'app/models';
 import { getManager } from 'typeorm';
-import { getAsset } from './getAsset';
+import { getAsset } from '../../importers/Assets/getAsset';
 
 // const request = require('request');
 
