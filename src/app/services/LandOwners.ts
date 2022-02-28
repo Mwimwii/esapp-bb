@@ -2,7 +2,6 @@ import {
   Agreement,
   Payment,
   PropertyGroup,
-  //Property,
   Contact,
   Ticket,
   TicketCollaborator,
@@ -127,8 +126,7 @@ export class LandOwnersService {
       .innerJoin('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
       .leftJoinAndSelect('paymentPlans.payments', 'payments')
-      //.leftJoinAndSelect('property.payments', 'payments')
-      // TODO select a ticket
+          // TODO select a ticket
       .addSelect(
         qb => qb.select('Count(*)', 'property_groups')
         .from('property_groups', 'property_group')
