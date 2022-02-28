@@ -34,6 +34,6 @@ export abstract class BaseTable extends BaseEntity {
   @Column({ nullable: true })
   hubSpotParentId: string;
 
-  @Column({ nullable: true, unique: true })
+  @Column({ nullable: true, /*unique: true*/ })
   jotFormId: string;
 }

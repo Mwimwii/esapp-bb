@@ -1,11 +1,11 @@
+import { Disk } from '@foal/storage';
 import { EntityManager } from 'typeorm';
-// import { S3Client } from '@aws-sdk/client-s3';
 import { readJotformSubmissions } from './readJotformSubmissions';
 
 export async function importJotForm(
   jf: any,
   manager: EntityManager,
-  // s3Client: S3Client
+  disk: Disk
 ) {
   const folders = await jf.getFolders();
   folders.subfolders
@@ -14,7 +14,7 @@ export async function importJotForm(
       if (form.status == 'ENABLED') {
         console.log(`${form.id} - ${form.title}`);
         readJotformSubmissions(jf, manager,
-          // s3Client,
+          disk,
           form.id);
       }
     });

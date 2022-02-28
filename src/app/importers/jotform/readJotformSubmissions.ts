@@ -11,8 +11,6 @@ import {
   PropertyType,
   PropertyStatus,
   AgreementStatus,
-  // AttachmentType,
-  // SourceType,
 } from '@titl-all/shared/dist/enum';
 import { mapAcquisitionType } from '../../mappers/mapAcquisitionType';
 import { readJotFormDate } from '../../utils/jotform/readJotFormDate';
@@ -29,11 +27,12 @@ import { readProposedBuyOutPlan } from './readProposedBuyOutPlan';
 import { readOldGroundRentPaymentPlan } from './readOldGroundRentPaymentPlan';
 import { readProposedKanzuPaymentPlan } from './readProposedKanzuPaymentPlan';
 import { readOldKanzuPaymentPlan } from './readOldKanzuPaymentPlan';
+import { Disk } from '@foal/storage';
 
 export function readJotformSubmissions(
   jf: any,
   manager: EntityManager,
-  // s3Client: S3Client,
+  disk: Disk,
   id: any
 ) {
   const propertyGroupRepo = manager.getRepository(PropertyGroup);
@@ -102,6 +101,7 @@ export function readJotformSubmissions(
             } as unknown) as Property;
 
             const agreement = ({
+              jotFormId: record.id,
               requestedAgreementType: readJotFormValue(record, 28, null)
                 ? [mapAgreementType(readJotFormValue(record, 28, null)[0])]
                 : null,
@@ -178,71 +178,72 @@ export function readJotformSubmissions(
               property.status = PropertyStatus.conflicted;
             }
 
-            // // Upload identification images
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   136,
-            //   AttachmentType.identification,
-            //   SourceType.identification,
-            //   property,
-            //   s3Client
-            // );
+            if (disk) {
+              // // Upload identification images
+              // processJotformFiles(
+              //   record,
+              //   136,
+              //   AssetType.nationalId,
+              //   SourceType.identification,
+              //   property,
+              //   disk
+              // );
 
-            // //Upload profile images
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   139,
-            //   AttachmentType.profile,
-            //   SourceType.identification,
-            //   property,
-            //   s3Client
-            // );
+              // //Upload profile images
+              // processJotformFiles(
+              //   manager,
+              //   record,
+              //   139,
+              //   AttachmentType.profile,
+              //   SourceType.identification,
+              //   property,
+              //   s3Client
+              // );
 
-            // //Upload agreement files
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   138,
-            //   AttachmentType.agreement,
-            //   SourceType.agreement,
-            //   property,
-            //   s3Client
-            // );
+              // //Upload agreement files
+              // processJotformFiles(
+              //   manager,
+              //   record,
+              //   138,
+              //   AttachmentType.agreement,
+              //   SourceType.agreement,
+              //   property,
+              //   s3Client
+              // );
 
-            // //Upload agreement files
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   174,
-            //   AttachmentType.consent,
-            //   SourceType.agreement,
-            //   property,
-            //   s3Client
-            // );
+              // //Upload agreement files
+              // processJotformFiles(
+              //   manager,
+              //   record,
+              //   174,
+              //   AttachmentType.consent,
+              //   SourceType.agreement,
+              //   property,
+              //   s3Client
+              // );
 
-            // //Upload Kanzu Receipts
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   121,
-            //   AttachmentType.reciept,
-            //   SourceType.payment,
-            //   property,
-            //   s3Client
-            // );
+              // //Upload Kanzu Receipts
+              // processJotformFiles(
+              //   manager,
+              //   record,
+              //   121,
+              //   AttachmentType.reciept,
+              //   SourceType.payment,
+              //   property,
+              //   s3Client
+              // );
 
-            // //Upload Busuulu Receipts
-            // processJotformFiles(
-            //   manager,
-            //   record,
-            //   148,
-            //   AttachmentType.reciept,
-            //   SourceType.payment,
-            //   property,
-            //   s3Client
-            // );
+              // //Upload Busuulu Receipts
+              // processJotformFiles(
+              //   manager,
+              //   record,
+              //   148,
+              //   AttachmentType.reciept,
+              //   SourceType.payment,
+              //   property,
+              //   s3Client
+              // );
+            }
 
             console.debug(property);
             propertyRepo.save(property);
