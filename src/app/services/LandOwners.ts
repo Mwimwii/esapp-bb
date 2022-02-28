@@ -121,12 +121,12 @@ export class LandOwnersService {
               agreement.status as status,
               payments.amount as payment,
               paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at
+              payments.createdAt as payment_created_at             
       `)
       .innerJoin('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
       .leftJoinAndSelect('paymentPlans.payments', 'payments')
-      // TODO select a ticket
+          // TODO select a ticket
       .addSelect(
         qb => qb.select('Count(*)', 'property_groups')
         .from('property_groups', 'property_group')
@@ -142,7 +142,7 @@ export class LandOwnersService {
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreement = await Agreement.findOne({
-      relations: ['property', 'owner', 'tenant', 'paymentPlans', 'tenant.contactDetails'],
+      relations: ['property', 'owner', 'tenant', 'paymentPlans','paymentPlans.payments', 'tenant.contactDetails'],
       where: {
         owner: ownerId,
         tenant: {
