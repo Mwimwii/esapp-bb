@@ -1,12 +1,9 @@
-// import { S3Client } from "@aws-sdk/client-s3";
 import { Disk } from '@foal/storage';
 import Airtable from 'airtable';
-// import * as hubspot from "@hubspot/api-client";
 import { getConnection } from 'typeorm';
 import { importAirTable } from './airtable/importAirTable';
 import { importAirtelReports } from './Airtel/importAirtelReports';
 import { importXLSXFile } from './Excel/importXLSXFile';
-// import { importHubImages } from "./hubspot/importHubImages";
 import { importJotForm } from './jotform/importJotForm';
 import { importMTNReports } from './MTN/importMTNReports';
 import { importJSONFile } from './ussd/importJSONFile';
@@ -22,7 +19,6 @@ export function importAllData(disk: Disk) {
     process.env.AIRTABLE_ID || ''
   );
 
-  // const s3Client = new S3Client({ region: process.env.AWS_REGION || 'titl' });
   const jf = require('jotform');
   jf.options({
     url: 'https://eu-api.jotform.com',

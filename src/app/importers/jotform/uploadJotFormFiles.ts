@@ -30,8 +30,6 @@ export async function uploadJotFormFiles(parentid: string, assetType: AssetType,
                 console.log(uploadTo);
                 try {
                   if (await disk.write(uploadTo, rStream)) {
-                    // const upload = await disk.write(uploadTo, rStream);
-                    // console.log(upload);
                     console.log(
                       {
                         jotFormId: parentid,
@@ -53,26 +51,6 @@ export async function uploadJotFormFiles(parentid: string, assetType: AssetType,
                 } catch (error) {
                   console.log(error);
                 }
-                // s3.send(new PutObjectCommand({
-                //   Bucket: Env.get('AWS_BUCKET'),
-                //   Key: uploadTo,
-                //   Body: rStream,
-                //   ServerSideEncryption: 'AES256'
-                //   // options:
-                // } as PutObjectCommandInput)).then(data => {
-                //   console.log('Success', data);
-                //   rStream.close();
-                //   repository.save({
-                //     filePath: `https://${Env.get('AWS_BUCKET}.s3.${Env.get('AWS_REGION}.amazonaws.com/${uploadTo}`,
-                //     // jotFormId: attachment.id,
-                //     hubSpotParentId: parentid,
-                //     // sourceType: sourcetype,
-                //     status: AttachmentStatus.active
-                //   } as Attachment).then(file => {
-                //     console.log(file);
-                //   });
-                //   return data;
-                // });
               } catch (err) {
                 console.log('Error', err);
               }
