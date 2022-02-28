@@ -28,34 +28,30 @@ export async function uploadJotFormFiles(parentid: string, assetType: AssetType,
               try { // Upload to S3 bucket
                 const uploadTo = `${uploadPath}/${filename}`;
                 console.log(uploadTo);
-                try {
-                  if (await disk.write(uploadTo, rStream)) {
-                    console.log(
-                      {
-                        jotFormId: parentid,
-                        type: assetType,
-                        path: uploadTo,
-                        bucket: Env.get('AWS_BUCKET')
-                      } as Asset
-                    );
+                if (await disk.write(uploadTo, rStream)) {
+                  console.log(
+                    {
+                      jotFormId: parentid,
+                      type: assetType,
+                      path: uploadTo,
+                      bucket: Env.get('AWS_BUCKET')
+                    } as Asset
+                  );
 
-                    return (
-                      {
-                        jotFormId: parentid,
-                        type: assetType,
-                        path: uploadTo,
-                        bucket: Env.get('AWS_BUCKET')
-                      } as Asset
-                    );
-                  }
-                } catch (error) {
-                  console.log(error);
+                  return (
+                    {
+                      jotFormId: parentid,
+                      type: assetType,
+                      path: uploadTo,
+                      bucket: Env.get('AWS_BUCKET')
+                    } as Asset
+                  );
                 }
               } catch (err) {
                 console.log('Error', err);
+                return err;
               }
             }
-
             wStream.close();
           }).on('error', err => {
             console.log(err);
