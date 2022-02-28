@@ -90,7 +90,7 @@ export class ImporterController {
   @Get('/runall')
   async runImporter(ctx: Context) {
     console.log(ctx.request.baseUrl);
-    importAllData();
+    importAllData(this.disk);
     return new HttpResponseOK({
       text: 'Import Test complete'
     });
