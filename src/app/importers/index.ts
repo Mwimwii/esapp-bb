@@ -1,11 +1,9 @@
-// import { S3Client } from "@aws-sdk/client-s3";
+import { Disk } from '@foal/storage';
 import Airtable from 'airtable';
-// import * as hubspot from "@hubspot/api-client";
 import { getConnection } from 'typeorm';
 import { importAirTable } from './airtable/importAirTable';
 import { importAirtelReports } from './Airtel/importAirtelReports';
 import { importXLSXFile } from './Excel/importXLSXFile';
-// import { importHubImages } from "./hubspot/importHubImages";
 import { importJotForm } from './jotform/importJotForm';
 import { importMTNReports } from './MTN/importMTNReports';
 import { importJSONFile } from './ussd/importJSONFile';
@@ -15,13 +13,12 @@ export function purgeData() {
   connection.query('TRUNCATE TABLE "property_groups" CASCADE; TRUNCATE TABLE "contacts" CASCADE; TRUNCATE TABLE "payments" CASCADE;')
 }
 
-export function importAllData() {
+export function importAllData(disk: Disk) {
   const connection = getConnection();
   const base = new Airtable({ apiKey: process.env.AIRTABLE_KEY }).base(
     process.env.AIRTABLE_ID || ''
   );
 
-  // const s3Client = new S3Client({ region: process.env.AWS_REGION || 'titl' });
   const jf = require('jotform');
   jf.options({
     url: 'https://eu-api.jotform.com',
@@ -31,9 +28,7 @@ export function importAllData() {
 
   try {
     importAirTable(base, connection.manager);
-    importJotForm(jf, connection.manager
-      // , s3Client
-    );
+    importJotForm(jf, connection.manager, disk);
     importXLSXFile(connection.manager, 'payments.xlsx');
     importJSONFile(connection.manager, 'ussd.json');
     importAirtelReports(connection.manager);
@@ -43,7 +38,7 @@ export function importAllData() {
   }
 }
 
-export function importJotform() {
+export function importJotform(disk: Disk) {
   const connection = getConnection();
 
   const jf = require('jotform');
@@ -53,8 +48,8 @@ export function importJotform() {
     apiKey: process.env.JOTFORM_API_KEY,
   });
 
-  importJotForm(jf, connection.manager
-    // , s3Client
+  importJotForm(jf, connection.manager,
+    disk
   );
 }
 
