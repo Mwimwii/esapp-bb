@@ -155,6 +155,20 @@ export class FileService {
         user
       );
     }
+
+    if (groundRentReceipt) {
+      const groundRentReceiptName = `DOC_RECEIPT_GROUNDRENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(groundRentReceipt.filename)
+      )}`;
+      await this.saveAsset(
+        groundRentReceipt,
+        AssetType.groundRentReceipt,
+        groundRentReceiptName,
+        assetPath,
+        contact,
+        user
+      );
+    }
   }
 
   async saveAsset(
