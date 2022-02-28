@@ -142,7 +142,7 @@ export class LandOwnersService {
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreement = await Agreement.findOne({
-      relations: ['property', 'owner', 'tenant', 'paymentPlans','paymentPlans.payments', 'tenant.contactDetails'],
+      relations: ['property', 'owner', 'tenant', 'paymentPlans','paymentPlans.payments', 'tenant.contactDetails','tenant.assets','assets'],
       where: {
         owner: ownerId,
         tenant: {
