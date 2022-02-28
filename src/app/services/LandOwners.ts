@@ -2,6 +2,7 @@ import {
   Agreement,
   Payment,
   PropertyGroup,
+  //Property,
   Contact,
   Ticket,
   TicketCollaborator,
@@ -121,11 +122,14 @@ export class LandOwnersService {
               agreement.status as status,
               payments.amount as payment,
               paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at
+              payments.createdAt as payment_created_at,
+              properties.blockNo as block_no,
+              properties.plotNo as plotNo
       `)
       .innerJoin('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
       .leftJoinAndSelect('paymentPlans.payments', 'payments')
+      //.leftJoinAndSelect('property.payments', 'payments')
       // TODO select a ticket
       .addSelect(
         qb => qb.select('Count(*)', 'property_groups')
@@ -142,7 +146,7 @@ export class LandOwnersService {
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreement = await Agreement.findOne({
-      relations: ['property', 'owner', 'tenant', 'paymentPlans', 'tenant.contactDetails'],
+      relations: ['property', 'owner', 'tenant', 'paymentPlans','paymentPlans.payments', 'tenant.contactDetails'],
       where: {
         owner: ownerId,
         tenant: {
