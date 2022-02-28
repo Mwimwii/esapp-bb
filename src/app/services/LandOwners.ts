@@ -122,9 +122,7 @@ export class LandOwnersService {
               agreement.status as status,
               payments.amount as payment,
               paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at,
-              properties.blockNo as block_no,
-              properties.plotNo as plotNo
+              payments.createdAt as payment_created_at             
       `)
       .innerJoin('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
