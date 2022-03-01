@@ -29,15 +29,15 @@ export class Asset extends BaseTable {
   ownedByContact: Contact;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Property)
   ownedByProperty: Property;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Ticket)
   ownedByTicket: Ticket;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Agreement)
   ownedByAgreement: Agreement;
 
   @JoinColumn()
