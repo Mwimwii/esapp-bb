@@ -107,21 +107,19 @@ export class ImporterController {
       } else {
         bucketdata = data.Contents;
 
-        bucketdata.forEach(s3file => {
-          async () => {
-            if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
-              const asset = await getAsset(s3file.Key);
-              if (asset) {
-                assetRepo.save(asset);
-              }
+        bucketdata.forEach(async (s3file) => {
+          console.log(s3file.Key);
+          if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
+            const asset = await getAsset(s3file.Key);
+            if (asset) {
               console.log(asset);
+              assetRepo.save(asset);
             }
           }
         }
         );
       }
     });
-
     return new HttpResponseOK({
       text: 'Asset Update Running'
     });
