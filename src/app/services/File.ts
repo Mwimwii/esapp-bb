@@ -6,7 +6,10 @@ import { Asset, Contact, User } from 'app/models';
 import { OnboardingFiles } from 'app/types';
 import { OnboardingQuestions } from '@titl-all/shared/dist/types';
 import { AssetType } from '@titl-all/shared/dist/enum';
-import { obtainNonWhatsAppPhoneNumber, getCodesForIdentification } from 'app/utils';
+import {
+  obtainNonWhatsAppPhoneNumber,
+  getCodesForIdentification,
+} from 'app/utils';
 
 export class FileService {
   @dependency
@@ -16,7 +19,7 @@ export class FileService {
     data: Partial<OnboardingQuestions>,
     files: OnboardingFiles,
     contact: Contact,
-    user: User,
+    user: User
   ) {
     const {
       firstName,
@@ -35,6 +38,8 @@ export class FileService {
       consentImageFront,
       consentImageBack,
       tenantPicture,
+      kanzuReceipt,
+      groundRentReceipt,
     } = files;
 
     let codes = { shortCode: 'OTH', assetType: AssetType.other };
@@ -45,12 +50,21 @@ export class FileService {
       String(firstPhoneNumber),
       String(firstNumberIsWhatsApp),
       String(secondPhoneNumber),
-      String(secondNumberIsWhatsApp),
+      String(secondNumberIsWhatsApp)
     );
 
     if (tenantPicture) {
-      const pictureName = `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(tenantPicture.filename))}`;
-      await this.saveAsset(tenantPicture, AssetType.profile, pictureName, assetPath, contact, user);
+      const pictureName = `PROFILE_PORT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(tenantPicture.filename)
+      )}`;
+      await this.saveAsset(
+        tenantPicture,
+        AssetType.profile,
+        pictureName,
+        assetPath,
+        contact,
+        user
+      );
     }
 
     if (identificationImageFront || identificationImageBack) {
@@ -59,33 +73,112 @@ export class FileService {
 
     if (identificationImageFront) {
       // TODO won't have access to the number or exp date
-      const idFrontName = `ID_${codes.shortCode}_FRONT_0_0${path.extname(String(identificationImageFront.filename))}`;
-      await this.saveAsset(identificationImageFront, codes.assetType, idFrontName, assetPath, contact, user);
+      const idFrontName = `ID_${codes.shortCode}_FRONT_0_0${path.extname(
+        String(identificationImageFront.filename)
+      )}`;
+      await this.saveAsset(
+        identificationImageFront,
+        codes.assetType,
+        idFrontName,
+        assetPath,
+        contact,
+        user
+      );
     }
 
     if (identificationImageBack) {
       // TODO won't have access to the number or exp date
-      const idBackName = `ID_${codes.shortCode}_BACK_0_0${path.extname(String(identificationImageBack.filename))}`;
-      await this.saveAsset(identificationImageBack, codes.assetType, idBackName, assetPath, contact, user);
+      const idBackName = `ID_${codes.shortCode}_BACK_0_0${path.extname(
+        String(identificationImageBack.filename)
+      )}`;
+      await this.saveAsset(
+        identificationImageBack,
+        codes.assetType,
+        idBackName,
+        assetPath,
+        contact,
+        user
+      );
     }
 
     if (agreement) {
-      const agreementName = `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(agreement.filename))}`;
-      await this.saveAsset(agreement, AssetType.agreement, agreementName, assetPath, contact, user);
+      const agreementName = `DOC_AGREEMENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(agreement.filename)
+      )}`;
+      await this.saveAsset(
+        agreement,
+        AssetType.agreement,
+        agreementName,
+        assetPath,
+        contact,
+        user
+      );
     }
 
     if (consentImageFront) {
-      const consentFrontName = `DOC_CONSENT_FRONT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageFront.filename))}`;
-      await this.saveAsset(consentImageFront, AssetType.consent, consentFrontName, assetPath, contact, user);
+      const consentFrontName = `DOC_CONSENT_FRONT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(consentImageFront.filename)
+      )}`;
+      await this.saveAsset(
+        consentImageFront,
+        AssetType.consent,
+        consentFrontName,
+        assetPath,
+        contact,
+        user
+      );
     }
 
     if (consentImageBack) {
-      const consentBackName = `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(String(consentImageBack.filename))}`;
-      await this.saveAsset(consentImageBack, AssetType.consent, consentBackName, assetPath, contact, user);
+      const consentBackName = `DOC_CONSENT_BACK_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(consentImageBack.filename)
+      )}`;
+      await this.saveAsset(
+        consentImageBack,
+        AssetType.consent,
+        consentBackName,
+        assetPath,
+        contact,
+        user
+      );
+    }
+    if (kanzuReceipt) {
+      const kanzuReceiptName = `DOC_RECEIPT_KANZU_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(kanzuReceipt.filename)
+      )}`;
+      await this.saveAsset(
+        kanzuReceipt,
+        AssetType.kanzuReceipt,
+        kanzuReceiptName,
+        assetPath,
+        contact,
+        user
+      );
+    }
+
+    if (groundRentReceipt) {
+      const groundRentReceiptName = `DOC_RECEIPT_GROUNDRENT_${firstName?.toUpperCase()}_${lastName?.toUpperCase()}_${phoneNumber}${path.extname(
+        String(groundRentReceipt.filename)
+      )}`;
+      await this.saveAsset(
+        groundRentReceipt,
+        AssetType.groundRentReceipt,
+        groundRentReceiptName,
+        assetPath,
+        contact,
+        user
+      );
     }
   }
 
-  async saveAsset(file: File, type: AssetType, name: string, path: string, contact: Contact, user: User) {
+  async saveAsset(
+    file: File,
+    type: AssetType,
+    name: string,
+    path: string,
+    contact: Contact,
+    user: User
+  ) {
     await this.disk.write(path, file.buffer, {
       name,
     });
@@ -102,4 +195,3 @@ export class FileService {
     asset.save();
   }
 }
-
