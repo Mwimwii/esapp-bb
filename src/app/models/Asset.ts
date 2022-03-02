@@ -12,6 +12,16 @@ import { AssetType } from '@titl-all/shared/dist/enum';
 @Entity({ name: 'assets' })
 export class Asset extends BaseTable {
 
+  fieldsNoRelations() {
+    return {
+      name: this.name,
+      path: this.path,
+      size: this.size,
+      bucket: this.bucket,
+      type: this.type
+    };
+  }
+
   @Column('varchar', { length: 255, nullable: true })
   name: string;
 
@@ -24,20 +34,23 @@ export class Asset extends BaseTable {
   @Column('varchar', { length: 255, nullable: true })
   bucket: string;
 
+  @Column('numeric', { default: 0 })
+  size: number;
+
   @JoinColumn()
   @ManyToOne(() => Contact)
   ownedByContact: Contact;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Property)
   ownedByProperty: Property;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Ticket)
   ownedByTicket: Ticket;
 
   @JoinColumn()
-  @ManyToOne(() => Contact)
+  @ManyToOne(() => Agreement)
   ownedByAgreement: Agreement;
 
   @JoinColumn()

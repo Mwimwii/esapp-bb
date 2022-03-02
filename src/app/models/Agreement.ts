@@ -101,6 +101,7 @@ export class Agreement extends BaseTable implements AgreementAPI {
   employeeName: string;
 
   @OneToMany(() => Asset, ((asset: Asset) => asset.ownedByAgreement), { cascade: true })
+  @JoinColumn()
   assets: Asset[];
 
   // Airtable.TenantID connects to Contact.airTableId

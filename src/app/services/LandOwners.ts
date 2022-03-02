@@ -27,8 +27,8 @@ export class LandOwnersService {
       .innerJoinAndSelect('agreement.tenant', 'tenant')
       .innerJoinAndSelect('tenant.contactDetails', 'contactDetails')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans',
-                          'paymentPlans.paymentType IN (:...paymentTypes)',
-                          { paymentTypes })
+        'paymentPlans.paymentType IN (:...paymentTypes)',
+        { paymentTypes })
       .where({
         owner: ownerId
       })
@@ -84,14 +84,14 @@ export class LandOwnersService {
       .andWhere('ticket.uuid = :ticketUuid', { ticketUuid })
       .getOne();
 
-      if (!ticket && !ticketCollaboratingOn) {
-        return;
-      }
+    if (!ticket && !ticketCollaboratingOn) {
+      return;
+    }
 
-      const foundTicket = ticket ? ticket : ticketCollaboratingOn?.ticket;
-      const ticketSource = await this.getTicketSourceTypes(foundTicket as TicketAPI);
+    const foundTicket = ticket ? ticket : ticketCollaboratingOn?.ticket;
+    const ticketSource = await this.getTicketSourceTypes(foundTicket as TicketAPI);
 
-      return ticketSource;
+    return ticketSource;
   }
 
   /**
@@ -121,16 +121,16 @@ export class LandOwnersService {
               agreement.status as status,
               payments.amount as payment,
               paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at             
+              payments.createdAt as payment_created_at
       `)
       .innerJoin('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
       .leftJoinAndSelect('paymentPlans.payments', 'payments')
-          // TODO select a ticket
+      // TODO select a ticket
       .addSelect(
         qb => qb.select('Count(*)', 'property_groups')
-        .from('property_groups', 'property_group')
-        .where({ owner: ownerId }), 'totalPropertyCount'
+          .from('property_groups', 'property_group')
+          .where({ owner: ownerId }), 'totalPropertyCount'
       )
       .where({
         owner: ownerId
@@ -142,7 +142,7 @@ export class LandOwnersService {
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreement = await Agreement.findOne({
-      relations: ['property', 'owner', 'tenant', 'paymentPlans','paymentPlans.payments', 'tenant.contactDetails','tenant.assets','assets'],
+      relations: ['property', 'owner', 'tenant', 'paymentPlans', 'paymentPlans.payments', 'tenant.contactDetails', 'tenant.assets', 'assets'],
       where: {
         owner: ownerId,
         tenant: {
@@ -203,13 +203,13 @@ export class LandOwnersService {
       })
       .getOne();
 
-      const { totalReceived, outstandingToReceive } = this.getPaymentsToReceiveFromPropertyGroups(propertyGroup as PropertyGroup);
+    const { totalReceived, outstandingToReceive } = this.getPaymentsToReceiveFromPropertyGroups(propertyGroup as PropertyGroup);
 
-      return {
-        ...propertyGroup,
-        totalReceived,
-        outstandingToReceive,
-      }
+    return {
+      ...propertyGroup,
+      totalReceived,
+      outstandingToReceive,
+    }
   }
 
   async getPayments(ownerId: string) {
@@ -221,7 +221,7 @@ export class LandOwnersService {
       .getMany();
 
     if (payments.length === 0) {
-      return { totalPayment: 0, payments, currency: ''};
+      return { totalPayment: 0, payments, currency: '' };
     }
 
     const totalPayments = payments.reduce((acc: number, payment: Payment) => acc + Number(payment.amount), 0);
@@ -262,7 +262,7 @@ export class LandOwnersService {
   private agreementStatusCount(data: Partial<Agreement>[], status: string): number {
     let count = 0;
 
-    switch(status) {
+    switch (status) {
       case 'agreed':
         count = data.filter(
           agreement =>
@@ -276,8 +276,8 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.negperformed ||
             agreement.status === AgreementStatus.negmissingdocs ||
             agreement.status === AgreementStatus.negready
-      ).length
-      break;
+        ).length
+        break;
       case 'identified':
         count = data.filter(
           agreement =>
@@ -285,8 +285,8 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.contacted ||
             agreement.status === AgreementStatus.contactedfail ||
             agreement.status === AgreementStatus.negplanned
-      ).length
-      break;
+        ).length
+        break;
       case 'hasError':
         count = data.filter(
           agreement =>
@@ -294,8 +294,8 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.conflicted ||
             agreement.status === AgreementStatus.breached ||
             agreement.status === AgreementStatus.fake
-      ).length
-      break;
+        ).length
+        break;
     }
 
     return count;
@@ -318,6 +318,7 @@ export class LandOwnersService {
     const { property, tenant, paymentPlans } = agreement;
     const slimTenant = this.restrictContactDetails(tenant.fields());
     const slimAgreement = agreement.fieldsNoRelations();
+    const assets = agreement.assets ? agreement.assets.map(asset => asset.fieldsNoRelations()) : [];
 
     // do agreements have more than one payment plans?
     if (paymentPlans.length > 1) {
@@ -329,6 +330,7 @@ export class LandOwnersService {
       property,
       agreement: slimAgreement,
       paymentPlan: paymentPlans.length > 0 ? paymentPlans[0] : [],
+      assets
     }
   }
 
