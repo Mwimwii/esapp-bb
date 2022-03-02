@@ -37,7 +37,7 @@
     "@foal/storage": "^2.8.1",
     "@foal/typeorm": "^2.0.0",
     "@hubspot/api-client": "^5.0.0",
-    "@titl-all/shared": "^3.0.35",
+    "@titl-all/shared": "^3.0.36",
     "airtable": "^0.11.1",
     "aws-sdk": "^2.1082.0",
     "axios": "^0.24.0",
