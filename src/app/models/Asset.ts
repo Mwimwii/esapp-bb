@@ -12,6 +12,16 @@ import { AssetType } from '@titl-all/shared/dist/enum';
 @Entity({ name: 'assets' })
 export class Asset extends BaseTable {
 
+  fieldsNoRelations() {
+    return {
+      name: this.name,
+      path: this.path,
+      size: this.size,
+      bucket: this.bucket,
+      type: this.type
+    };
+  }
+
   @Column('varchar', { length: 255, nullable: true })
   name: string;
 
