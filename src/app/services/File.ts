@@ -29,6 +29,7 @@ export class FileService {
       secondPhoneNumber,
       secondNumberIsWhatsApp,
       identificationType,
+      spouseIdentificationType,
     } = data;
 
     const {
@@ -40,9 +41,13 @@ export class FileService {
       tenantPicture,
       kanzuReceipt,
       groundRentReceipt,
+      spouseIDImageFront,
+      spouseIDImageBack,
     } = files;
 
     let codes = { shortCode: 'OTH', assetType: AssetType.other };
+    let spouseCodes = { shortCode: 'OTH', assetType: AssetType.other };
+
     const directoryName = `0_${firstName}_${lastName}`;
     const assetPath = `attachments/contacts/${directoryName}`;
 
@@ -95,6 +100,37 @@ export class FileService {
         identificationImageBack,
         codes.assetType,
         idBackName,
+        assetPath,
+        contact,
+        user
+      );
+    }
+
+    if (spouseIDImageFront || spouseIDImageBack) {
+      spouseCodes = getCodesForIdentification(String(spouseIdentificationType));
+    }
+
+    if (spouseIDImageFront) {
+      const spouseIdFrontName = `ID_${
+        spouseCodes.shortCode
+      }_FRONT_0_0${path.extname(String(spouseIDImageFront.filename))}`;
+      await this.saveAsset(
+        spouseIDImageFront,
+        spouseCodes.assetType,
+        spouseIdFrontName,
+        assetPath,
+        contact,
+        user
+      );
+    }
+    if (spouseIDImageBack) {
+      const spouseIdBackName = `ID_${
+        spouseCodes.shortCode
+      }_BACK_0_0${path.extname(String(spouseIDImageBack.filename))}`;
+      await this.saveAsset(
+        spouseIDImageFront,
+        spouseCodes.assetType,
+        spouseIdBackName,
         assetPath,
         contact,
         user
