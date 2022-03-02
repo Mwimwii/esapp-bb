@@ -1,8 +1,10 @@
+import { Env } from '@foal/core';
 import { Disk } from '@foal/storage';
 import Airtable from 'airtable';
 import { getConnection } from 'typeorm';
 import { importAirTable } from './airtable/importAirTable';
 import { importAirtelReports } from './Airtel/importAirtelReports';
+import { storeS3Asset } from './Assets/storeS3Asset';
 import { importXLSXFile } from './Excel/importXLSXFile';
 import { importJotForm } from './jotform/importJotForm';
 import { importMTNReports } from './MTN/importMTNReports';
@@ -77,4 +79,21 @@ export function importHubspotData() {
 
   // importHubImages(hub, s3Client, connection.manager);
   console.log('Not Now');
+}
+
+export async function updateS3Assets() {
+  const AWS = require('aws-sdk');
+  AWS.config.update({ region: Env.get('AWS_REGION') });
+  const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
+
+  const bucketParams = {
+    Bucket: Env.get('AWS_BUCKET'),
+  };
+
+  const bucketdata: any = await s3.listObjects(bucketParams).promise();
+
+  const s3files: any[] = bucketdata.Contents;
+
+  s3files.forEach(s3file => storeS3Asset(s3file)
+  );
 }
