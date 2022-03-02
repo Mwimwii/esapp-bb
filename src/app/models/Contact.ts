@@ -155,10 +155,12 @@ export class Contact extends BaseTable implements ContactAPI {
   @OneToMany(() => Asset, (asset: Asset) => asset.ownedByContact, {
     cascade: true,
   })
+  @JoinColumn()
   assets: Asset[];
 
   @OneToMany(() => Agreement, (agreement: Agreement) => agreement.tenant, {
     cascade: true,
   })
+  @JoinColumn()
   agreements: Agreement[];
 }
