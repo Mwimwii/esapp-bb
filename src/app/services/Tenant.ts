@@ -151,6 +151,8 @@ export class TenantService {
           return Language.Luganda;
         case 'Swahili':
           return Language.Swahali;
+        case 'Lusoga':
+          return Language.Lusoga;
         default:
           return '';
       }
