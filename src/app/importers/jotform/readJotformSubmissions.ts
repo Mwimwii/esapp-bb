@@ -20,8 +20,6 @@ import { readJotFormValue } from '../../utils/jotform/readJotFormValue';
 import { getJotformLC } from './getJotformLC';
 import { getJotformTenant } from './getJotformTenant';
 import { getNamedRelations } from './getNamedRelations';
-// import { S3Client } from '@aws-sdk/client-s3';
-// import { processJotformFiles } from './processJotformFiles';
 import { readProposedGroundRentPaymentPlan } from './readProposedGroundRentPaymentPlan';
 import { readProposedBuyOutPlan } from './readProposedBuyOutPlan';
 import { readOldGroundRentPaymentPlan } from './readOldGroundRentPaymentPlan';
