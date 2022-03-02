@@ -7,7 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
 } from 'typeorm';
-import { ContactDetail, Asset } from '.';
+import { ContactDetail, Asset, Agreement } from '.';
 import { BaseTable } from './BaseTable';
 import { Identification } from './Identification';
 import { PropertyGroup } from './PropertyGroup';
@@ -155,5 +155,12 @@ export class Contact extends BaseTable implements ContactAPI {
   @OneToMany(() => Asset, (asset: Asset) => asset.ownedByContact, {
     cascade: true,
   })
+  @JoinColumn()
   assets: Asset[];
+
+  @OneToMany(() => Agreement, (agreement: Agreement) => agreement.tenant, {
+    cascade: true,
+  })
+  @JoinColumn()
+  agreements: Agreement[];
 }
