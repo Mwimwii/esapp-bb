@@ -2,14 +2,10 @@ import {
   Context,
   HttpResponseOK,
   Get,
-  dependency,
-  Env
+  dependency
 } from '@foal/core';
 import { Disk } from '@foal/storage';
-import { importAirtableData, importAllData, importHubspotData, purgeData, importJotform, importPaymentReports } from 'app/importers';
-import { Asset } from 'app/models';
-import { getManager } from 'typeorm';
-import { getAsset } from '../../importers/Assets/getAsset';
+import { updateS3Assets, importAirtableData, importAllData, importHubspotData, purgeData, importJotform, importPaymentReports } from 'app/importers';
 
 export class ImporterController {
 
@@ -89,39 +85,13 @@ export class ImporterController {
   }
 
   @Get('/assets')
-  async updateAssets() {
-    const AWS = require('aws-sdk');
-    const assetRepo = getManager().getRepository(Asset);
-    AWS.config.update({ region: Env.get('AWS_REGION') });
-    const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
-
-    const bucketParams = {
-      Bucket: Env.get('AWS_BUCKET'),
-    };
-
-    let bucketdata: any[] = [];
-
-    s3.listObjects(bucketParams, (err: any, data: any) => {
-      if (err) {
-        console.log('Error', err);
-      } else {
-        bucketdata = data.Contents;
-
-        bucketdata.forEach(async (s3file) => {
-          console.log(s3file.Key);
-          if (!(await assetRepo.findOne({ where: [{ path: s3file.Key }] }))) {
-            const asset = await getAsset(s3file.Key);
-            if (asset) {
-              console.log(asset);
-              assetRepo.save(asset);
-            }
-          }
-        }
-        );
-      }
-    });
+  async updateAssets(ctx: Context) {
+    console.log(ctx.request.baseUrl);
+    updateS3Assets();
     return new HttpResponseOK({
       text: 'Asset Update Running'
     });
   }
 }
+
+
