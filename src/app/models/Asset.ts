@@ -24,6 +24,9 @@ export class Asset extends BaseTable {
   @Column('varchar', { length: 255, nullable: true })
   bucket: string;
 
+  @Column('numeric', { default: 0 })
+  size: number;
+
   @JoinColumn()
   @ManyToOne(() => Contact)
   ownedByContact: Contact;
