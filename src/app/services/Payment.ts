@@ -49,7 +49,6 @@ export class PaymentService {
       async (info: PaymentInfo) => {
         const createdPaymentPlan = new PaymentPlan();
         const createdPaidTo = new Payment();
-        createdPaidTo.paidTo = info.paidTo;
         createdPaymentPlan.payments = [createdPaidTo];
         createdPaymentPlan.baseAmount = info.baseAmount;
         createdPaymentPlan.requestedAmount = info.baseAmount - info.amountPaid;
