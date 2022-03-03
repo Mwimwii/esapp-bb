@@ -41,34 +41,36 @@ export async function importHubImages(hub: hubspot.Client, disk: Disk) {
     engagementResult.body.results.filter((r: any) => r.attachments.length > 0 || (r.engagement.bodyPreviewHtml && r.engagement.bodyPreviewHtml.includes('/filemanager/api/v2/files'))).forEach((result: { attachments: any[]; engagement: { bodyPreviewHtml: any }; associations: { contactIds: string | any[]; companyIds: string | any[] } }) => {
       result.attachments = result.attachments.concat(findUrls(result.engagement.bodyPreviewHtml));
       counter.attachments += result.attachments.length;
-      result.attachments.forEach(async (attachment: any) => {
+      result.attachments.forEach((attachment: any) => {
         let cnct = {
           id: 0,
           firstname: 'user',
           lastname: 'unknown'
         };
 
-        if (result.associations.contactIds.length > 0) {
-          const contactApi = await hub.apiRequest({
-            method: 'GET',
-            path: `/crm/v3/objects/contacts/${result.associations.contactIds[0]}?hapikey=${Env.get('HUBSPOT_KEY')}`
-          });
-          cnct = {
-            id: contactApi.body.id,
-            firstname: contactApi.body.properties.firstname,
-            lastname: contactApi.body.properties.lastname
-          };
-        } else if (result.associations.companyIds.length > 0) {
-          const companyApi = await hub.apiRequest({
-            method: 'GET',
-            path: `/crm/v3/objects/companies/${result.associations.companyIds[0]}?hapikey=${Env.get('HUBSPOT_KEY')}`
-          });
-          cnct = {
-            id: companyApi.body.id,
-            firstname: companyApi.body.properties.firstname,
-            lastname: companyApi.body.properties.lastname
-          };
-        }
+        (async () => {
+          if (result.associations.contactIds.length > 0) {
+            const contactApi = await hub.apiRequest({
+              method: 'GET',
+              path: `/crm/v3/objects/contacts/${result.associations.contactIds[0]}?hapikey=${Env.get('HUBSPOT_KEY')}`
+            });
+            cnct = {
+              id: contactApi.body.id,
+              firstname: contactApi.body.properties.firstname,
+              lastname: contactApi.body.properties.lastname
+            };
+          } else if (result.associations.companyIds.length > 0) {
+            const companyApi = await hub.apiRequest({
+              method: 'GET',
+              path: `/crm/v3/objects/companies/${result.associations.companyIds[0]}?hapikey=${Env.get('HUBSPOT_KEY')}`
+            });
+            cnct = {
+              id: companyApi.body.id,
+              firstname: companyApi.body.properties.firstname,
+              lastname: companyApi.body.properties.lastname
+            };
+          }
+        })();
 
         const foldername = ((`${cnct.id}_${cnct.firstname}_${cnct.lastname}`).replace(/[(){}/]/gi, '')).replace(' ', '_');
 
@@ -84,27 +86,32 @@ export async function importHubImages(hub: hubspot.Client, disk: Disk) {
                   const path = `${Env.get('TEMP_DIR')}/${signedResult.body.name}.${signedResult.body.extension}`;
                   const wStream = fs.createWriteStream(path);
                   res.pipe(wStream); // Save to local drive
-                  wStream.on('finish', async () => {
+                  wStream.on('finish', () => {
+
                     const rStream = fs.createReadStream(path);
                     try { // Upload to S3 bucket
-                      const file = await disk.write(
-                        `attachments/contacts/${foldername}`,
-                        rStream,
-                        {
+                      (async () => {
+                        const file = await disk.write(
+                          `attachments/contacts/${foldername}`,
+                          rStream,
+                          {
+                            name: signedResult.body.name,
+                            extension: signedResult.body.extension
+                          }
+                        );
+
+                        const asset = {
+                          path: file.path,
+                          size: signedResult.body.size,
                           name: signedResult.body.name,
-                          extension: signedResult.body.extension
-                        }
-                      );
+                          bucket: Env.get('AWS_BUCKET'),
+                          hubSpotId: attachment.id
+                        } as Asset;
 
-                      const asset = {
-                        path: file.path,
-                        size: signedResult.body.size,
-                        name: signedResult.body.name,
-                        bucket: Env.get('AWS_BUCKET'),
+                        await Asset.save(asset);
 
-                      } as Asset;
-
-                      console.log(asset);
+                        console.log(asset);
+                      })();
                     } catch (err) {
                       console.log('Error', err);
                     }
