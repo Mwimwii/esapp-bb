@@ -5,20 +5,18 @@ import { Env } from '@foal/core';
 import { Disk } from '@foal/storage';
 import { Asset } from 'app/models';
 
-function findUrls(text: any) {
+function findUrls(text: string) {
   const source = (text || '').toString();
-  const urlArray: any[] = [];
+  const urlArray: string[] = [];
   let matchArray;
 
-  // Regular expression to find FTP, HTTP(S) and email URLs.
-  const regexToken = new RegExp('/(((https?)://)[-w@:%_+.~#?,&//=]+)/g'); // ==> /(((https?):\/\/)[\-\w@:%_\+.~#?,&\/\/=]+)/g
+  const regexToken = new RegExp('/(((https?)://)[-w@:%_+.~#?,&//=]+)/g');
 
-  // Iterate through any URLs in the text.
   while ((matchArray = regexToken.exec(source)) !== null) {
     let token = matchArray[0];
     if (!urlArray.includes(token)) {
       token = token.replace('https://api.hubspot.com/filemanager/api/v2/files/', '').replace('/signed-url-redirect?portalId=9151217', '');
-      urlArray.push({ id: `${token}` });
+      urlArray.push(token);
     }
   }
   return urlArray;
@@ -74,22 +72,21 @@ export async function importHubImages(hub: hubspot.Client, disk: Disk) {
 
         const foldername = ((`${cnct.id}_${cnct.firstname}_${cnct.lastname}`).replace(/[(){}/]/gi, '')).replace(' ', '_');
 
-        Asset.findOne({ where: { hubSpotId: attachment.id } }) // Start Duplicate hubspot ID check
+        Asset.findOne({ where: { hubSpotId: attachment.id } })
           .then(tableFile => {
-            if (!tableFile) { // Download if does not exit
+            if (!tableFile) {
               hub.apiRequest({
                 method: 'GET',
                 path: `/filemanager/api/v3/files/${attachment.id}/signed-url?hapikey=${Env.get('HUBSPOT_KEY')}`
               }).then(signedResult => {
                 https.get(signedResult.body.url, res => {
-                  // Image will be stored at this path
                   const path = `${Env.get('TEMP_DIR')}/${signedResult.body.name}.${signedResult.body.extension}`;
                   const wStream = fs.createWriteStream(path);
-                  res.pipe(wStream); // Save to local drive
+                  res.pipe(wStream);
                   wStream.on('finish', () => {
 
                     const rStream = fs.createReadStream(path);
-                    try { // Upload to S3 bucket
+                    try {
                       (async () => {
                         const file = await disk.write(
                           `attachments/contacts/${foldername}`,
