@@ -13,7 +13,7 @@ import { Property, Agreement, PaymentPlan, Comment } from '../../models';
 import { mapPaymentPlanStatus } from '../../mappers/mapPaymentPlanStatus';
 import { mapXLPaymentType } from '../Excel/mapXLPaymentType';
 import { mapPaymentCylce } from '../../utils/mapPaymentCylce';
-import { mapPropertyType } from "../../mappers/mapPropertyType";
+import { mapPropertyType } from '../../mappers/mapPropertyType';
 
 // import LandRights
 export function importLandRights(base: AirtableBase, manager: EntityManager) {
