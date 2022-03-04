@@ -259,12 +259,10 @@ export class LandOwnersService {
    * @description take in some agreement tenant data and perform calculations on
    * the data to provide overview data
    */
-  private processOverview(data: Partial<Agreement>[] & LandownerDashboardData[]) {
+  private processOverview(data: LandownerDashboardData[] & Partial<Agreement>[]) {
     const [{ totalPropertyCount: totalProperties }] = data;
-    console.log(data)
     const overview = {
-      // totalTenants: new Set<string>(data.map(item => item.tenant_uuid)).size,
-      totalTenants: data.length,
+      totalTenants: new Set<number>(data.map(item => item.tenant_id)).size,
       totalProperties: Number(totalProperties),
       totalPayment: data.reduce((acc: number, info: LandownerDashboardData) => acc + Number(info.payment), 0),
       outstandingFees: data.reduce((acc: number, info: LandownerDashboardData) => acc + this.toWholeNumber(Number(info.agreed_amount) - Number(info.payment)), 0),
