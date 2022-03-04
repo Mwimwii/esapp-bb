@@ -3,11 +3,11 @@ import { EntityManager } from 'typeorm';
 import {
   ContactDetailStatus,
   ContactDetailType,
-  PropertyType,
 } from '@titl-all/shared/dist/enum';
 import { Contact, ContactDetail, PropertyGroup } from '../../models';
 import { getFromName } from '../../utils/getFromName';
 import { SanitizeNumber } from '../../utils/SanitizeNumber';
+import { mapPropertyType } from '../../mappers/mapPropertyType';
 
 // import LandGroups
 export function importLandGroups(base: AirtableBase, manager: EntityManager) {
@@ -32,7 +32,7 @@ export function importLandGroups(base: AirtableBase, manager: EntityManager) {
           const group = {
             airTableId: record.get('LandGroupID'),
             airTableParentId: record.get('LandownerID (from Landowner)') ? (record?.get('LandownerID (from Landowner)') as string[])[0] : null,
-            propertyType: PropertyType.mailo,
+            propertyType: mapPropertyType(String(record.get('LandGroupTenancyType'))),
             nickname: record.get('LandGroupName'),
             country: record.get('Country'),
             region: record.get('Region'),

@@ -5,7 +5,6 @@ import {
   PaymentPlanStatus,
   PaymentType,
   PropertyStatus,
-  PropertyType,
   PaymentCycle,
 } from '@titl-all/shared/dist/enum';
 import { mapAgreementStatus } from '../../mappers/mapAgreementStatus';
@@ -14,6 +13,7 @@ import { Property, Agreement, PaymentPlan, Comment } from '../../models';
 import { mapPaymentPlanStatus } from '../../mappers/mapPaymentPlanStatus';
 import { mapXLPaymentType } from '../Excel/mapXLPaymentType';
 import { mapPaymentCylce } from '../../utils/mapPaymentCylce';
+import { mapPropertyType } from "../../mappers/mapPropertyType";
 
 // import LandRights
 export function importLandRights(base: AirtableBase, manager: EntityManager) {
@@ -40,7 +40,7 @@ export function importLandRights(base: AirtableBase, manager: EntityManager) {
               airTableId: record.get('LandRightID'),
               airTableParentId: record.get('LandGroup') ? (record.get('LandGroup') as string[])[0] : null,
               sizeSqf: record.get('LandSize(sqf)') || 0,
-              propertyType: PropertyType.mailo,
+              propertyType: mapPropertyType(String(record.get('LandCategory'))),
               nickname: record.get('referenceID'),
               status: PropertyStatus.active,
               agreements: [
