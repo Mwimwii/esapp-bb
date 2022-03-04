@@ -42,9 +42,16 @@ export class TenantService {
       lc1FirstName,
       lc1LastName,
       lc1TelNumber,
+      spouseFirstName,
+      spouseLastName,
     } = data;
 
     const tenantContact = new Contact();
+
+    const spouseContact = new Contact();
+    spouseContact.firstName = String(spouseFirstName);
+    spouseContact.lastName = String(spouseLastName);
+    spouseContact.contactType = ContactType.spouse;
 
     tenantContact.negotiationType = String(negotiationType);
     tenantContact.heardAboutUsType = heardAboutUsType
@@ -65,6 +72,7 @@ export class TenantService {
     tenantContact.lc1FirstName = String(lc1FirstName);
     tenantContact.lc1LastName = String(lc1LastName);
     tenantContact.lc1TelNumber = String(lc1TelNumber);
+    tenantContact.spouses = [spouseContact];
 
     if (contactType) {
       // split(',')
