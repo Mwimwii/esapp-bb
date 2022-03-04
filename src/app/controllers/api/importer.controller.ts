@@ -57,10 +57,10 @@ export class ImporterController {
   async runHubspot(ctx: Context) {
     console.log(ctx.request.baseUrl);
 
-    importHubspotData();
+    importHubspotData(this.disk);
 
     return new HttpResponseOK({
-      text: 'Import Test complete'
+      text: 'Hubspot Importer Running'
     });
   }
 

@@ -6,6 +6,7 @@ import { importAirTable } from './airtable/importAirTable';
 import { importAirtelReports } from './Airtel/importAirtelReports';
 import { storeS3Asset } from './Assets/storeS3Asset';
 import { importXLSXFile } from './Excel/importXLSXFile';
+import { importHubImages } from './hubspot/importHubImages';
 import { importJotForm } from './jotform/importJotForm';
 import { importMTNReports } from './MTN/importMTNReports';
 import { importJSONFile } from './ussd/importJSONFile';
@@ -72,12 +73,11 @@ export function importAirtableData() {
   importAirTable(base, connection.manager);
 }
 
-export function importHubspotData() {
-  // const connection = getConnection();
-  // const hub = new hubspot.Client({ apiKey: process.env.HUBSPOT_KEY });
-  // const s3Client = new S3Client({ region: process.env.AWS_REGION || 'titl' });
+export function importHubspotData(disk: Disk) {
+  const hubspot = require('@hubspot/api-client')
+  const hub = new hubspot.Client({ apiKey: Env.get('HUBSPOT_KEY') });
 
-  // importHubImages(hub, s3Client, connection.manager);
+  importHubImages(hub, disk);
   console.log('Not Now');
 }
 

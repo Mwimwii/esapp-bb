@@ -25,7 +25,7 @@ export class Asset extends BaseTable {
   @Column('varchar', { length: 255, nullable: true })
   name: string;
 
-  @Column({ type: 'enum', enum: AssetType })
+  @Column({ type: 'enum', enum: AssetType, default: AssetType.other })
   type: AssetType;
 
   @Column('varchar', { length: 255, nullable: true })
