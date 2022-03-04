@@ -5,6 +5,7 @@ export interface LandownerDashboardData {
   payment: string;
   agreed_amount: string;
   payment_created_at: string;
+  tenant_id: number;
 }
 
 export interface OnboardingFiles {

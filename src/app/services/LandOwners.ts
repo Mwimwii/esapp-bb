@@ -123,7 +123,7 @@ export class LandOwnersService {
               paymentPlans.agreedAmount as agreed_amount,
               payments.createdAt as payment_created_at
       `)
-      .innerJoin('agreement.tenant', 'tenant')
+      .innerJoinAndSelect('agreement.tenant', 'tenant')
       .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
       .leftJoinAndSelect('paymentPlans.payments', 'payments')
       // TODO select a ticket
@@ -136,13 +136,30 @@ export class LandOwnersService {
         owner: ownerId
       })
       .getRawMany();
-
     return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
   }
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreement = await Agreement.findOne({
       relations: ['property', 'owner', 'tenant', 'paymentPlans', 'paymentPlans.payments', 'tenant.contactDetails', 'tenant.assets', 'assets'],
+      where: {
+        owner: ownerId,
+        tenant: {
+          uuid: tenantUuid,
+        },
+      }
+    });
+
+    if (!agreement) {
+      return {};
+    }
+
+    return this.reorderByTenantAgreement(agreement);
+  }
+
+  async getTenantBucketList(tenantUuid: string, ownerId: string) {
+    const agreement = await Agreement.findOne({
+      relations: ['property', 'owner', 'tenant', 'paymentPlans', 'tenant.contactDetails'],
       where: {
         owner: ownerId,
         tenant: {
@@ -231,18 +248,24 @@ export class LandOwnersService {
   }
 
 
+  toWholeNumber(num: number): number{
+    if (num > 0 ) {
+      return num;
+    }
+    return 0;
+  }
   /**
    * Process Overview
    * @description take in some agreement tenant data and perform calculations on
    * the data to provide overview data
    */
-  private processOverview(data: Partial<Agreement>[] & LandownerDashboardData[]) {
+  private processOverview(data: LandownerDashboardData[] & Partial<Agreement>[]) {
     const [{ totalPropertyCount: totalProperties }] = data;
-
     const overview = {
-      totalTenants: data.length,
+      totalTenants: new Set<number>(data.map(item => item.tenant_id)).size,
       totalProperties: Number(totalProperties),
       totalPayment: data.reduce((acc: number, info: LandownerDashboardData) => acc + Number(info.payment), 0),
+      outstandingFees: data.reduce((acc: number, info: LandownerDashboardData) => acc + this.toWholeNumber(Number(info.agreed_amount) - Number(info.payment)), 0),
       tenantsAgreementStatus: {
         agreed: this.agreementStatusCount(data, 'agreed'),
         negotiated: this.agreementStatusCount(data, 'negotiated'),
