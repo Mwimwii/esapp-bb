@@ -17,6 +17,10 @@ export class PropertyService {
       propertyType,
       conflictType,
       conflictComments,
+      locationVillage,
+      locationParish,
+      locationBlockNumber,
+      locationPlotNumber,
     } = data;
 
     const createdConflict = new Conflict();
@@ -37,7 +41,12 @@ export class PropertyService {
     if (propertyType) {
       createdProperty.propertyType = propertyType as PropertyType;
     }
-    // TODO confirm
+
+    createdProperty.village = String(locationVillage);
+    createdProperty.parish = String(locationParish);
+    createdProperty.blockNo = String(locationBlockNumber);
+    createdProperty.plotNo = String(locationPlotNumber);
+
     createdProperty.status = PropertyStatus.active;
     createdProperty.createdBy = user;
 
