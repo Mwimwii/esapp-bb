@@ -32,6 +32,7 @@ export class PaymentService {
       paymentCycle,
       purchasePrice,
       kanzuPaidTo,
+      groundRentPaidTo,
     } = data;
 
     const kanzuInfo: PaymentInfo = {
@@ -44,9 +45,9 @@ export class PaymentService {
     const groundRentInfo: PaymentInfo = {
       baseAmount: Number(groundRentBaseAmount),
       amountPaid: Number(groundRentAmountPaid),
-      paidTo: '',
+      paidTo: String(groundRentPaidTo),
       paymentType: PaymentType.busulu,
-      paymentStatus: PaymentStatus.completed,
+      paymentStatus: PaymentStatus.pending,
     };
     const kibanjaPriceInfo: PaymentInfo = {
       baseAmount: Number(purchasePrice),
@@ -77,7 +78,6 @@ export class PaymentService {
 
         createdPaymentPlan.payments.push(createdPayment);
 
-        console.log(createdPaymentPlan);
         await createdPaymentPlan.save();
       }
     );
