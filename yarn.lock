@@ -1043,10 +1043,10 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@^1.0.37":
-  version "1.0.37"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.37/0402d0ed92abb2dee1a3399eca7578b1d3505f0f2ebe13799cbb15b351509941#726449995fc898575a8e4dcad057d7c97a888b35"
-  integrity sha512-Kc8t9Y8MKd1fBN+ah8DIeFk5gegIi0YAgL7r72VueZgvrV+b4w9K3+ABMBtYurpi3QZf+kFPBGdbwrO47Fgrmg==
+"@titl-all/shared@^1.0.38":
+  version "1.0.38"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.38/e0ef21b876d4bc4d02ff1d88c7ddcfb5046cd04593282546c1f506d8925b84f8#f1cb031233cf433ff27ec7313b19701e3014b3b5"
+  integrity sha512-gZnDJ/H2l5iau+n8bWXil1qf1EUbbZ2B4dojHTGtQbwIoD1sF71mw3oINeXZFaCogb8tPlgDfUtU8f40+fl47A==
   dependencies:
     react "^17.0.2"
 
