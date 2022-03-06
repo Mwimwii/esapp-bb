@@ -35,10 +35,6 @@ export class TenantService {
       languages,
       whenRelationship,
       whereRelationship,
-      locationVillage,
-      locationParish,
-      locationBlockNumber,
-      locationPlotNumber,
       lc1FirstName,
       lc1LastName,
       lc1TelNumber,
@@ -65,10 +61,6 @@ export class TenantService {
     tenantContact.dob = new Date(String(dateOfBirth));
     tenantContact.whenRelationship = String(whenRelationship);
     tenantContact.whereRelationship = String(whereRelationship);
-    tenantContact.locationParish = String(locationParish);
-    tenantContact.locationVillage = String(locationVillage);
-    tenantContact.locationBlockNumber = String(locationBlockNumber);
-    tenantContact.locationPlotNumber = String(locationPlotNumber);
     tenantContact.lc1FirstName = String(lc1FirstName);
     tenantContact.lc1LastName = String(lc1LastName);
     tenantContact.lc1TelNumber = String(lc1TelNumber);
