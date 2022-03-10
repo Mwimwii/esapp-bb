@@ -13,6 +13,17 @@ import { LandownerDashboardData } from 'app/types';
 
 export class LandOwnersService {
 
+  async allTenantsByOwnerId(ownerId: string) {
+    const tenants = await Contact.createQueryBuilder('contact')
+      .innerJoin('contact.agreements', 'agreement', 'agreement.ownerId= :ownerId', { ownerId: ownerId })
+      .innerJoinAndSelect('contact.contactDetails', 'contactDetails')
+      .getMany();
+
+    const result = tenants.map(tenant => this.restrictContactDetails(tenant.fields()));
+
+    return result;
+  }
+
   /**
    * All Tenants
    * @description grab all agreements, join properties and tenants
@@ -248,8 +259,8 @@ export class LandOwnersService {
   }
 
 
-  toWholeNumber(num: number): number{
-    if (num > 0 ) {
+  toWholeNumber(num: number): number {
+    if (num > 0) {
       return num;
     }
     return 0;
