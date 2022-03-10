@@ -28,7 +28,7 @@ export class LandOwnersController {
   @Get('/:ownerId/tenants')
   async getTenants(ctx: Context) {
     const { ownerId } = ctx.request.params;
-    const tenants = await this.landOwnersService.allTenantsWithRentPaymentPlans(ownerId);
+    const tenants = await this.landOwnersService.allTenantsByOwnerId(ownerId);
 
     return new HttpResponseOK({
       tenants,
