@@ -111,7 +111,7 @@ export function readJotformSubmissions(
                 readJotFormValue(record, 170, null)
               ),
               propertUseType: readJotFormValue(record, 143, null),
-              status: AgreementStatus.identified,
+              status: AgreementStatus.negperformed,
               tenant: await getJotformTenant(
                 record,
                 manager.getRepository(Contact)
