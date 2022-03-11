@@ -49,7 +49,7 @@ export class Contact extends BaseTable implements ContactAPI {
       lc1FirstName: this.lc1FirstName,
       lc1LastName: this.lc1LastName,
       lc1TelNumber: this.lc1TelNumber,
-      assetCount: this.assets.length,
+      assetCount: this.assets?.length,
     };
   }
 
