@@ -57,7 +57,7 @@ export async function getJotformTenant(record: any, repository: Repository<Conta
       } as ContactDetail);
     }
 
-    // await repository.save(contact);
+    await repository.save(contact);
   }
 
   return contact;
