@@ -17,13 +17,17 @@ import {
   Language,
   HeardAboutUsType,
 } from '@titl-all/shared/dist/enum';
-import { ContactAPI } from '@titl-all/shared/dist/api-model';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AgreementAPI, ContactAPI, PaymentPlanAPI, PropertyAPI } from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable implements ContactAPI {
+  
+
   fields() {
     return {
       id: this.id,
+
       negotiationType: this.negotiationType,
       heardAboutUsType: this.heardAboutUsType,
       firstName: this.firstName,
@@ -49,9 +53,11 @@ export class Contact extends BaseTable implements ContactAPI {
       lc1FirstName: this.lc1FirstName,
       lc1LastName: this.lc1LastName,
       lc1TelNumber: this.lc1TelNumber,
-      assetCount: this.assets?.length,
+      assetsCount: this?.assetsCount,
     };
   }
+
+
 
   @Column('varchar', { length: 50, nullable: true })
   negotiationType: string;
@@ -116,6 +122,8 @@ export class Contact extends BaseTable implements ContactAPI {
     nullable: true,
   })
   age: number;
+
+  assetsCount: number;
 
   @Column({ type: 'enum', enum: ContactType })
   contactType: ContactType;

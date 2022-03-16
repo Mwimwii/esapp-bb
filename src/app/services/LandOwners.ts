@@ -17,6 +17,7 @@ export class LandOwnersService {
     const tenants = await Contact.createQueryBuilder('contact')
       .innerJoin('contact.agreements', 'agreement', 'agreement.ownerId= :ownerId', { ownerId: ownerId })
       .innerJoinAndSelect('contact.contactDetails', 'contactDetails')
+      .loadRelationCountAndMap('contact.assetsCount', 'contact.assets')
       .getMany();
 
     const result = tenants.map(tenant => this.restrictContactDetails(tenant.fields()));
