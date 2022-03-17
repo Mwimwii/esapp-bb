@@ -26,7 +26,7 @@
     "skipLibCheck": true,
     "noImplicitThis": true,
     "noImplicitReturns": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitAny": true,
     "strictPropertyInitialization": false
