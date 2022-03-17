@@ -17,8 +17,7 @@ import {
   Language,
   HeardAboutUsType,
 } from '@titl-all/shared/dist/enum';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AgreementAPI, ContactAPI, PaymentPlanAPI, PropertyAPI } from '@titl-all/shared/dist/api-model';
+import {ContactAPI} from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable implements ContactAPI {
@@ -27,7 +26,6 @@ export class Contact extends BaseTable implements ContactAPI {
   fields() {
     return {
       id: this.id,
-
       negotiationType: this.negotiationType,
       heardAboutUsType: this.heardAboutUsType,
       firstName: this.firstName,
@@ -53,7 +51,7 @@ export class Contact extends BaseTable implements ContactAPI {
       lc1FirstName: this.lc1FirstName,
       lc1LastName: this.lc1LastName,
       lc1TelNumber: this.lc1TelNumber,
-      assetsCount: this?.assetsCount,
+      assetsCount: this.assetsCount,
     };
   }
 
