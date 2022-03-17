@@ -17,10 +17,12 @@ import {
   Language,
   HeardAboutUsType,
 } from '@titl-all/shared/dist/enum';
-import { ContactAPI } from '@titl-all/shared/dist/api-model';
+import {ContactAPI} from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable implements ContactAPI {
+  
+
   fields() {
     return {
       id: this.id,
@@ -49,9 +51,11 @@ export class Contact extends BaseTable implements ContactAPI {
       lc1FirstName: this.lc1FirstName,
       lc1LastName: this.lc1LastName,
       lc1TelNumber: this.lc1TelNumber,
-      assetCount: this.assets?.length,
+      assetsCount: this.assetsCount,
     };
   }
+
+
 
   @Column('varchar', { length: 50, nullable: true })
   negotiationType: string;
@@ -116,6 +120,8 @@ export class Contact extends BaseTable implements ContactAPI {
     nullable: true,
   })
   age: number;
+
+  assetsCount: number;
 
   @Column({ type: 'enum', enum: ContactType })
   contactType: ContactType;
