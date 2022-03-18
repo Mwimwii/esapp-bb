@@ -1043,12 +1043,13 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@^1.0.38":
-  version "1.0.38"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.38/e0ef21b876d4bc4d02ff1d88c7ddcfb5046cd04593282546c1f506d8925b84f8#f1cb031233cf433ff27ec7313b19701e3014b3b5"
-  integrity sha512-gZnDJ/H2l5iau+n8bWXil1qf1EUbbZ2B4dojHTGtQbwIoD1sF71mw3oINeXZFaCogb8tPlgDfUtU8f40+fl47A==
+"@titl-all/shared@^1.0.40":
+  version "1.0.40"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.40/bfba292492fed1ef89c2e06bb91d02e04bbecff4817d1a3f9458e0349f9bcb0e#8f4df182b2d2d1a41073ce3289ce5c4fcb96dbd2"
+  integrity sha512-RgjU5YAV3FULXd42k/Ek5/x8sA7qokBvLhfG30Fch0qQVvd8cba2UUcElV7TzkzvAOs47aK4GQUvQwlK3fUTdw==
   dependencies:
     react "^17.0.2"
+    yarn "^1.22.17"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -1299,15 +1300,15 @@ adler-32@~1.3.0:
     printj "~1.2.2"
 
 airtable@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.1.tgz#2fda51da04f5e4be7092351ea7be3cfdcf308347"
-  integrity sha512-33zBuUDhLl+FWWAFxFjS1a+vJr/b+UK//EV943nuiimChWph6YykQjYPmu/GucQ30g7mgaqq+98uPD4rfDHOgg==
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.2.tgz#509ee68bb83b6f04d1f2cf8c3699ae742194ce83"
+  integrity sha512-2kYULLdnqa7ZpaWXXfLTNKMzU+BTUBOZ6TPGahpH3KfJB9Sl18ih0v0zV1PIvpDxTWq+u76jGMAya9NDVZJT/Q==
   dependencies:
     "@types/node" ">=8.0.0 <15"
     abort-controller "^3.0.0"
     abortcontroller-polyfill "^1.4.0"
     lodash "^4.17.21"
-    node-fetch "^2.6.1"
+    node-fetch "^2.6.7"
 
 ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@~6.12.0:
   version "6.12.6"
@@ -3505,10 +3506,10 @@ negotiator@0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-node-fetch@^2.6.0, node-fetch@^2.6.1:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
-  integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
+node-fetch@^2.6.0, node-fetch@^2.6.7:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -5089,6 +5090,11 @@ yargs@^17.0.1:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yarn@^1.22.17:
+  version "1.22.18"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.18.tgz#05b822ade8c672987bab8858635145da0850f78a"
+  integrity sha512-oFffv6Jp2+BTUBItzx1Z0dpikTX+raRdqupfqzeMKnoh7WD6RuPAxcqDkMUy9vafJkrB0YaV708znpuMhEBKGQ==
 
 yn@3.1.1:
   version "3.1.1"
