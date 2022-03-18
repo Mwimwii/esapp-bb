@@ -23,7 +23,7 @@ export async function getJotformTenant(record: any, repository: Repository<Conta
     if (contactDetail?.contact.firstName.toLowerCase() == readJotFormValue(record, 94, 'first').toLowerCase() ||
       contactDetail?.contact.lastName.toLowerCase() == readJotFormValue(record, 94, 'last').toLowerCase()) {
       return contactDetail?.contact;
-    };
+    }
   }
 
   let contact = await repository.findOne({ where: [{ firstName: readJotFormValue(record, 94, 'first'), lastName: readJotFormValue(record, 94, 'last') }, { jotFormId: record.id }] });
