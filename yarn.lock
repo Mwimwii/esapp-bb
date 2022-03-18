@@ -913,12 +913,12 @@
     mime "~2.4.4"
 
 "@foal/swagger@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@foal/swagger/-/swagger-2.5.0.tgz#16b643246b14634883a2e2f0f45527015185fc76"
-  integrity sha512-NovcGcUjtvZ9UYNanK/W3oIeubA5Bgmi9bbYF1UX7vTCeIUyfmAIEbtjw9LdKxzQjWnjcuZLzc4W2wRihybt2A==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@foal/swagger/-/swagger-2.8.1.tgz#05011959a6f24982c98d08acd344270cbc5ff391"
+  integrity sha512-UIrn1Sv69U1t92DnGrP4GPU+LETF6mEof3xhex+2W+pSxe9jiBn8CrCUgN7TZ5CXRHPHQdg09B8RajrnlErNjA==
   dependencies:
-    "@foal/core" "^2.5.0"
-    swagger-ui-dist "~3.47.1"
+    "@foal/core" "^2.8.1"
+    swagger-ui-dist "~3.52.5"
 
 "@foal/typeorm@^2.0.0":
   version "2.5.0"
@@ -1043,12 +1043,13 @@
   resolved "https://registry.npmjs.org/@sqltools/formatter/-/formatter-1.2.3.tgz"
   integrity sha512-O3uyB/JbkAEMZaP3YqyHH7TMnex7tWyCbCI4EfJdOCoN6HIhqdJBWTM6aCCiWQ/5f5wxjgU735QAIpJbjDvmzg==
 
-"@titl-all/shared@^1.0.38":
-  version "1.0.38"
-  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.38/e0ef21b876d4bc4d02ff1d88c7ddcfb5046cd04593282546c1f506d8925b84f8#f1cb031233cf433ff27ec7313b19701e3014b3b5"
-  integrity sha512-gZnDJ/H2l5iau+n8bWXil1qf1EUbbZ2B4dojHTGtQbwIoD1sF71mw3oINeXZFaCogb8tPlgDfUtU8f40+fl47A==
+"@titl-all/shared@^1.0.40":
+  version "1.0.40"
+  resolved "https://npm.pkg.github.com/download/@titl-all/shared/1.0.40/bfba292492fed1ef89c2e06bb91d02e04bbecff4817d1a3f9458e0349f9bcb0e#8f4df182b2d2d1a41073ce3289ce5c4fcb96dbd2"
+  integrity sha512-RgjU5YAV3FULXd42k/Ek5/x8sA7qokBvLhfG30Fch0qQVvd8cba2UUcElV7TzkzvAOs47aK4GQUvQwlK3fUTdw==
   dependencies:
     react "^17.0.2"
+    yarn "^1.22.17"
 
 "@tsconfig/node10@^1.0.7":
   version "1.0.8"
@@ -1299,15 +1300,15 @@ adler-32@~1.3.0:
     printj "~1.2.2"
 
 airtable@^0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.1.tgz#2fda51da04f5e4be7092351ea7be3cfdcf308347"
-  integrity sha512-33zBuUDhLl+FWWAFxFjS1a+vJr/b+UK//EV943nuiimChWph6YykQjYPmu/GucQ30g7mgaqq+98uPD4rfDHOgg==
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/airtable/-/airtable-0.11.2.tgz#509ee68bb83b6f04d1f2cf8c3699ae742194ce83"
+  integrity sha512-2kYULLdnqa7ZpaWXXfLTNKMzU+BTUBOZ6TPGahpH3KfJB9Sl18ih0v0zV1PIvpDxTWq+u76jGMAya9NDVZJT/Q==
   dependencies:
     "@types/node" ">=8.0.0 <15"
     abort-controller "^3.0.0"
     abortcontroller-polyfill "^1.4.0"
     lodash "^4.17.21"
-    node-fetch "^2.6.1"
+    node-fetch "^2.6.7"
 
 ajv@^6.10.0, ajv@^6.12.3, ajv@^6.12.4, ajv@~6.12.0:
   version "6.12.6"
@@ -2544,9 +2545,9 @@ flatted@^3.1.0:
   integrity sha512-JaTY/wtrcSyvXJl4IMFHPKyFur1sE9AUqc0QnhOaJ0CxHtAoIV8pYDzeEfAaNEtGkOfq4gr3LBFmdXW5mOQFnA==
 
 follow-redirects@^1.14.4:
-  version "1.14.7"
-  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.7.tgz#2004c02eb9436eee9a21446a6477debf17e81685"
-  integrity sha512-+hbxoLbFMbRKDwohX8GkTataGqO6Jb7jGwpAlwgy2bIz25XtRm7KEzJM76R1WiNT5SwZkX4Y75SwBolkpmE7iQ==
+  version "1.14.9"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.9.tgz#dd4ea157de7bfaf9ea9b3fbd85aa16951f78d8d7"
+  integrity sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==
 
 forever-agent@~0.5.0:
   version "0.5.2"
@@ -3505,10 +3506,10 @@ negotiator@0.6.3:
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.3.tgz#58e323a72fedc0d6f9cd4d31fe49f51479590ccd"
   integrity sha512-+EUsqGPLsM+j/zdChZjsnX51g4XrHFOIXwfnCVPGlQk/k5giakcKsuxCObBRu6DSm9opw/O6slWbJdghQM4bBg==
 
-node-fetch@^2.6.0, node-fetch@^2.6.1:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.6.tgz#1751a7c01834e8e1697758732e9efb6eeadfaf89"
-  integrity sha512-Z8/6vRlTUChSdIgMa51jxQ4lrw/Jy5SOW10ObaA47/RElsAN2c5Pn8bTgFGWn/ibwzXTE8qwr1Yzx28vsecXEA==
+node-fetch@^2.6.0, node-fetch@^2.6.7:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.7.tgz#24de9fba827e3b4ae44dc8b20256a379160052ad"
+  integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
   dependencies:
     whatwg-url "^5.0.0"
 
@@ -4532,10 +4533,10 @@ supports-color@^8.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swagger-ui-dist@~3.47.1:
-  version "3.47.1"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.47.1.tgz#03b214a40d61e417051879cdb4a96f9c6b518a38"
-  integrity sha512-7b9iHDC/GGC9SJLd3HiV/3EnsJ3wu7xN8Q4MpOPfQO8UG7TQFG2TMTDkvvy0SNeqxQY0tGQY0ppZC9a95tW3kg==
+swagger-ui-dist@~3.52.5:
+  version "3.52.5"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.52.5.tgz#9aa8101a2be751f5145195b9e048bc21b12fac60"
+  integrity sha512-8z18eX8G/jbTXYzyNIaobrnD7PSN7yU/YkSasMmajrXtw0FGS64XjrKn5v37d36qmU3o1xLeuYnktshRr7uIFw==
 
 table@^6.0.9:
   version "6.7.1"
@@ -5089,6 +5090,11 @@ yargs@^17.0.1:
     string-width "^4.2.0"
     y18n "^5.0.5"
     yargs-parser "^20.2.2"
+
+yarn@^1.22.17:
+  version "1.22.18"
+  resolved "https://registry.yarnpkg.com/yarn/-/yarn-1.22.18.tgz#05b822ade8c672987bab8858635145da0850f78a"
+  integrity sha512-oFffv6Jp2+BTUBItzx1Z0dpikTX+raRdqupfqzeMKnoh7WD6RuPAxcqDkMUy9vafJkrB0YaV708znpuMhEBKGQ==
 
 yn@3.1.1:
   version "3.1.1"
