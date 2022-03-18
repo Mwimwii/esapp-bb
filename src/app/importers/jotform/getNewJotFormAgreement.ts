@@ -27,7 +27,7 @@ export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup
   const property = ({
     jotFormId: record.id,
     propertyGroup: propertyGroup,
-    propertyType: propertyGroup!.propertyType,
+    propertyType: propertyGroup?.propertyType,
     parish: readJotFormValue(record, 140, 1),
     village: readJotFormValue(record, 140, 2),
     blockNo: readJotFormValue(record, 140, 3),
@@ -36,7 +36,7 @@ export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup
     geospatial: readJotFormValue(record, 210, null),
     sizeUnit: mapSizeUnit(readJotFormValue(record, 179, 2)),
     nickname: readJotFormValue(record, 183, null),
-    lC: propertyGroup!.lC,
+    lC: propertyGroup?.lC,
     conflicts: [],
     agreements: [],
     status: PropertyStatus.active,
