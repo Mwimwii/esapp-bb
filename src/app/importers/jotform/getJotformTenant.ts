@@ -10,8 +10,8 @@ import { mapJotformContactDetailPhoneType } from '../../mappers/mapJotformContac
 
 export async function getJotformTenant(record: any, repository: Repository<Contact>): Promise<Contact> {
 
-  let contactDetail = await ContactDetail.findOne({
-    relations: ["contact"],
+  const contactDetail = await ContactDetail.findOne({
+    relations: ['contact'],
     where: [
       { contactDetailValue: SanitizeNumber(readJotFormValue(record, 177, 1)) },
       { contactDetailValue: SanitizeNumber(readJotFormValue(record, 177, 8)) }
