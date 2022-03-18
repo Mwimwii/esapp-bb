@@ -21,6 +21,7 @@ import { readProposedBuyOutPlan } from './readProposedBuyOutPlan';
 import { readOldGroundRentPaymentPlan } from './readOldGroundRentPaymentPlan';
 import { readProposedKanzuPaymentPlan } from './readProposedKanzuPaymentPlan';
 import { readOldKanzuPaymentPlan } from './readOldKanzuPaymentPlan';
+import { isValidPaymentPlan } from './isValidPaymentPlan';
 
 export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup | undefined, tenant: Contact): Agreement {
   const property = ({
@@ -90,14 +91,13 @@ export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup
     agreement.dateArrived = readJotFormDate(record, 166);
   }
 
-
-  agreement.paymentPlans.push(
+  agreement.paymentPlans = [
     readOldKanzuPaymentPlan(record, agreement),
     readProposedKanzuPaymentPlan(record, agreement),
     readOldGroundRentPaymentPlan(record, agreement),
     readProposedGroundRentPaymentPlan(record, agreement),
-    readProposedBuyOutPlan(record, agreement) // Read Buyout Plan
-  );
+    readProposedBuyOutPlan(record, agreement)
+  ].filter(isValidPaymentPlan);
 
   return agreement;
 }
