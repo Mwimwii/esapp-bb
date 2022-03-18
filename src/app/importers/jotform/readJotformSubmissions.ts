@@ -29,8 +29,8 @@ export function readJotformSubmissions(
     limit: 1000,
     filter: {
       status: 'ACTIVE',
-      // "id": "5111331809412373928",
-      // "updated_at:lt": "2013"
+      // 'id': '5111331809412373928',
+      // 'updated_at:lt': '2013'
     },
     orderby: 'created_at',
     direction: 'ASC',
@@ -82,10 +82,10 @@ export function readJotformSubmissions(
           }
 
           let existingAgreement = await Agreement.createQueryBuilder('agreement')
-            .leftJoinAndSelect("agreement.property", "property")
-            .leftJoinAndSelect("agreement.owner", "owner")
-            .leftJoinAndSelect("agreement.tenant", "tenant")
-            .leftJoinAndSelect("agreement.paymentPlans", "paymentPlans")
+            .leftJoinAndSelect('agreement.property', 'property')
+            .leftJoinAndSelect('agreement.owner', 'owner')
+            .leftJoinAndSelect('agreement.tenant', 'tenant')
+            .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
             .where('agreement.tenantId = :tenantId', { tenantId: tenant.id })
             .getOne();
 
