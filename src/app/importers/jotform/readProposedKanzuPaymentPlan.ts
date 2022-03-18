@@ -10,6 +10,7 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 export function readProposedKanzuPaymentPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 161, null)) {
     return ({
+      jotFormId: record.id,
       agreement: agreement,
       paymentType: PaymentType.kanzu,
       baseAmount: readJotFormValue(record, 184, null) || 0,
