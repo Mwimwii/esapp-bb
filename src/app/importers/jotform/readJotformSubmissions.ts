@@ -59,14 +59,18 @@ export function readJotformSubmissions(
       )}`;
 
       let propertyGroup = await propertyGroupRepo.findOne({
-        where: [{ nickname: nickname }],
+        where: [{ nickname: nickname }, { jotFormId: id }],
       });
       if (!propertyGroup) {
         propertyGroup = {
+          jotFormId: id,
           nickname: nickname,
           propertyType: PropertyType.mailo,
           lC: await getJotformLC(records[0], manager.getRepository(Contact)),
         } as PropertyGroup;
+        propertyGroupRepo.save(propertyGroup);
+      } else {
+        propertyGroup.jotFormId = id;
         propertyGroupRepo.save(propertyGroup);
       }
 
