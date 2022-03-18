@@ -913,12 +913,12 @@
     mime "~2.4.4"
 
 "@foal/swagger@^2.5.0":
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/@foal/swagger/-/swagger-2.5.0.tgz#16b643246b14634883a2e2f0f45527015185fc76"
-  integrity sha512-NovcGcUjtvZ9UYNanK/W3oIeubA5Bgmi9bbYF1UX7vTCeIUyfmAIEbtjw9LdKxzQjWnjcuZLzc4W2wRihybt2A==
+  version "2.8.1"
+  resolved "https://registry.yarnpkg.com/@foal/swagger/-/swagger-2.8.1.tgz#05011959a6f24982c98d08acd344270cbc5ff391"
+  integrity sha512-UIrn1Sv69U1t92DnGrP4GPU+LETF6mEof3xhex+2W+pSxe9jiBn8CrCUgN7TZ5CXRHPHQdg09B8RajrnlErNjA==
   dependencies:
-    "@foal/core" "^2.5.0"
-    swagger-ui-dist "~3.47.1"
+    "@foal/core" "^2.8.1"
+    swagger-ui-dist "~3.52.5"
 
 "@foal/typeorm@^2.0.0":
   version "2.5.0"
@@ -4533,10 +4533,10 @@ supports-color@^8.1.0:
   dependencies:
     has-flag "^4.0.0"
 
-swagger-ui-dist@~3.47.1:
-  version "3.47.1"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.47.1.tgz#03b214a40d61e417051879cdb4a96f9c6b518a38"
-  integrity sha512-7b9iHDC/GGC9SJLd3HiV/3EnsJ3wu7xN8Q4MpOPfQO8UG7TQFG2TMTDkvvy0SNeqxQY0tGQY0ppZC9a95tW3kg==
+swagger-ui-dist@~3.52.5:
+  version "3.52.5"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-3.52.5.tgz#9aa8101a2be751f5145195b9e048bc21b12fac60"
+  integrity sha512-8z18eX8G/jbTXYzyNIaobrnD7PSN7yU/YkSasMmajrXtw0FGS64XjrKn5v37d36qmU3o1xLeuYnktshRr7uIFw==
 
 table@^6.0.9:
   version "6.7.1"
