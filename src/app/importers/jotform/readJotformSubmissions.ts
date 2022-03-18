@@ -88,6 +88,10 @@ export function readJotformSubmissions(
             record,
             manager.getRepository(Contact)
           );
+          if (!tenant.jotFormId) {
+            tenant.jotFormId = record.id;
+            await Contact.save(tenant);
+          }
 
           const agreement = await Agreement.createQueryBuilder('agreement')
             .leftJoinAndSelect("agreement.property", "property")
