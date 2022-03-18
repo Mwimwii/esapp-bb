@@ -1,23 +1,30 @@
 import {
   Agreement
 } from '../../models';
+import { isValidPaymentPlan } from './isValidPaymentPlan';
 
 export function updateExistingAgreement(existingAgreement: Agreement, newAgreement: Agreement): Agreement {
 
   existingAgreement.jotFormId = newAgreement.jotFormId;
-  existingAgreement.property.propertyGroup = newAgreement.property.propertyGroup;
-  existingAgreement.property.propertyType = newAgreement.property.propertyType;
-  existingAgreement.property.parish = newAgreement.property.parish;
-  existingAgreement.property.village = newAgreement.property.village;
-  existingAgreement.property.blockNo = newAgreement.property.blockNo;
-  existingAgreement.property.plotNo = newAgreement.property.plotNo;
-  existingAgreement.property.sizeSqf = newAgreement.property.sizeSqf;
-  existingAgreement.property.geospatial = newAgreement.property.geospatial;
-  existingAgreement.property.sizeUnit = newAgreement.property.sizeUnit;
-  existingAgreement.property.nickname = newAgreement.property.nickname;
-  existingAgreement.property.lC = newAgreement.property.lC;
-  existingAgreement.property.conflicts = newAgreement.property.conflicts
-  existingAgreement.property.status = newAgreement.property.status;
+
+  if (existingAgreement.property) {
+    existingAgreement.property.jotFormId = newAgreement.property.jotFormId;
+    existingAgreement.property.propertyGroup = newAgreement.property?.propertyGroup;
+    existingAgreement.property.propertyType = newAgreement.property.propertyType;
+    existingAgreement.property.parish = newAgreement.property.parish;
+    existingAgreement.property.village = newAgreement.property.village;
+    existingAgreement.property.blockNo = newAgreement.property.blockNo;
+    existingAgreement.property.plotNo = newAgreement.property.plotNo;
+    existingAgreement.property.sizeSqf = newAgreement.property.sizeSqf;
+    existingAgreement.property.geospatial = newAgreement.property.geospatial;
+    existingAgreement.property.sizeUnit = newAgreement.property.sizeUnit;
+    existingAgreement.property.nickname = newAgreement.property.nickname;
+    existingAgreement.property.lC = newAgreement.property.lC;
+    existingAgreement.property.conflicts = newAgreement.property.conflicts
+    existingAgreement.property.status = newAgreement.property.status;
+  } else {
+    existingAgreement.property = newAgreement.property;
+  }
 
   existingAgreement.jotFormId = newAgreement.jotFormId;
   existingAgreement.requestedAgreementType = newAgreement.requestedAgreementType;
@@ -34,7 +41,7 @@ export function updateExistingAgreement(existingAgreement: Agreement, newAgreeme
   existingAgreement.employeeName = newAgreement.employeeName;
   existingAgreement.comments = newAgreement.comments;
   existingAgreement.dateArrived = newAgreement.dateArrived;
-  existingAgreement.paymentPlans = newAgreement.paymentPlans;
+  existingAgreement.paymentPlans = newAgreement.paymentPlans.filter(isValidPaymentPlan);
 
   return existingAgreement;
 }
