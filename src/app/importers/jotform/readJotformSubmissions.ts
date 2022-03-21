@@ -79,6 +79,25 @@ export function readJotformSubmissions(
 
       records.forEach(async (record: any) => {
         if (!savedIds.find(p => p.jotFormId == record.id)) {
+
+          const tenant = await getJotformTenant(
+            record,
+            manager.getRepository(Contact)
+          );
+
+          const agreement = await Agreement.createQueryBuilder('agreement')
+            .leftJoinAndSelect("agreement.property", "property")
+            .leftJoinAndSelect("agreement.owner", "owner")
+            .leftJoinAndSelect("agreement.tenant", "tenant")
+            .leftJoinAndSelect("agreement.paymentPlans", "paymentPlans")
+            .where('agreement.tenantId = :tenantId', { tenantId: tenant.id })
+            .getOne();
+
+          if (agreement) {
+            console.log(agreement);
+            return;
+          }
+
           try {
             const property = ({
               jotFormId: record.id,
@@ -111,11 +130,8 @@ export function readJotformSubmissions(
                 readJotFormValue(record, 170, null)
               ),
               propertUseType: readJotFormValue(record, 143, null),
-              status: AgreementStatus.negperformed,
-              tenant: await getJotformTenant(
-                record,
-                manager.getRepository(Contact)
-              ),
+              status: AgreementStatus.identified,
+              tenant: tenant,
               namedNeighbors: getNamedRelations(
                 readJotFormValue(record, 172, null)
               ),
@@ -243,8 +259,8 @@ export function readJotformSubmissions(
               // );
             }
 
-            console.debug(property);
-            propertyRepo.save(property);
+            // console.debug(property);
+            // propertyRepo.save(property);
           } catch (error) {
             console.debug(error);
           }
