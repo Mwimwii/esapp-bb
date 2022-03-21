@@ -21,7 +21,7 @@ import {ContactAPI} from '@titl-all/shared/dist/api-model';
 
 @Entity({ name: 'contacts' })
 export class Contact extends BaseTable implements ContactAPI {
-  
+
 
   fields() {
     return {
@@ -51,6 +51,7 @@ export class Contact extends BaseTable implements ContactAPI {
       lc1FirstName: this.lc1FirstName,
       lc1LastName: this.lc1LastName,
       lc1TelNumber: this.lc1TelNumber,
+      assets: this.assets,
       assetsCount: this.assetsCount,
     };
   }
