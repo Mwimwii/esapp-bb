@@ -11,6 +11,7 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 export function readProposedBuyOutPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 163, null)) {
     return ({
+      jotFormId: record.id,
       agreement: agreement,
       paymentType: PaymentType.buyout,
       baseAmount: readJotFormValue(record, 163, null) || 0,

@@ -12,6 +12,7 @@ import {
 export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 184, null)) {
     const kanzuPaymentPlan = ({
+      jotFormId: record.id,
       paymentType: PaymentType.kanzu,
       baseAmount: readJotFormValue(record, 184, null) || 0,
       agreedAmount: readJotFormValue(record, 184, null) || 0,
@@ -24,6 +25,7 @@ export function readOldKanzuPaymentPlan(record: any, agreement: Agreement): any 
 
     if (readJotFormValue(record, 149, null)) {
       kanzuPaymentPlan.payments.push({
+        jotFormId: record.id,
         paymentType: PaymentType.kanzu,
         paidBy: agreement.tenant.firstName,
         amount: readJotFormValue(record, 149, 2) || 0,
