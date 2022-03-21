@@ -10,6 +10,7 @@ import { mapJotFormPaymentCylce } from './mapJotFormPaymentCylce';
 export function readProposedGroundRentPaymentPlan(record: any, agreement: Agreement): any {
   if (readJotFormValue(record, 160, null)) {
     return ({
+      jotFormId: record.id,
       agreement: agreement,
       paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,

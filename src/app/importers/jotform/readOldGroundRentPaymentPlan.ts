@@ -14,6 +14,7 @@ export function readOldGroundRentPaymentPlan(
 ): any {
   if (readJotFormValue(record, 185, null)) {
     const oldBusuluPaymentPlan = ({
+      jotFormId: record.id,
       paymentType: PaymentType.groundrent,
       baseAmount: readJotFormValue(record, 185, null) || 0,
       requestedAmount: readJotFormValue(record, 31, null) || 0,
