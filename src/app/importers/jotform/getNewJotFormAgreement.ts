@@ -7,8 +7,7 @@ import {
   PropertyGroup
 } from '../../models';
 import {
-  PropertyStatus,
-  AgreementStatus
+  PropertyStatus
 } from '@titl-all/shared/dist/enum';
 import { mapAcquisitionType } from '../../mappers/mapAcquisitionType';
 import { readJotFormDate } from '../../utils/jotform/readJotFormDate';
@@ -22,6 +21,8 @@ import { readOldGroundRentPaymentPlan } from './readOldGroundRentPaymentPlan';
 import { readProposedKanzuPaymentPlan } from './readProposedKanzuPaymentPlan';
 import { readOldKanzuPaymentPlan } from './readOldKanzuPaymentPlan';
 import { isValidPaymentPlan } from './isValidPaymentPlan';
+import { mapJotFormOnboardingStatus } from './mapJotFormOnboardingStatus';
+import { readJotformOnBoardingStage } from './readJotformOnBoardingStage';
 
 export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup | undefined, tenant: Contact): Agreement {
   const property = ({
@@ -63,7 +64,7 @@ export function getNewJotFormAgreement(record: any, propertyGroup: PropertyGroup
       readJotFormValue(record, 170, null)
     ),
     propertyUseType: readJotFormValue(record, 143, null),
-    status: AgreementStatus.negperformed,
+    status: mapJotFormOnboardingStatus(readJotformOnBoardingStage(record) || ''),
     tenant: tenant,
     namedNeighbors: getNamedRelations(
       readJotFormValue(record, 172, null)
