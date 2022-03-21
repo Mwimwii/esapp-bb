@@ -8,8 +8,6 @@ export function mapJotFormOnboardingStatus(onBoardingStatus: string): AgreementS
       return AgreementStatus.negplanned;
     case 'negmissingdocs':
       return AgreementStatus.negmissingdocs;
-    case 'negmissingdocs':
-      return AgreementStatus.negmissingdocs;
     default:
       return AgreementStatus.negperformed;
   }
