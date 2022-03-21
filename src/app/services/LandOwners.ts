@@ -354,7 +354,6 @@ export class LandOwnersService {
     const slimTenant = this.restrictContactDetails(tenant.fields());
     const slimAgreement = agreement.fieldsNoRelations();
     const assets = tenant.assets ? tenant.assets.map(asset => asset.fieldsNoRelations()) : [];
-
     // do agreements have more than one payment plans?
     if (paymentPlans.length > 1) {
       console.log(agreement)
