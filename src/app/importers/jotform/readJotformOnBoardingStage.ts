@@ -11,6 +11,4 @@ export function readJotformOnBoardingStage(record: any): string | undefined {
     const lookup = JSON.parse(staging['options_array']);
     return lookup[staging?.answer.replace(/[{}]/gm, '')].value;
   }
-
-  return;
 }
