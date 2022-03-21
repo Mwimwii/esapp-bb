@@ -8,7 +8,7 @@ export function readJotformOnBoardingStage(record: any): string | undefined {
 
   if (staging) {
     console.log(staging?.answer);
-    const lookup = JSON.parse(staging?.options_array);
+    const lookup = JSON.parse(staging['options_array']);
     return lookup[staging?.answer.replace(/[{}]/gm, '')].value;
   }
 
