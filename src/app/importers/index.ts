@@ -81,19 +81,26 @@ export function importHubspotData(disk: Disk) {
   console.log('Not Now');
 }
 
+async function* listAllKeys(s3: any, opts: any) {
+  opts = { ...opts}
+  do {
+      const data = await s3.listObjectsV2(opts).promise();
+      opts.ContinuationToken = data.NextContinuationToken;
+      yield data;
+      } while (opts.ContinuationToken);
+}
+
 export async function updateS3Assets() {
   const AWS = require('aws-sdk');
   AWS.config.update({ region: Env.get('AWS_REGION') });
   const s3 = new AWS.S3({ apiVersion: '2006-03-01' });
-
   const bucketParams = {
     Bucket: Env.get('AWS_BUCKET'),
   };
-
-  const bucketdata: any = await s3.listObjects(bucketParams).promise();
-
-  const s3files: any[] = bucketdata.Contents;
-
-  s3files.forEach(s3file => storeS3Asset(s3file)
-  );
+  for await (const data of listAllKeys(s3, bucketParams)) {
+    const totalFiles = [...(data.Contents ?? [])];
+    totalFiles.map(async file => {
+      storeS3Asset(file)
+    })
+  }
 }
