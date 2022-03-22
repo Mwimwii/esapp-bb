@@ -15,6 +15,8 @@ RUN echo "//npm.pkg.github.com/:_authToken=${GITHUB_ACCESS_TOKEN}" >> /app/.npmr
 
 RUN yarn install
 
+RUN npx typeorm schema:sync
+
 USER node
 
 RUN yarn build
