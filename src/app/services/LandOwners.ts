@@ -291,7 +291,7 @@ export class LandOwnersService {
 
     return overview;
   }
-
+  
   /**
    * Agreement Status Count
    * @description given some agreement data filter our the data given a status
