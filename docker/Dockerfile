@@ -19,6 +19,4 @@ USER node
 
 RUN yarn build
 
-RUN npx typeorm schema:sync
-
 CMD ["node", "./dist/index.js"]

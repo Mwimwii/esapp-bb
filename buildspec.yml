@@ -77,3 +77,4 @@ phases:
         --set TEMP_DIR=$TEMP_DIR \
         --set UPLOAD_DIR=$UPLOAD_DIR \
         --set REPORTS_DIR=$REPORTS_DIR
+      - npx typeorm schema:sync
