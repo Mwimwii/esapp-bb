@@ -20,9 +20,7 @@ export class LandOwnersController {
     const { ownerId } = ctx.request.params;
     const overview = await this.landOwnersService.overview(ownerId);
 
-    return new HttpResponseOK({
-      overview
-    });
+    return new HttpResponseOK(overview);
   }
 
   @Get('/:ownerId/tenants')
