@@ -7,9 +7,9 @@ import {
   TicketCollaborator,
   User,
 } from 'app/models';
-import { PaymentType, AgreementStatus, SourceType } from '@titl-all/shared/dist/enum';
+import { AgreementStatus, PaymentType, SourceType } from '@titl-all/shared/dist/enum';
 import { PaymentAPI, TicketAPI } from '@titl-all/shared/dist/api-model';
-import { LandownerDashboardData } from 'app/types';
+import { getConnection } from 'typeorm';
 
 export class LandOwnersService {
 
@@ -269,35 +269,13 @@ export class LandOwnersService {
     }
     return 0;
   }
-  /**
-   * Process Overview
-   * @description take in some agreement tenant data and perform calculations on
-   * the data to provide overview data
-   */
-  private processOverview(data: LandownerDashboardData[] & Partial<Agreement>[]) {
-    const [{ totalPropertyCount: totalProperties }] = data;
-    const overview = {
-      totalTenants: new Set<number>(data.map(item => item.tenant_id)).size,
-      totalProperties: Number(totalProperties),
-      totalPayment: data.reduce((acc: number, info: LandownerDashboardData) => acc + Number(info.payment), 0),
-      outstandingFees: data.reduce((acc: number, info: LandownerDashboardData) => acc + this.toWholeNumber(Number(info.agreed_amount) - Number(info.payment)), 0),
-      tenantsAgreementStatus: {
-        agreed: this.agreementStatusCount(data, 'agreed'),
-        negotiated: this.agreementStatusCount(data, 'negotiated'),
-        identified: this.agreementStatusCount(data, 'identified'),
-        hasError: this.agreementStatusCount(data, 'hasError'),
-      }
-    };
-
-    return overview;
-  }
 
   /**
    * Agreement Status Count
    * @description given some agreement data filter our the data given a status
    * to get a count for that type of agreement
    */
-  private agreementStatusCount(data: Partial<Agreement>[], status: string): number {
+  private agreementStatusCount(data: any[], status: string): number {
     let count = 0;
 
     switch (status) {
@@ -306,7 +284,7 @@ export class LandOwnersService {
           agreement =>
             agreement.status === AgreementStatus.active ||
             agreement.status === AgreementStatus.negagreed
-        ).length
+        )?.reduce((a: any, b: any) => Number(a.count) + Number(b.count));
         break;
       case 'negotiated':
         count = data.filter(
@@ -314,7 +292,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.negperformed ||
             agreement.status === AgreementStatus.negmissingdocs ||
             agreement.status === AgreementStatus.negready
-        ).length
+        )?.reduce((a: any, b: any) => Number(a.count) + Number(b.count));
         break;
       case 'identified':
         count = data.filter(
@@ -323,7 +301,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.contacted ||
             agreement.status === AgreementStatus.contactedfail ||
             agreement.status === AgreementStatus.negplanned
-        ).length
+        )?.reduce((a: any, b: any) => isNaN(a.count) ? Number(b.count) : Number(a.count || 0) + Number(b.count), 0);
         break;
       case 'hasError':
         count = data.filter(
@@ -332,7 +310,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.conflicted ||
             agreement.status === AgreementStatus.breached ||
             agreement.status === AgreementStatus.fake
-        ).length
+        )?.reduce((a: any, b: any) => isNaN(a.count) ? Number(b.count) : Number(a.count || 0) + Number(b.count), 0);
         break;
     }
 
