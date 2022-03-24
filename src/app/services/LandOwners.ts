@@ -128,27 +128,30 @@ export class LandOwnersService {
    *      - # of rent tickets
    */
   async overview(ownerId: string) {
-    const landOwnerOverview = await Agreement.createQueryBuilder('agreement')
-      .select(`
-              agreement.status as status,
-              payments.amount as payment,
-              paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at
-      `)
-      .innerJoinAndSelect('agreement.tenant', 'tenant')
-      .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
-      .leftJoinAndSelect('paymentPlans.payments', 'payments')
-      // TODO select a ticket
-      .addSelect(
-        qb => qb.select('Count(*)', 'property_groups')
-          .from('property_groups', 'property_group')
-          .where({ owner: ownerId }), 'totalPropertyCount'
-      )
-      .where({
-        owner: ownerId
-      })
+    const totalTenants = await Agreement.count({ where: { owner: ownerId } });
+
+    const paymentStatus: any[] = await getConnection().query(`SELECT a."status", sum(pp."agreedAmount") agreedAmount, SUM(pp."requestedAmount") requestedAmount, SUM(pp."outstandingAmount") outstandingAmount, sum(pp."agreedAmount")-  SUM(pp."outstandingAmount") collected FROM payment_plans pp JOIN agreements a on pp."agreementId" = a.id WHERE a."ownerId" = ${ownerId}  GROUP BY a."status" HAVING a."status"::text = 'Agreed With Owner'`, []);
+
+    const totalPropertyGroups = await PropertyGroup.count({ where: { owner: ownerId } });
+
+    const agreementsByStatus = await getConnection()
+      .createQueryBuilder()
+      .select('agreements.status', 'status')
+      .addSelect('COUNT(1)', 'count')
+      .from(Agreement, 'agreements')
+      .where('agreements.ownerId=:ownerId', { ownerId: ownerId })
+      .groupBy('agreements.status')
+      .orderBy('count', 'DESC')
       .getRawMany();
-    return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
+
+    const tenantsAgreementStatus = {
+      agreed: this.agreementStatusCount(agreementsByStatus, 'agreed'),
+      negotiated: this.agreementStatusCount(agreementsByStatus, 'negotiated'),
+      identified: this.agreementStatusCount(agreementsByStatus, 'identified'),
+      hasError: this.agreementStatusCount(agreementsByStatus, 'hasError'),
+    };
+
+    return { totalTenants, totalProperties: totalPropertyGroups, paymentStatus: paymentStatus[0], agreementsByStatus: tenantsAgreementStatus };
   }
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
