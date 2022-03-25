@@ -78,10 +78,9 @@ phases:
         --set UPLOAD_DIR=$UPLOAD_DIR \
         --set REPORTS_DIR=$REPORTS_DIR
     # Post-build actions to run typeorm migration
-    post_build:
-      commands:
-        - echo Running typeorm migration
-        - |
-        POD=$(kubectl get pods -n $NAMESPACE -l app=backend -o jsonpath='{.items[0].metadata.name}')
-        # run the schema sync command
-        kubectl exec -n $NAMESPACE $POD -- /bin/sh -c "cd /app && yarn typeorm schema:sync"
+  post_build:
+    commands:
+      - echo Running typeorm migration
+      - |
+      POD=$(kubectl get pods -n $NAMESPACE -l app=backend -o jsonpath='{.items[0].metadata.name}')
+      kubectl exec -n $NAMESPACE $POD -- /bin/sh -c "cd /app && yarn typeorm schema:sync"
