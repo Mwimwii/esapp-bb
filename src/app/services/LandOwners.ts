@@ -128,7 +128,7 @@ export class LandOwnersService {
    *      - # of rent tickets
    */
   async overview(ownerId: string) {
-    const totalTenants = await Agreement.count({ where: { owner: ownerId } });
+    const totalTenantsResult = await getConnection().query(`SELECT COUNT(DISTINCT "agreements"."tenantId") FROM "agreements" "agreements" WHERE "agreements"."ownerId" =${ownerId};`);
 
     const paymentStatus: any[] = await getConnection().query(`SELECT a."status", sum(pp."agreedAmount") agreedAmount, SUM(pp."requestedAmount") requestedAmount, SUM(pp."outstandingAmount") outstandingAmount, sum(pp."agreedAmount")-  SUM(pp."outstandingAmount") collected FROM payment_plans pp JOIN agreements a on pp."agreementId" = a.id WHERE a."ownerId" = ${ownerId}  GROUP BY a."status" HAVING a."status"::text = 'Agreed With Owner'`, []);
 
@@ -151,7 +151,7 @@ export class LandOwnersService {
       hasError: this.agreementStatusCount(agreementsByStatus, 'hasError'),
     };
 
-    return { totalTenants, totalProperties: totalPropertyGroups, paymentStatus: paymentStatus[0], agreementsByStatus: tenantsAgreementStatus };
+    return { totalTenants: Number(totalTenantsResult[0]?.count), totalProperties: totalPropertyGroups, paymentStatus: paymentStatus[0], agreementsByStatus: tenantsAgreementStatus };
   }
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
