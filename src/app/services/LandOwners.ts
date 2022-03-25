@@ -284,7 +284,7 @@ export class LandOwnersService {
           agreement =>
             agreement.status === AgreementStatus.active ||
             agreement.status === AgreementStatus.negagreed
-        )?.reduce((a: any, b: any) => Number(a.count) + Number(b.count));
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'negotiated':
         count = data.filter(
@@ -292,7 +292,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.negperformed ||
             agreement.status === AgreementStatus.negmissingdocs ||
             agreement.status === AgreementStatus.negready
-        )?.reduce((a: any, b: any) => Number(a.count) + Number(b.count));
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'identified':
         count = data.filter(
@@ -301,7 +301,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.contacted ||
             agreement.status === AgreementStatus.contactedfail ||
             agreement.status === AgreementStatus.negplanned
-        )?.reduce((a: any, b: any) => isNaN(a.count) ? Number(b.count) : Number(a.count || 0) + Number(b.count), 0);
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'hasError':
         count = data.filter(
@@ -310,7 +310,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.conflicted ||
             agreement.status === AgreementStatus.breached ||
             agreement.status === AgreementStatus.fake
-        )?.reduce((a: any, b: any) => isNaN(a.count) ? Number(b.count) : Number(a.count || 0) + Number(b.count), 0);
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
     }
 
