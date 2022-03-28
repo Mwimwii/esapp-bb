@@ -83,4 +83,5 @@ phases:
       - echo Running typeorm migration
       - |
         POD=$(kubectl get pods -n $NAMESPACE -l app=backend -o jsonpath='{.items[0].metadata.name}')
+      - echo getting $POD logs
       - kubectl exec -n $NAMESPACE $POD -- sh -c "npx typeorm schema:sync"
