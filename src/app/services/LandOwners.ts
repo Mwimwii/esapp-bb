@@ -7,9 +7,9 @@ import {
   TicketCollaborator,
   User,
 } from 'app/models';
-import { PaymentType, AgreementStatus, SourceType } from '@titl-all/shared/dist/enum';
+import { AgreementStatus, PaymentType, SourceType } from '@titl-all/shared/dist/enum';
 import { PaymentAPI, TicketAPI } from '@titl-all/shared/dist/api-model';
-import { LandownerDashboardData } from 'app/types';
+import { getConnection } from 'typeorm';
 
 export class LandOwnersService {
 
@@ -128,27 +128,30 @@ export class LandOwnersService {
    *      - # of rent tickets
    */
   async overview(ownerId: string) {
-    const landOwnerOverview = await Agreement.createQueryBuilder('agreement')
-      .select(`
-              agreement.status as status,
-              payments.amount as payment,
-              paymentPlans.agreedAmount as agreed_amount,
-              payments.createdAt as payment_created_at
-      `)
-      .innerJoinAndSelect('agreement.tenant', 'tenant')
-      .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
-      .leftJoinAndSelect('paymentPlans.payments', 'payments')
-      // TODO select a ticket
-      .addSelect(
-        qb => qb.select('Count(*)', 'property_groups')
-          .from('property_groups', 'property_group')
-          .where({ owner: ownerId }), 'totalPropertyCount'
-      )
-      .where({
-        owner: ownerId
-      })
+    const totalTenantsResult = await getConnection().query(`SELECT COUNT(DISTINCT "agreements"."tenantId") FROM "agreements" "agreements" WHERE "agreements"."ownerId" =${ownerId};`);
+
+    const paymentStatus: any[] = await getConnection().query(`SELECT a."status", sum(pp."agreedAmount") agreedAmount, SUM(pp."requestedAmount") requestedAmount, SUM(pp."outstandingAmount") outstandingAmount, sum(pp."agreedAmount")-  SUM(pp."outstandingAmount") collected FROM payment_plans pp JOIN agreements a on pp."agreementId" = a.id WHERE a."ownerId" = ${ownerId}  GROUP BY a."status" HAVING a."status"::text = 'Agreed With Owner'`, []);
+
+    const totalPropertyGroups = await PropertyGroup.count({ where: { owner: ownerId } });
+
+    const agreementsByStatus = await getConnection()
+      .createQueryBuilder()
+      .select('agreements.status', 'status')
+      .addSelect('COUNT(1)', 'count')
+      .from(Agreement, 'agreements')
+      .where('agreements.ownerId=:ownerId', { ownerId: ownerId })
+      .groupBy('agreements.status')
+      .orderBy('count', 'DESC')
       .getRawMany();
-    return landOwnerOverview.length > 0 ? this.processOverview(landOwnerOverview) : [];
+
+    const tenantsAgreementStatus = {
+      agreed: this.agreementStatusCount(agreementsByStatus, 'agreed'),
+      negotiated: this.agreementStatusCount(agreementsByStatus, 'negotiated'),
+      identified: this.agreementStatusCount(agreementsByStatus, 'identified'),
+      hasError: this.agreementStatusCount(agreementsByStatus, 'hasError'),
+    };
+
+    return { totalTenants: Number(totalTenantsResult[0]?.count), totalProperties: totalPropertyGroups, paymentStatus: paymentStatus[0], agreementsByStatus: tenantsAgreementStatus };
   }
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
@@ -266,35 +269,13 @@ export class LandOwnersService {
     }
     return 0;
   }
-  /**
-   * Process Overview
-   * @description take in some agreement tenant data and perform calculations on
-   * the data to provide overview data
-   */
-  private processOverview(data: LandownerDashboardData[] & Partial<Agreement>[]) {
-    const [{ totalPropertyCount: totalProperties }] = data;
-    const overview = {
-      totalTenants: new Set<number>(data.map(item => item.tenant_id)).size,
-      totalProperties: Number(totalProperties),
-      totalPayment: data.reduce((acc: number, info: LandownerDashboardData) => acc + Number(info.payment), 0),
-      outstandingFees: data.reduce((acc: number, info: LandownerDashboardData) => acc + this.toWholeNumber(Number(info.agreed_amount) - Number(info.payment)), 0),
-      tenantsAgreementStatus: {
-        agreed: this.agreementStatusCount(data, 'agreed'),
-        negotiated: this.agreementStatusCount(data, 'negotiated'),
-        identified: this.agreementStatusCount(data, 'identified'),
-        hasError: this.agreementStatusCount(data, 'hasError'),
-      }
-    };
-
-    return overview;
-  }
 
   /**
    * Agreement Status Count
    * @description given some agreement data filter our the data given a status
    * to get a count for that type of agreement
    */
-  private agreementStatusCount(data: Partial<Agreement>[], status: string): number {
+  private agreementStatusCount(data: any[], status: string): number {
     let count = 0;
 
     switch (status) {
@@ -303,7 +284,7 @@ export class LandOwnersService {
           agreement =>
             agreement.status === AgreementStatus.active ||
             agreement.status === AgreementStatus.negagreed
-        ).length
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'negotiated':
         count = data.filter(
@@ -311,7 +292,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.negperformed ||
             agreement.status === AgreementStatus.negmissingdocs ||
             agreement.status === AgreementStatus.negready
-        ).length
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'identified':
         count = data.filter(
@@ -320,7 +301,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.contacted ||
             agreement.status === AgreementStatus.contactedfail ||
             agreement.status === AgreementStatus.negplanned
-        ).length
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
       case 'hasError':
         count = data.filter(
@@ -329,7 +310,7 @@ export class LandOwnersService {
             agreement.status === AgreementStatus.conflicted ||
             agreement.status === AgreementStatus.breached ||
             agreement.status === AgreementStatus.fake
-        ).length
+        ).map(f => Number(f.count)).reduce((a: number, b: number) => a + b, 0);
         break;
     }
 
