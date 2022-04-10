@@ -367,12 +367,10 @@ export class LandOwnersService {
   }
 
   private reorderByTenantAgreement(agreement: Agreement) {
-    const propertyGroupName = 'Dorothy - Namuyenje'
     const { property, tenant, paymentPlans } = agreement;
     const slimTenant = this.restrictContactDetails(tenant.fields());
     const slimAgreement = agreement.fieldsNoRelations();
     const assets = tenant.assets ? tenant.assets.map(asset => asset.fieldsNoRelations()) : [];
-    // do agreements have more than one payment plans?
     if (paymentPlans.length > 1) {
       console.log(agreement)
     }
@@ -382,8 +380,7 @@ export class LandOwnersService {
       property,
       agreement: slimAgreement,
       paymentPlan: paymentPlans.length > 0 ? paymentPlans[0] : [],
-      assets,
-      propertyGroupName
+      assets
     }
   }
 
