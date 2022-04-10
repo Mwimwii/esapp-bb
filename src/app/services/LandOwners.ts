@@ -165,7 +165,8 @@ export class LandOwnersService {
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreements = await Agreement.createQueryBuilder('agreement')
     .innerJoinAndSelect('agreement.property', 'property')
-    .innerJoinAndSelect('property.owner', 'owner')
+    .leftJoinAndSelect('property.propertyGroup', 'property.propertyGroup')
+    .innerJoin('property.owner', 'owner')
     .innerJoinAndSelect('agreement.tenant', 'tenant')
     .innerJoinAndSelect('tenant.contactDetails', 'contactDetails')
     .leftJoinAndSelect('tenant.assets', 'assets')
@@ -248,7 +249,6 @@ export class LandOwnersService {
         uuid: propertyUuid
       })
       .getOne();
-      console.log(propertyGroup)
 
     const { totalReceived, outstandingToReceive } = this.getPaymentsToReceiveFromPropertyGroups(propertyGroup as PropertyGroup);
     const paymentPlans = propertyGroup?.properties
