@@ -130,7 +130,7 @@ export class LandOwnersService {
   async overview(ownerId: string) {
     const totalTenantsResult = await getConnection().query(`SELECT COUNT(DISTINCT "agreements"."tenantId") FROM "agreements" "agreements" WHERE "agreements"."ownerId" =${ownerId};`);
 
-    const paymentStatus: any[] = await getConnection().query(`SELECT a."status",\
+    const paymentStatus: (string | number)[] = await getConnection().query(`SELECT a."status",\
                                                               SUM(pp."agreedAmount") agreedAmount,\
                                                               SUM(pp."requestedAmount") requestedAmount,\
                                                               SUM(pp."outstandingAmount") outstandingAmount,\
