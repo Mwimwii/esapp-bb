@@ -164,27 +164,26 @@ export class LandOwnersService {
 
   async getTenantAndPaymentPlan(tenantUuid: string, ownerId: string) {
     const agreements = await Agreement.createQueryBuilder('agreement')
-    .innerJoinAndSelect('agreement.property', 'property')
-    .leftJoinAndSelect('property.propertyGroup', 'property.propertyGroup')
-    .innerJoin('property.owner', 'owner')
-    .innerJoinAndSelect('agreement.tenant', 'tenant')
-    .innerJoinAndSelect('tenant.contactDetails', 'contactDetails')
-    .leftJoinAndSelect('tenant.assets', 'assets')
-    .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
-    .leftJoinAndSelect('paymentPlans.payments', 'paymentPlans.payments')
-    .where({
-      owner: ownerId,
-      tenant: {
-              uuid: tenantUuid,
-            },
-    })
-    .orderBy('tenant.status', 'ASC')
-    .getMany();
-
+      .innerJoinAndSelect('agreement.property', 'property')
+      .innerJoinAndSelect('property.propertyGroup', 'propertyGroup')
+      .innerJoin('property.owner', 'owner')
+      .innerJoinAndSelect('agreement.tenant', 'tenant')
+      .innerJoinAndSelect('tenant.contactDetails', 'contactDetails')
+      .leftJoinAndSelect('tenant.assets', 'assets')
+      .leftJoinAndSelect('agreement.paymentPlans', 'paymentPlans')
+      .leftJoinAndSelect('paymentPlans.payments', 'paymentPlans.payments')
+      .where({
+        owner: ownerId,
+        tenant: {
+          uuid: tenantUuid,
+        },
+      })
+      .orderBy('tenant.status', 'ASC')
+      .getMany();
     if (!agreements) {
       return {};
     }
-  return this.reorderByTenantAgreements(agreements);
+    return this.reorderByTenantAgreements(agreements);
   }
 
   async getTenantBucketList(tenantUuid: string, ownerId: string) {
@@ -252,10 +251,10 @@ export class LandOwnersService {
 
     const { totalReceived, outstandingToReceive } = this.getPaymentsToReceiveFromPropertyGroups(propertyGroup as PropertyGroup);
     const paymentPlans = propertyGroup?.properties
-                                 .flatMap(property => property.agreements)
-                                 .flatMap(agreement => agreement.paymentPlans)
-                                 .filter(agreement => agreement.payments.length > 0) || [];
-    const overview = {...this.getPaymentPlansTotal(paymentPlans), Total: {outstanding: outstandingToReceive, collected: totalReceived}};
+      .flatMap(property => property.agreements)
+      .flatMap(agreement => agreement.paymentPlans)
+      .filter(agreement => agreement.payments.length > 0) || [];
+    const overview = { ...this.getPaymentPlansTotal(paymentPlans), Total: { outstanding: outstandingToReceive, collected: totalReceived } };
     return {
       ...propertyGroup,
       overview
@@ -264,24 +263,24 @@ export class LandOwnersService {
 
   private getPaymentTotal(payments: PaymentAPI[]) {
     return payments.reduce((acc: number, curr) => {
-        acc += Number(curr.amount)
-        return acc
+      acc += Number(curr.amount)
+      return acc
     }, 0)
-}
-private getPaymentPlansTotal(paymentPlans: PaymentPlanAPI[]) {
-  return paymentPlans.reduce((acc: {[key: string]: any}, curr) => {
-      if(acc[curr.paymentType]){
-          acc[curr.paymentType].outstanding += curr.outstandingAmount ? Number(curr.outstandingAmount) : 0
-          acc[curr.paymentType].collected += curr.payments ? this.getPaymentTotal(curr.payments) : 0
-        } else {
-          acc[curr.paymentType] = {outstanding: 0, collected: 0}
-          acc[curr.paymentType].outstanding += curr.outstandingAmount ? Number(curr.outstandingAmount) : 0
-          acc[curr.paymentType].collected += curr.payments ? this.getPaymentTotal(curr.payments) : 0
+  }
+  private getPaymentPlansTotal(paymentPlans: PaymentPlanAPI[]) {
+    return paymentPlans.reduce((acc: { [key: string]: any }, curr) => {
+      if (acc[curr.paymentType]) {
+        acc[curr.paymentType].outstanding += curr.outstandingAmount ? Number(curr.outstandingAmount) : 0
+        acc[curr.paymentType].collected += curr.payments ? this.getPaymentTotal(curr.payments) : 0
+      } else {
+        acc[curr.paymentType] = { outstanding: 0, collected: 0 }
+        acc[curr.paymentType].outstanding += curr.outstandingAmount ? Number(curr.outstandingAmount) : 0
+        acc[curr.paymentType].collected += curr.payments ? this.getPaymentTotal(curr.payments) : 0
 
       }
       return acc
-  }, {})
-}
+    }, {})
+  }
 
   async getPayments(ownerId: string) {
     const payments = await Payment.createQueryBuilder('payment')
@@ -399,15 +398,15 @@ private getPaymentPlansTotal(paymentPlans: PaymentPlanAPI[]) {
 
   private getPaymentsToReceiveFromPropertyGroups(propertyGroup: PropertyGroup) {
     const outstandingToReceive = propertyGroup.properties.flatMap(property => property.agreements)
-                                      .flatMap(agreement => agreement.paymentPlans)
-                                      .filter(paymentPlan => paymentPlan.payments.length > 0)
-                                      .reduce((acc: number, curr) => {acc += Number(curr.outstandingAmount); return acc},0)
+      .flatMap(agreement => agreement.paymentPlans)
+      .filter(paymentPlan => paymentPlan.payments.length > 0)
+      .reduce((acc: number, curr) => { acc += Number(curr.outstandingAmount); return acc }, 0)
 
     const totalReceived = propertyGroup.properties.flatMap(property => property.agreements)
-                                      .flatMap(agreement => agreement.paymentPlans)
-                                      .filter(paymentPlan => paymentPlan.payments.length > 0)
-                                      .flatMap(paymentPlan => paymentPlan.payments)
-                                      .reduce((acc: number, curr) => {acc += Number(curr.amount); return acc},0)
+      .flatMap(agreement => agreement.paymentPlans)
+      .filter(paymentPlan => paymentPlan.payments.length > 0)
+      .flatMap(paymentPlan => paymentPlan.payments)
+      .reduce((acc: number, curr) => { acc += Number(curr.amount); return acc }, 0)
 
     return { totalReceived, outstandingToReceive };
   }
