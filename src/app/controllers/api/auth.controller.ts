@@ -7,12 +7,11 @@ import {
   ValidateBody,
   verifyPassword,
   dependency,
-  Env,
 } from '@foal/core';
 import { removeAuthCookie } from '@foal/jwt';
 
 import { User } from 'app/models';
-import { UserContactRelationService, AuthService } from 'app/services';
+import { AuthService } from 'app/services';
 
 const credentialsSchema = {
   additionalProperties: false,
@@ -26,8 +25,6 @@ const credentialsSchema = {
 };
 
 export class AuthController {
-  @dependency
-  userContactRelationService: UserContactRelationService;
   @dependency
   authService: AuthService;
 
@@ -43,7 +40,7 @@ export class AuthController {
   @Post('/signup')
   @ValidateBody(credentialsSchema)
   async signup(ctx: Context) {
-    const { email, password, phoneNumber } = ctx.request.body;
+    const { email, password } = ctx.request.body;
 
     let user: User|undefined;
     if (email) {
@@ -54,15 +51,15 @@ export class AuthController {
       });
     }
 
-    if (phoneNumber) {
-      user = new User();
+    // if (phoneNumber) {
+    //   user = new User();
 
-      const contact = await this.userContactRelationService.contactModelFromPhoneNumber(phoneNumber);
+    //   const contact = await this.userContactRelationService.contactModelFromPhoneNumber(phoneNumber);
 
-      if (contact) {
-        user.contact = contact;
-      }
-    }
+    //   if (contact) {
+    //     user.contact = contact;
+    //   }
+    // }
 
     if (!user) {
       return new HttpResponseOK(false);
@@ -75,9 +72,9 @@ export class AuthController {
     const response = new HttpResponseOK({
       id: user.id,
       email: user.email,
-      contactId: user.contact?.id || null,
-      firstName: user?.contact?.firstName || null,
-      lastName: user?.contact?.lastName || null,
+      camp_officerId: user.camp_officer?.id || null,
+      firstName: user?.camp_officer?.firstName || null,
+      lastName: user?.camp_officer?.lastName || null,
     });
 
     await this.authService.setCookie(user, response);
@@ -88,7 +85,7 @@ export class AuthController {
   @Post('/login')
   @ValidateBody(credentialsSchema)
   async login(ctx: Context) {
-    const { email, phoneNumber } = ctx.request.body;
+    const { email } = ctx.request.body;
 
     let user;
     if (email) {
@@ -99,9 +96,9 @@ export class AuthController {
         }
       });
     }
-    if (phoneNumber) {
-      user = await this.userContactRelationService.userAndContactModelFromPhoneNumber(phoneNumber);
-    }
+    // if (phoneNumber) {
+    //   user = await this.userContactRelationService.userAndContactModelFromPhoneNumber(phoneNumber);
+    // }
 
     if (!user) {
       return new HttpResponseUnauthorized();
@@ -114,10 +111,9 @@ export class AuthController {
     const response = new HttpResponseOK({
       id: user.id,
       email: user.email,
-      contactId: user.contact?.id ?? null,
-      firstName: user?.contact?.firstName || user?.administrator.firstName || null,
-      lastName: user?.contact?.lastName || user?.administrator.lastName || null,
-      passwordUpdateRequired: ctx.request.body.password === Env.get('DEFAULT_PASSWORD'),
+      camp_officerId: user.camp_officer?.id || null,
+      firstName: user?.camp_officer?.firstName || null,
+      lastName: user?.camp_officer?.lastName || null,
     });
 
     await this.authService.setCookie(user, response);

@@ -5,11 +5,9 @@ import {
   AuthController,
   AuthChecksController,
   UserController,
-  LandOwnersController,
-  UssdController,
-  OnboardingController,
-  TicketController,
-  ImporterController,
+  FaabsController,
+  FarmersController,
+  MarketController,
 } from './api';
 
 @ApiInfo({
@@ -27,11 +25,9 @@ export class ApiController {
   subControllers = [
     controller('/auth', AuthController),
     controller('/auth-checks', AuthChecksController),
-    controller('/land-owners', LandOwnersController),
+    controller('/faabs', FaabsController),
+    controller('/farmers', FarmersController),
+    controller('/market', MarketController),
     controller('/user', UserController),
-    controller('/ussd', UssdController),
-    controller('/onboarding', OnboardingController),
-    controller('/tickets', TicketController),
-    controller('/importer', ImporterController),
   ];
 }
