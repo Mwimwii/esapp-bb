@@ -23,7 +23,6 @@ export interface FaabsAttendanceAPI {
 }
 
 export interface FaabsTopicAPI {
-  title: string;
   outputLevelIndicator: string;
   category: string;
   subComponent: string;
