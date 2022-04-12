@@ -32,16 +32,16 @@ export class UserController {
       where: {
         id: user.id
       },
-      relations: ['contact', 'administrator'],
+      relations: ['camp_officer'],
     });
 
 
     return new HttpResponseOK({
       id: user.id,
       email: user.email,
-      contactId: userWithJoins?.contact?.id || null,
-      firstName: userWithJoins?.contact?.firstName || userWithJoins?.administrator.firstName || null,
-      lastName: userWithJoins?.contact?.lastName || userWithJoins?.administrator.lastName || null,
+      camp_officerId: userWithJoins?.camp_officer?.id || null,
+      firstName: userWithJoins?.camp_officer?.firstName || null,
+      lastName: userWithJoins?.camp_officer?.lastName || null,
     });
   }
 
@@ -53,10 +53,7 @@ export class UserController {
         id: user.id
       },
       relations: [
-        'contact',
-        'contact.contactDetails',
-        'contact.propertyGroups',
-        'contact.propertyGroups.properties'
+        'camp_officer',
       ],
     });
 
@@ -67,7 +64,7 @@ export class UserController {
   @ValidateBody(credentialsSchema)
   async updatePassword(ctx: Context) {
     const { user } = ctx;
-    const { password} = ctx.request.body;
+    const { password } = ctx.request.body;
 
     const dbUser = await User.findOne({
       where: {

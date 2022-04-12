@@ -21,7 +21,7 @@ export class AuthService {
     const payload = {
       email: user.email,
       id: user.id,
-      contactId: user.contact?.id ?? null,
+      camp_officerId: user.camp_officer?.id ?? null,
     };
 
     const expiresIn = Env.get('JWT_COOKIE_LENGTH') || '1h';

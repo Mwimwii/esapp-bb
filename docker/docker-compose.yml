@@ -1,12 +1,13 @@
 version: '3'
 
 services:
-  postgres:
+  psql:
+    container_name: db
     image: "postgres:12.5"
     ports:
-      - "5432:5432"
+      - "7000:5432"
     environment:
-      POSTGRES_USER: "test"
-      POSTGRES_PASSWORD: "test"
-      POSTGRES_DB: "test"
+      POSTGRES_USER: "esapp"
+      POSTGRES_PASSWORD: "213299rjff"
+      POSTGRES_DB: "esapdb"
 
