@@ -10,9 +10,6 @@ import { FaabsTopicAPI } from '../types';
 @Entity({ name: 'faabs_topics' })
 export class FaabsTopic extends BaseTable implements FaabsTopicAPI {
 
-  @Column('varchar', { length: 150, nullable: true })
-  title: string;
-
   @Column('text', { nullable: true })
   outputLevelIndicator: string;
 
