@@ -9,3 +9,4 @@ export { Camp } from './Camp';
 export { CampOfficer } from './CampOfficer';
 export { FaabsTopic } from './FaabsTopic';
 export { FaabsAttendance } from './FaabsAttendance';
+export { MarketPrice } from './MarketPrice';
