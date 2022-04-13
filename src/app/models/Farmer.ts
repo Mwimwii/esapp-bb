@@ -10,6 +10,7 @@ import {
 import { Faabs } from '.'
 import { BaseTable } from './BaseTable';
 import { FarmerAPI } from 'app/types';
+import { FaabsAttendance } from './FaabsAttendance';
 
 @Entity({ name: 'farmers' })
 export class Farmer extends BaseTable implements FarmerAPI {
@@ -87,5 +88,8 @@ export class Farmer extends BaseTable implements FarmerAPI {
 
   @Column('float', { nullable: true })
   latitude: number;
+
+  @JoinColumn()
+  attendance: FaabsAttendance;
 
 }

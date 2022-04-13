@@ -15,7 +15,7 @@ export interface FaabsAttendanceAPI {
   farmers: FarmerAPI[];
   topic: FaabsTopicAPI;
   facilitators: string;
-  partnerOrgrganisations: string;
+  partnerOrganisations: string;
   trainingDate: string;
   duration: number;
   quarter: number;
