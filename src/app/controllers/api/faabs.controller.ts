@@ -1,20 +1,50 @@
 import {
   // Context,
-  // HttpResponseOK,
+  HttpResponseOK,
   // Get,
-  dependency,
+  dependency, Get, Context, Post,
 } from '@foal/core';
-import { JWTRequired } from '@foal/jwt';
-import { RefreshJWT } from 'app/hooks';
+// import { JWTRequired } from '@foal/jwt';
+// import { RefreshJWT } from 'app/hooks';
 
 import { FaabsService } from 'app/services';
 
-@JWTRequired({ cookie: true})
-@RefreshJWT()
+// @JWTRequired({ cookie: true})
+// @RefreshJWT()
 export class FaabsController {
   @dependency
   faabsService: FaabsService;
 
+  @Get('/:campId')
+  async getAll(ctx: Context) {
+      const { campId } = ctx.request.params;
+      const faabs = await this.faabsService.allFaabsGroups(campId);
+      return new HttpResponseOK(faabs);
+    }
+
+  @Get('/topics/all')
+  async getTopics() {
+      const faabsTopics = await this.faabsService.allFaabsTopics();
+      return new HttpResponseOK(faabsTopics);
+    }
+
+
+    @Post('/:faabsId/attendance/submit')
+    async submitAttendace(ctx: Context) {
+      const body = ctx.request.body;
+      const { faabsId } = ctx.request.params;
+      console.log(body)
+      const faabsAttendance = await this.faabsService.addAttendance({...body, faabsGroup: faabsId});
+      return new HttpResponseOK({ faabs: faabsAttendance });
+    }
+
+  @Post('/submit')
+  async submit(ctx: Context) {
+    const body = ctx.request.body;
+    console.log(body)
+    const faabs = await this.faabsService.add(body);
+    return new HttpResponseOK({ faabs });
+  }
   // @Get('/:campId')
   // async getAll(ctx: Context) {
   //   const { user } = ctx;

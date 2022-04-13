@@ -1,4 +1,5 @@
-import { Faabs } from "app/models";
+import { Faabs, FaabsAttendance, FaabsTopic, Farmer } from 'app/models';
+// import { FaabsAPI } from 'app/types';
 
 export class FaabsService {
 
@@ -7,10 +8,12 @@ export class FaabsService {
   //  */
   async allFaabsGroups(campId: string) {
     const faabs = await Faabs.createQueryBuilder('faabs')
-      .innerJoinAndSelect('faabs.farmers', 'farmers')
-      .innerJoinAndSelect('faabs.camp', 'camp')
-      .innerJoinAndSelect('faabs.topics', 'topics')
+      .leftJoinAndSelect('faabs.farmers', 'farmers')
+      .leftJoinAndSelect('faabs.camp', 'camp')
+      .leftJoinAndSelect('faabs.topics', 'topics')
       .leftJoinAndSelect('faabs.attendance', 'attendance')
+      // .leftJoinAndSelect('attendance.farmers', 'attendance.farmers')
+
       .where({
         camp: campId
       })
@@ -18,8 +21,69 @@ export class FaabsService {
 
     return faabs;
   }
+  async allFaabsTopics() {
+    const faabs = await FaabsTopic.createQueryBuilder('topics')
+      .getMany();
+    return faabs;
+  }
 
+  async add(data: any) {
+    const {
+      name,
+      description,
+      topics,
+      maxAttendedTopics,
+      campId,
+      latitude,
+      longitude
+    } = data;
+    console.log(maxAttendedTopics)
+    const faabs = new Faabs();
 
+    const topic = await FaabsTopic.findByIds([topics]);
+    faabs.topics = topic;
+
+    faabs.name = name;
+    faabs.description = description;
+    faabs.camp = campId;
+    faabs.latitude = latitude;
+    faabs.longitude = longitude;
+    faabs.maxAttendedTopics = Number (maxAttendedTopics);
+    faabs.status = 1;
+
+    await faabs.save();
+
+    return faabs;
+  }
+
+  async addAttendance(data: any) {
+    const {
+      faabsGroup,
+      farmers,
+      topic,
+      facilitators,
+      partnerOrganisations,
+      trainingDate,
+      duration,
+      quarter,
+      trainingType
+    } = data;
+
+    const faabsAttendance = new FaabsAttendance();
+
+    faabsAttendance.faabsGroup = faabsGroup
+    faabsAttendance.farmers = await Farmer.findByIds(farmers)
+    faabsAttendance.topic = topic
+    faabsAttendance.facilitators = facilitators
+    faabsAttendance.partnerOrganisations = partnerOrganisations
+    faabsAttendance.trainingDate = trainingDate
+    faabsAttendance.duration = duration
+    faabsAttendance.quarter = quarter
+    faabsAttendance.trainingType = trainingType
+
+    await faabsAttendance.save();
+    return faabsAttendance;
+  }
   // async getTicket(ownerUserId: string, ticketUuid: string) {
   //   const ticket = await Ticket.createQueryBuilder('ticket')
   //     .where({

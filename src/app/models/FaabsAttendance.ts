@@ -2,9 +2,10 @@
 import {
   Entity,
   Column,
-  OneToMany,
   ManyToOne,
   JoinColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 import { Faabs, Farmer, FaabsTopic } from '.';
@@ -22,7 +23,7 @@ export class FaabsAttendance extends BaseTable implements FaabsAttendanceAPI {
   facilitators: string;
 
   @Column('varchar', { nullable: true })
-  partnerOrgrganisations: string;
+  partnerOrganisations: string;
 
   @Column('varchar', { nullable: true })
   trainingDate: string;
@@ -44,11 +45,7 @@ export class FaabsAttendance extends BaseTable implements FaabsAttendanceAPI {
   @ManyToOne(() => Faabs)
   faabsGroup: Faabs;
 
-  @OneToMany(() => Farmer, (farmer) => farmer.faabsGroup, {
-    cascade: true,
-  })
-  @JoinColumn()
+  @JoinTable()
+  @ManyToMany(() => Farmer, (farmer) => farmer.attendance, {})
   farmers: Farmer[];
-
-
 }
