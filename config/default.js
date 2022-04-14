@@ -1,20 +1,12 @@
 const { Env } = require("@foal/core");
 
 module.exports = {
-  port: 8000,
+  port: 80,
   settings: {
-    aws: {
-      accessKeyId: Env.get("AWS_ACCESS_KEY_ID"),
-      secretAccessKey: Env.get("AWS_SECRET_ACCESS_KEY"),
-    },
     disk: {
       driver: Env.get("DISK_DRIVER"),
       local: {
         directory: "uploaded",
-      },
-      s3: {
-        bucket: Env.get("AWS_BUCKET"),
-        serverSideEncryption: 'AES256'
       },
     },
     loggerFormat: "tiny",
