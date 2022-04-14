@@ -32,7 +32,7 @@ export class MarketController {
     return new HttpResponseOK(market);
   }
   @Get('/')
-  async getAll(ctx: Context) {
+  async getAll() {
     const market = await this.marketService.getAll();
     return new HttpResponseOK(market);
   }
