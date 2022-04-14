@@ -1,6 +1,6 @@
 {
-  "name": "visualbuilder",
-  "short_name": "visualbuilder",
+  "name": "ESAPP Mobile",
+  "short_name": "esapp_mobi",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
