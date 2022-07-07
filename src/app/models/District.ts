@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { Camp , Province } from '.';
+import { Camp , Province, MarketPrice } from '.';
 import { BaseTable } from './BaseTable';
 
 import { DistrictAPI } from '../types/';
@@ -21,6 +21,12 @@ export class District extends BaseTable implements DistrictAPI {
 
   @Column('varchar', { length: 50, nullable: true })
   code: string;
+
+  @OneToMany(() => MarketPrice, (market_price) => market_price.district, {
+    cascade: true,
+  })
+  @JoinColumn()
+  market_prices: MarketPrice[];
 
   @OneToMany(() => Camp, (camp) => camp.district, {
     cascade: true,

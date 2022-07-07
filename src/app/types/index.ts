@@ -1,13 +1,39 @@
+export interface CommodityRequest {
+  id: number;
+  requester: UserAPI;
+  commodity: CommodityAPI;
+  price: number;
+  quantity: number;
+  district: DistrictAPI;
+}
+
+export interface CommodityAPI {
+  id: number;
+  name: string;
+  density: number;
+  market_prices: MarketPriceAPI[];
+}
 
 export interface MarketPriceAPI {
   id: number;
+  commodity: CommodityAPI;
+  market_vendor: MarketVendorAPI;
+  district: DistrictAPI;
   price: number;
   unit: string;
-  commodity_type: string;
-  market: string;
-  price_level: string;
+  priceLevel: string;
 }
 
+export interface MarketVendorAPI {
+  id: number;
+  district: DistrictAPI;
+  user: UserAPI;
+  farmer: FarmerAPI;
+  market_prices: MarketPriceAPI[];
+  contactNumber: string;
+  name: string;
+  uuid: string;
+}
 
 export interface FaabsAttendanceAPI {
   id: number;
@@ -102,6 +128,7 @@ export interface DistrictAPI {
   code: string;
   province: ProvinceAPI;
   camps: CampAPI[];
+  market_prices: MarketPriceAPI[];
   longitude: number;
   latitude: number;
 }

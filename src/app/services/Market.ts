@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/camelcase */
 
 import {
-  MarketPrice,
+  District,
+  MarketPrice, MarketVendor,
 } from 'app/models';
-import { MarketPriceAPI } from 'app/types';
+// import { MarketPriceAPI, MarketVendorAPI } from 'app/types';
 
 export class MarketService {
   async getAll() {
@@ -12,27 +14,41 @@ export class MarketService {
     return marketPrice
   }
 
-  async add(
-    data: MarketPriceAPI,
-  ) {
+  async add(data: any) {
     const {
-      market,
-      commodity_type,
-      price_level,
+      commodity: commodityId,
+      market_vendor,
+      district: districtId,
       price,
+      priceLevel,
       unit
             } = data;
 
-    const marketPrice = new MarketPrice();
-    marketPrice.market = market
-    marketPrice.commodity_type = commodity_type
-    marketPrice.price_level = price_level
-    marketPrice.price = price
-    marketPrice.unit = unit
 
+    const marketPrice = new MarketPrice();
+    marketPrice.price = price
+    marketPrice.priceLevel = priceLevel
+    marketPrice.market_vendor = await this.getOrCreateMarketVendor(market_vendor, districtId)
+    marketPrice.unit = unit
+    marketPrice.commodity = commodityId
     await marketPrice.save();
 
     return marketPrice;
+  }
+
+  private async getOrCreateMarketVendor(market_vendor: any, district: District){
+    if(market_vendor?.id){
+      const marketVendor = await MarketVendor.getId(market_vendor.id)
+      return marketVendor
+    }
+
+    const marketVendor = new MarketVendor()
+    marketVendor.district = district
+    marketVendor.contactNumber = market_vendor.contactNumber
+    marketVendor.name = market_vendor.name
+    await marketVendor.save()
+
+    return marketVendor
   }
 
 }
