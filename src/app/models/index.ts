@@ -10,3 +10,5 @@ export { CampOfficer } from './CampOfficer';
 export { FaabsTopic } from './FaabsTopic';
 export { FaabsAttendance } from './FaabsAttendance';
 export { MarketPrice } from './MarketPrice';
+export { MarketVendor } from './MarketVendor';
+export { Commodity } from './Commodity';

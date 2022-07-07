@@ -1,7 +1,7 @@
 const { Env } = require("@foal/core");
 
 module.exports = {
-  port: 80,
+  port: 8000,
   settings: {
     disk: {
       driver: Env.get("DISK_DRIVER"),

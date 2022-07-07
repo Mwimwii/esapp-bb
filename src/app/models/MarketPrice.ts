@@ -2,9 +2,13 @@
 import {
   Entity,
   Column,
+  OneToOne,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 
 import { BaseTable } from './BaseTable';
+import { Commodity, MarketVendor, District } from '.';
 import { MarketPriceAPI } from '../types';
 
 
@@ -17,12 +21,19 @@ export class MarketPrice extends BaseTable implements MarketPriceAPI {
   @Column('varchar', { length: 50, nullable: true })
   unit: string;
 
-  @Column('varchar', { length: 50, nullable: true })
-  commodity_type: string;
+  @OneToOne(() => Commodity)
+  @JoinColumn()
+  commodity: Commodity;
+
+  @ManyToOne(() => MarketVendor)
+  @JoinColumn()
+  market_vendor: MarketVendor;
+
+  @ManyToOne(() => District)
+  @JoinColumn()
+  district: District;
 
   @Column('varchar', { length: 50, nullable: true })
-  price_level: string;
+  priceLevel: string;
 
-  @Column('varchar', { length: 50, nullable: true })
-  market: string;
 }
